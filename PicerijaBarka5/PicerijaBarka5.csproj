@@ -181,7 +181,10 @@
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\IngredientModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\MenuModel.cs" />
+    <Compile Include="Models\PizzaModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
