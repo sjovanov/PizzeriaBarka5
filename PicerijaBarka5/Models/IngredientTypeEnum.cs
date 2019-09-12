@@ -15,5 +15,11 @@ namespace PicerijaBarka5.Models
             Sauce,
             Vegetable
         }
+        public enum Roles
+        {
+            Admin,
+            User,
+            Owner
+        }
     }
 }
