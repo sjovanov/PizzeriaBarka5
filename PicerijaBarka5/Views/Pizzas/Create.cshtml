@@ -1,0 +1,165 @@
+﻿@model PicerijaBarka5.Models.CreatePizzaViewModel
+@using PicerijaBarka5.Models
+@{
+    ViewBag.Title = "Create";
+}
+
+@{
+    //Prefill arrays
+
+    var doughs = Model.availableIngredients.Where(x => x.IngredientType == IngredientTypeEnum.IngredientType.Dough);
+    var meats = Model.availableIngredients.Where(x => x.IngredientType == IngredientTypeEnum.IngredientType.Meat);
+    var cheeses = Model.availableIngredients.Where(x => x.IngredientType == IngredientTypeEnum.IngredientType.Cheese);
+    var sauces = Model.availableIngredients.Where(x => x.IngredientType == IngredientTypeEnum.IngredientType.Sauce);
+    var vegetables = Model.availableIngredients.Where(x => x.IngredientType == IngredientTypeEnum.IngredientType.Vegetable);
+
+}
+
+<h2>Create</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form">
+        <h4>Pizza</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="row container">
+            <div class="col-md-6">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label" })
+                    <div>
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.IncomeCoef, htmlAttributes: new { @class = "control-label" })
+                    <div>
+                        @Html.EditorFor(model => model.IncomeCoef, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.IncomeCoef, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <strong class="row text-right">Choose your dough: </strong>
+                    @foreach (var dough in doughs)
+                    {
+                        <div>
+                            <input type="radio" value="@dough.IngredientId" name="@dough.Name" />
+                            @Html.Label(dough.Name, htmlAttributes: new { @for = dough.Name })
+                        </div>
+                    }
+                </div>
+
+                <div class="form-group">
+                    <strong class="row text-right">Choose your meats: </strong>
+                    @foreach (var meat in meats)
+                    {
+                        <div>
+                            <input type="checkbox" value="@meat.IngredientId" name="@meat.Name" />
+                            @Html.Label(meat.Name, htmlAttributes: new { @for = meat.Name })
+                        </div>
+                    }
+                </div>
+
+                <div class="form-group">
+                    <strong class="row text-right">Choose your cheeses: </strong>
+                    @foreach (var cheese in cheeses)
+                    {
+                        <div>
+                            <input type="checkbox" value="@cheese.IngredientId" name="@cheese.Name" />
+                            @Html.Label(cheese.Name, htmlAttributes: new { @for = cheese.Name })
+                        </div>
+                    }
+                </div>
+
+                <div class="form-group">
+                    <strong class="row text-right">Choose your sauces: </strong>
+                    @foreach (var sauce in sauces)
+                    {
+                        <div>
+                            <input type="checkbox" value="@sauce.IngredientId" name="@sauce.Name"/>
+                            @Html.Label(sauce.Name, htmlAttributes: new { @for = sauce.Name })
+                        </div>
+                    }
+                </div>
+
+                <div class="form-group">
+                    <strong class="row text-right">Choose your vegetables: </strong>
+                    @foreach (var vegetable in vegetables)
+                    {
+                        <div>
+                            <input type="checkbox" value="@vegetable.IngredientId" name="@vegetable.Name" />
+                            @Html.Label(vegetable.Name, htmlAttributes: new { @for = vegetable.Name })
+                        </div>
+                    }
+                </div>
+            </div>
+
+        </div>
+        <div class="form-group row" style="margin: 0 auto 0 auto ">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        var checkboxes = document.querySelectorAll("input[type=checkbox]");
+        var radiobuttons = $("input[type=radio]");
+
+        for (let i = 0; i < checkboxes.length; i++) {
+            checkboxes[i].addEventListener('change', function () {
+                if (this.checked) {
+                    @{
+                        Model.selectedIngredients.Add(
+                            @:this.value 
+                            );
+                    }
+                } else {
+                    @{
+                        Model.selectedIngredients.Remove(
+                            @:this.value 
+                            );
+                    }
+                }
+            });
+        }
+        for (let i = 0; i < radiobuttons.length; i++) {
+            radiobuttons[i].addEventListener('change', function () {
+                if (this.checked) {
+                    @{
+                        Model.selectedIngredients.Add(
+                            @:this.value 
+                            );
+                    }
+                } else {
+                    @{
+                        Model.selectedIngredients.Remove(
+                            @:this.value 
+                            );
+                    }
+                }
+            });
+        }
+        console.log()
+
+    </script>
+}
+
+@{
+
+}

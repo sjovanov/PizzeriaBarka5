@@ -175,15 +175,37 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\IngredientsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\PizzasController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201909120744526_initialModels.cs" />
+    <Compile Include="Migrations\201909120744526_initialModels.Designer.cs">
+      <DependentUpon>201909120744526_initialModels.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201909120747527_initialModels1.cs" />
+    <Compile Include="Migrations\201909120747527_initialModels1.Designer.cs">
+      <DependentUpon>201909120747527_initialModels1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201909120946377_initialModelsChange.cs" />
+    <Compile Include="Migrations\201909120946377_initialModelsChange.Designer.cs">
+      <DependentUpon>201909120946377_initialModelsChange.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201909121010523_IngredientTypeToIngredient.cs" />
+    <Compile Include="Migrations\201909121010523_IngredientTypeToIngredient.Designer.cs">
+      <DependentUpon>201909121010523_IngredientTypeToIngredient.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\CreatePizzaViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\IngredientModel.cs" />
+    <Compile Include="Models\IngredientTypeEnum.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\MenuModel.cs" />
+    <Compile Include="Models\PizzaBulder.cs" />
     <Compile Include="Models\PizzaModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -244,6 +266,16 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Pizzas\Create.cshtml" />
+    <Content Include="Views\Pizzas\Delete.cshtml" />
+    <Content Include="Views\Pizzas\Details.cshtml" />
+    <Content Include="Views\Pizzas\Edit.cshtml" />
+    <Content Include="Views\Pizzas\Index.cshtml" />
+    <Content Include="Views\Ingredients\Create.cshtml" />
+    <Content Include="Views\Ingredients\Delete.cshtml" />
+    <Content Include="Views\Ingredients\Details.cshtml" />
+    <Content Include="Views\Ingredients\Edit.cshtml" />
+    <Content Include="Views\Ingredients\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -260,6 +292,20 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201909120744526_initialModels.resx">
+      <DependentUpon>201909120744526_initialModels.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201909120747527_initialModels1.resx">
+      <DependentUpon>201909120747527_initialModels1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201909120946377_initialModelsChange.resx">
+      <DependentUpon>201909120946377_initialModelsChange.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201909121010523_IngredientTypeToIngredient.resx">
+      <DependentUpon>201909121010523_IngredientTypeToIngredient.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
