@@ -29,11 +29,10 @@ namespace PicerijaBarka5.Models
         /// The type of ingredient
         /// </summary>
         [Required]
-        [EnumDataType(typeof(IngredientTypeEnum.IngredientType))]
         public IngredientTypeEnum.IngredientType IngredientType { get; set; }
 
         [Required]
-        public double Price { get; private set; }
+        public double Price { get; set; }
         ///<summary>
         /// Collection of pizzas that include the ingredient
         ///</summary>

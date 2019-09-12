@@ -1,5 +1,5 @@
 ﻿@model PicerijaBarka5.Models.Pizza
-
+@using PicerijaBarka5.Models
 @{
     ViewBag.Title = "Details";
 }
@@ -23,7 +23,29 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Price)
+            @Model.getPrice()
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Ingredients)
+        </dt>
+
+        <dd>
+            @{
+                foreach (var typeOfIngredient in Enum.GetValues(typeof(IngredientTypeEnum.IngredientType)))
+                {
+                    <strong>@typeOfIngredient.ToString(): </strong>
+                    foreach (var ingredient in Model.Ingredients)
+                    {
+                        if (ingredient.IngredientType.ToString() == typeOfIngredient.ToString())
+                        {
+                            <span>@ingredient.Name</span>
+                        }
+                    }
+                    <br />
+                }
+            }
+
         </dd>
 
     </dl>

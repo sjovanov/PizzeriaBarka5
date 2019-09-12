@@ -7,9 +7,9 @@ namespace PicerijaBarka5.Models
 {
     public class CreatePizzaViewModel
     {
-        public string Name;
-        public double IncomeCoef;
-        public ICollection<String> selectedIngredients;
-        public ICollection<Ingredient> availableIngredients;
+        public string Name { set; get; }
+        public double IncomeCoef { set; get; }
+        public ICollection<String> selectedIngredients { set; get; }
+        public ICollection<Ingredient> availableIngredients { set; get; }
     }
 }

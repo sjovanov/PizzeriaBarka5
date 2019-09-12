@@ -11,7 +11,7 @@ namespace PicerijaBarka5.Models
         public Guid pizzaId;
         public string name;
         public double incomeCoef;
-        public List<Ingredient> Ingredients;
+        public List<Ingredient> Ingredients = new List<Ingredient>();
 
         public PizzaBulder() { }
 

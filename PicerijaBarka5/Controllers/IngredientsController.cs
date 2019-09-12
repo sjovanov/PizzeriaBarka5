@@ -46,7 +46,7 @@ namespace PicerijaBarka5.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IngredientId,Name,QuantityPerSmallPizza,Price")] Ingredient ingredient)
+        public ActionResult Create([Bind(Include = "IngredientId,Name,QuantityPerSmallPizza,Price,IngredientType")] Ingredient ingredient)
         {
             if (ModelState.IsValid)
             {
