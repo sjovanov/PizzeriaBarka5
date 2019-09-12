@@ -61,6 +61,18 @@ namespace PicerijaBarka5.Controllers
             return View();
         }
 
+        public ActionResult AddUserToRole()
+        {
+            UserToRoleModel model = new UserToRoleModel();
+            return View(model);
+        }
+        [HttpPost]
+        public ActionResult AddUserToRole(UserToRoleModel model)
+        {
+            var user = UserManager.FindByEmail(model.Email);
+            UserManager.AddToRole(user.Id, model.Role.ToString());
+            return RedirectToAction("Index", "Home");
+        }
         //
         // POST: /Account/Login
         [HttpPost]
