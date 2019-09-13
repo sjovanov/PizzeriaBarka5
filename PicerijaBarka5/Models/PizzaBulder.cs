@@ -48,11 +48,6 @@ namespace PicerijaBarka5.Models
             pizzaId = Guid.NewGuid();
             return new Pizza(pizzaId, name, ingredientsToAdd, incomeCoef);
         }
-
-        internal object withDough(IQueryable<Ingredient> queryable)
-        {
-            throw new NotImplementedException();
-        }
     }
 
 
