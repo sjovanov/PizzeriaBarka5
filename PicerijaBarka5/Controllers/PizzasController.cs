@@ -49,14 +49,17 @@ namespace PicerijaBarka5.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Name, IncomeCoef, selectedIngredients, availableIngredients")] CreatePizzaViewModel pizzaToBe)
+        public ActionResult Create([Bind(Include = "Name, IncomeCoef, selectedIngredients, dough, availableIngredients")] CreatePizzaViewModel pizzaToBe)
         {
             if (ModelState.IsValid)
             {
                 PizzaBulder pb = new PizzaBulder();
                 var pizza = pb.withName(pizzaToBe.Name)
                                 .withIngredients(db.Ingredients.Where(x => pizzaToBe.selectedIngredients.Contains(x.IngredientId.ToString())).ToList())
-                                .withIncomeCoef(pizzaToBe.IncomeCoef).build();
+                                .withIncomeCoef(pizzaToBe.IncomeCoef)
+                                .withDough(db.Ingredients.Where(x => x.IngredientId.ToString() == pizzaToBe.dough).FirstOrDefault())
+                                .build();
+                              
                 db.Pizzas.Add(pizza);
                 db.SaveChanges();
                 return RedirectToAction("Index");
