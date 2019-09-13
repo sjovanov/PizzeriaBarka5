@@ -36,7 +36,7 @@ namespace PicerijaBarka5.Models
         ///<summary>
         /// Collection of pizzas that include the ingredient
         ///</summary>
-        public ICollection<Pizza> Pizzas { get; set; }
+        public virtual ICollection<Pizza> Pizzas { get; set; }
 
         public Ingredient()
         {
