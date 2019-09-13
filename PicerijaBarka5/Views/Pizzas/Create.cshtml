@@ -25,7 +25,6 @@
     <div class="form">
         <h4>Pizza</h4>
         <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="row container">
             <div class="col-md-6">
                 <div class="form-group">
@@ -44,122 +43,75 @@
                 </div>
             </div>
             <div class="col-md-6">
+                @Html.ValidationSummary(false, "", new { @class = "text-danger ml-0" })
+
                 <div class="form-group">
-                    <strong class="row text-right">Choose your dough: </strong>
+                    <label class="row font-weight-bold">Choose your dough: </label>
                     @foreach (var dough in doughs)
                     {
-                        <div>
-                            <input type="radio" value="@dough.IngredientId" name="selectedIngredients" />
-                            @Html.Label(dough.Name, htmlAttributes: new { @for = dough.Name })
+                        <div class="m-1">
+                            <input type="radio" value="@dough.IngredientId" name="dough" id="@dough.IngredientId" class="form-check-input" />
+                            @Html.Label(dough.Name, htmlAttributes: new { @for = dough.IngredientId, @class = "form-check-label" })
                         </div>
                     }
                 </div>
 
                 <div class="form-group">
-                    <strong class="row text-right">Choose your meats: </strong>
+                    <label class="row font-weight-bold">Choose your meats: </label>
                     @foreach (var meat in meats)
                     {
-                        <div>
-                            <input type="checkbox" value="@meat.IngredientId" name="selectedIngredients" />
-                            @Html.Label(meat.Name, htmlAttributes: new { @for = meat.Name })
+                        <div class="m-1">
+                            <input type="checkbox" value="@meat.IngredientId" id="@meat.IngredientId" name="selectedIngredients" class="form-check-input" />
+                            @Html.Label(meat.Name, htmlAttributes: new { @for = meat.IngredientId, @class = "form-check-label" })
                         </div>
                     }
                 </div>
 
                 <div class="form-group">
-                    <strong class="row text-right">Choose your cheeses: </strong>
+                    <label class="row font-weight-bold">Choose your cheeses: </label>
                     @foreach (var cheese in cheeses)
                     {
-                        <div>
-                            <input type="checkbox" value="@cheese.IngredientId" name="selectedIngredients" />
-                            @Html.Label(cheese.Name, htmlAttributes: new { @for = cheese.Name })
+                        <div class="m-1">
+                            <input type="checkbox" value="@cheese.IngredientId" id="@cheese.IngredientId" name="selectedIngredients" class="form-check-input" />
+                            @Html.Label(cheese.Name, htmlAttributes: new { @for = cheese.IngredientId, @class = "form-check-label" })
                         </div>
                     }
                 </div>
 
                 <div class="form-group">
-                    <strong class="row text-right">Choose your sauces: </strong>
+                    <label class="row font-weight-bold">Choose your sauces: </label>
                     @foreach (var sauce in sauces)
                     {
-                        <div>
-                            <input type="checkbox" value="@sauce.IngredientId" name="selectedIngredients"/>
-                            @Html.Label(sauce.Name, htmlAttributes: new { @for = sauce.Name })
+                        <div class="m-1">
+                            <input type="checkbox" value="@sauce.IngredientId" id="@sauce.IngredientId" name="selectedIngredients" class="form-check-input" />
+                            @Html.Label(sauce.Name, htmlAttributes: new { @for = sauce.IngredientId, @class = "form-check-label" })
                         </div>
                     }
                 </div>
 
                 <div class="form-group">
-                    <strong class="row text-right">Choose your vegetables: </strong>
+                    <label class="row font-weight-bold">Choose your vegetables: </label>
                     @foreach (var vegetable in vegetables)
                     {
-                        <div>
-                            <input type="checkbox" value="@vegetable.IngredientId" name="selectedIngredients" />
-                            @Html.Label(vegetable.Name, htmlAttributes: new { @for = vegetable.Name })
+                        <div class="m-1">
+                            <input type="checkbox" value="@vegetable.IngredientId" id="@vegetable.IngredientId" name="selectedIngredients" class="form-check-input" />
+                            @Html.Label(vegetable.Name, htmlAttributes: new { @for = vegetable.IngredientId, @class = "form-check-label" })
                         </div>
                     }
                 </div>
             </div>
 
         </div>
-        <div class="form-group row" style="margin: 0 auto 0 auto ">
+        <div class="form-group row">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Create" class="btn btn-success" />
+                @Html.ActionLink("Back to List", "Index", routeValues: null, htmlAttributes: new { @class = "btn btn-primary" })
             </div>
         </div>
 
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
-
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-
-    @*<script>
-        var checkboxes = document.querySelectorAll("input[type=checkbox]");
-        var radiobuttons = $("input[type=radio]");
-
-        for (let i = 0; i < checkboxes.length; i++) {
-            checkboxes[i].addEventListener('change', function () {
-                if (this.checked) {
-                    @{
-                        Model.selectedIngredients.Add(
-                            @:this.value 
-                            );
-                    }
-                } else {
-                    @{
-                        Model.selectedIngredients.Remove(
-                            @:this.value 
-                            );
-                    }
-                }
-            });
-        }
-        for (let i = 0; i < radiobuttons.length; i++) {
-            radiobuttons[i].addEventListener('change', function () {
-                if (this.checked) {
-                    @{
-                        Model.selectedIngredients.Add(
-                            @:this.value 
-                            );
-                    }
-                } else {
-                    @{
-                        Model.selectedIngredients.Remove(
-                            @:this.value 
-                            );
-                    }
-                }
-            });
-        }
-        console.log()
-
-    </script>*@
-}
-
-@{
-
 }

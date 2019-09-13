@@ -62,6 +62,7 @@ namespace PicerijaBarka5.Controllers
                 return RedirectToAction("Index");
             }
 
+            pizzaToBe.availableIngredients = db.Ingredients.ToList();
             return View(pizzaToBe);
         }
 
