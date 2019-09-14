@@ -10,6 +10,7 @@ namespace PicerijaBarka5.Models
     {
         public Guid pizzaId;
         public string name;
+        public Ingredient dough;
         public double incomeCoef;
         public List<Ingredient> Ingredients = new List<Ingredient>();
 
@@ -27,6 +28,12 @@ namespace PicerijaBarka5.Models
             return this;
         }
 
+        public PizzaBulder withDough(Ingredient dough)
+        {
+            this.dough = dough;
+            return this;
+        }
+
         public PizzaBulder withIngredients(List<Ingredient> ingredients)
         {
             Ingredients.AddRange(ingredients);
@@ -37,6 +44,7 @@ namespace PicerijaBarka5.Models
         {
             var ingredientsToAdd = new List<Ingredient>();
             ingredientsToAdd.AddRange(Ingredients);
+            ingredientsToAdd.Add(dough);
             pizzaId = Guid.NewGuid();
             return new Pizza(pizzaId, name, ingredientsToAdd, incomeCoef);
         }
