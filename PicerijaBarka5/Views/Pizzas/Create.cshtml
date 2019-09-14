@@ -50,7 +50,7 @@
                     @foreach (var dough in doughs)
                     {
                         <div class="m-1">
-                            <input type="radio" value="@dough.IngredientId" name="dough" id="@dough.IngredientId" class="form-check-input" />
+                            <input type="radio" value="@dough.IngredientId" name="Dough" id="@dough.IngredientId" class="form-check-input" />
                             @Html.Label(dough.Name, htmlAttributes: new { @for = dough.IngredientId, @class = "form-check-label" })
                         </div>
                     }
@@ -106,6 +106,7 @@
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Create" class="btn btn-success" />
                 @Html.ActionLink("Back to List", "Index", routeValues: null, htmlAttributes: new { @class = "btn btn-primary" })
+                @Html.ActionLink("Add to cart", "Index", routeValues: null, htmlAttributes: new { @class = "btn btn-primary" })
             </div>
         </div>
 

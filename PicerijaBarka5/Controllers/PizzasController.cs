@@ -49,24 +49,23 @@ namespace PicerijaBarka5.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Name, IncomeCoef, selectedIngredients, dough, availableIngredients")] CreatePizzaViewModel pizzaToBe)
+        public ActionResult Create([Bind(Include = "Name, IncomeCoef, selectedIngredients, Dough, availableIngredients")] CreatePizzaViewModel pizzaResponse)
         {
             if (ModelState.IsValid)
             {
                 PizzaBulder pb = new PizzaBulder();
-                var pizza = pb.withName(pizzaToBe.Name)
-                                .withIngredients(db.Ingredients.Where(x => pizzaToBe.selectedIngredients.Contains(x.IngredientId.ToString())).ToList())
-                                .withIncomeCoef(pizzaToBe.IncomeCoef)
-                                .withDough(db.Ingredients.Where(x => x.IngredientId.ToString() == pizzaToBe.dough).FirstOrDefault())
+                var pizza = pb.withName(pizzaResponse.Name)
+                                .withIngredients(db.Ingredients.Where(x => pizzaResponse.selectedIngredients.Contains(x.IngredientId.ToString())).ToList())
+                                .withIncomeCoef(pizzaResponse.IncomeCoef)
+                                .withDough(db.Ingredients.Where(x => x.IngredientId.ToString() == pizzaResponse.Dough).FirstOrDefault())
                                 .build();
-                              
                 db.Pizzas.Add(pizza);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            pizzaToBe.availableIngredients = db.Ingredients.ToList();
-            return View(pizzaToBe);
+            pizzaResponse.availableIngredients = db.Ingredients.ToList();
+            return View(pizzaResponse);
         }
 
         // GET: Pizzas/Edit/5

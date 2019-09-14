@@ -24,6 +24,7 @@ namespace PicerijaBarka5.Models
         public DbSet<Ingredient> Ingredients { get; set; }
 
         public DbSet<Pizza> Pizzas { get; set; }
+
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
