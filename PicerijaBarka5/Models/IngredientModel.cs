@@ -21,9 +21,6 @@ namespace PicerijaBarka5.Models
         [Required]
         [Display(Name = "Quantity per small pizza")]
         public int QuantityPerSmallPizza { get; set; }
-        /// <summary>
-        /// The price per kilogram of the ingredient in the menu item
-        /// </summary>
         
         ///<summary>
         /// The type of ingredient
@@ -31,6 +28,9 @@ namespace PicerijaBarka5.Models
         [Required]
         public IngredientTypeEnum.IngredientType IngredientType { get; set; }
 
+        /// <summary>
+        /// The price per kilogram of the ingredient in the menu item
+        /// </summary>
         [Required]
         public double Price { get; set; }
         ///<summary>
