@@ -66,6 +66,7 @@ namespace PicerijaBarka5.Controllers
             UserToRoleModel model = new UserToRoleModel();
             return View(model);
         }
+
         [HttpPost]
         public ActionResult AddUserToRole(UserToRoleModel model)
         {

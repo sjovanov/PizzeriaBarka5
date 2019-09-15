@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -10,7 +11,7 @@ namespace PicerijaBarka5.Models
     {
         [Key]
         public Guid PizzaId { get; set; }
-
+        
         /// <summary>
         /// The name of the pizza
         /// </summary>
@@ -31,6 +32,14 @@ namespace PicerijaBarka5.Models
         /// The percentage of profit the pizzeria makes for selling a single pizza
         /// </summary>
         public double incomeCoeficient { get; set; }
+
+        [ForeignKey("User")]
+        public string UserFk { get; set; }
+
+        /// <summary>
+        /// The user that created the pizza
+        /// </summary>
+        public ApplicationUser User { get; set; }
 
         /// <summary>
         /// Returns the price for making a small pizza based on the price of its ingredients and the incomeCoeficient of the pizzeria

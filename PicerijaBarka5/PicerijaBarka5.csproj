@@ -184,25 +184,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\HtmlHelpers.cs" />
-    <Compile Include="Migrations\201909120744526_initialModels.cs" />
-    <Compile Include="Migrations\201909120744526_initialModels.Designer.cs">
-      <DependentUpon>201909120744526_initialModels.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201909120747527_initialModels1.cs" />
-    <Compile Include="Migrations\201909120747527_initialModels1.Designer.cs">
-      <DependentUpon>201909120747527_initialModels1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201909120946377_initialModelsChange.cs" />
-    <Compile Include="Migrations\201909120946377_initialModelsChange.Designer.cs">
-      <DependentUpon>201909120946377_initialModelsChange.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201909121010523_IngredientTypeToIngredient.cs" />
-    <Compile Include="Migrations\201909121010523_IngredientTypeToIngredient.Designer.cs">
-      <DependentUpon>201909121010523_IngredientTypeToIngredient.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201909130757429_UpdateIngredientModel.cs" />
-    <Compile Include="Migrations\201909130757429_UpdateIngredientModel.Designer.cs">
-      <DependentUpon>201909130757429_UpdateIngredientModel.cs</DependentUpon>
+    <Compile Include="Migrations\201909151607388_models1.cs" />
+    <Compile Include="Migrations\201909151607388_models1.Designer.cs">
+      <DependentUpon>201909151607388_models1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -323,6 +307,7 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Views\Pizzas\MyPizzas.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -333,27 +318,15 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201909120744526_initialModels.resx">
-      <DependentUpon>201909120744526_initialModels.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201909120747527_initialModels1.resx">
-      <DependentUpon>201909120747527_initialModels1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201909120946377_initialModelsChange.resx">
-      <DependentUpon>201909120946377_initialModelsChange.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201909121010523_IngredientTypeToIngredient.resx">
-      <DependentUpon>201909121010523_IngredientTypeToIngredient.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201909130757429_UpdateIngredientModel.resx">
-      <DependentUpon>201909130757429_UpdateIngredientModel.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201909151607388_models1.resx">
+      <DependentUpon>201909151607388_models1.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

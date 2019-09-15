@@ -6,6 +6,8 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using PicerijaBarka5.Models;
 
 namespace PicerijaBarka5.Controllers
@@ -49,7 +51,7 @@ namespace PicerijaBarka5.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Name, IncomeCoef, selectedIngredients, Dough, availableIngredients")] CreatePizzaViewModel pizzaResponse)
+        public ActionResult Create([Bind(Include = "Name, IncomeCoef, selectedIngredients, Dough, availableIngredients, UserEmail")] CreatePizzaViewModel pizzaResponse)
         {
             if (ModelState.IsValid)
             {
@@ -59,6 +61,7 @@ namespace PicerijaBarka5.Controllers
                                 .withIncomeCoef(pizzaResponse.IncomeCoef)
                                 .withDough(db.Ingredients.Where(x => x.IngredientId.ToString() == pizzaResponse.Dough).FirstOrDefault())
                                 .build();
+                pizza.UserFk = User.Identity.GetUserId();
                 db.Pizzas.Add(pizza);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -123,6 +126,13 @@ namespace PicerijaBarka5.Controllers
             db.Pizzas.Remove(pizza);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        // Get: Pizzas/MyPizzas
+        public ActionResult MyPizzas()
+        {
+            ViewBag.test = db.Pizzas.ToList().Where(pizza => pizza.UserFk == User.Identity.GetUserId());  
+            return View();
         }
 
         protected override void Dispose(bool disposing)
