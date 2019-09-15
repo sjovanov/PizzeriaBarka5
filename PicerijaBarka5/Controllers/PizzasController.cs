@@ -131,8 +131,8 @@ namespace PicerijaBarka5.Controllers
         // Get: Pizzas/MyPizzas
         public ActionResult MyPizzas()
         {
-            ViewBag.test = db.Pizzas.ToList().Where(pizza => pizza.UserFk == User.Identity.GetUserId());  
-            return View();
+            IEnumerable<Pizza> pizzasToDisplay = db.Pizzas.ToList().Where(pizza => pizza.UserFk == User.Identity.GetUserId());  
+            return View("Index", pizzasToDisplay);
         }
 
         protected override void Dispose(bool disposing)
