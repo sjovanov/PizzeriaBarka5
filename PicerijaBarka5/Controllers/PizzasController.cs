@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using PicerijaBarka5.Models;
 
@@ -19,7 +20,18 @@ namespace PicerijaBarka5.Controllers
         // GET: Pizzas
         public ActionResult Index()
         {
-            return View(db.Pizzas.ToList());
+            ICollection<Pizza> pizzas = new List<Pizza>();
+            using (var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext())))
+            {
+                foreach (Pizza p in db.Pizzas.ToList())
+                {
+                    if(userManager.GetRoles(p.UserFk).Contains(IngredientTypeEnum.Roles.Owner.ToString()))
+                    {
+                        pizzas.Add(p);
+                    }
+                }
+            }
+            return View(pizzas);
         }
 
         // GET: Pizzas/Details/5
