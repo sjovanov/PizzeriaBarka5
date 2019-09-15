@@ -1,0 +1,52 @@
+﻿@model PicerijaBarka5.Models.PizzaOrder
+@{
+    ViewBag.Title = "Cart";
+}
+
+<h2>Cart</h2>
+
+@{
+    if (ViewBag.Valid == "True")
+    {
+        <h2>Hello @Model.User.UserName!</h2>
+        <br />
+        <h3>Your order Id: @Model.OrderId</h3>
+        <table class="table">
+            <tr>
+                <th>
+                    Name of the pizza
+                </th>
+                <th>
+                    Price
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model.PizzasToOrder)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @item.getPrice()
+                    </td>
+                    <td>
+                        Remove from cart
+                    </td>
+                </tr>
+            }
+
+        </table>
+
+        @Model.PizzasToOrder.Sum(x => x.getPrice());
+
+    }
+    else
+    {
+        <h1>Your cart is empty!</h1>
+        <h3>Are you full or just haven't chosen a pizza yet?</h3>
+    }
+
+}
+

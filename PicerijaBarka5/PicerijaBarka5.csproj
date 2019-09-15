@@ -179,6 +179,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\IngredientsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Controllers\PizzasController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -187,6 +188,10 @@
     <Compile Include="Migrations\201909151607388_models1.cs" />
     <Compile Include="Migrations\201909151607388_models1.Designer.cs">
       <DependentUpon>201909151607388_models1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201909152058304_AddOrderModel.cs" />
+    <Compile Include="Migrations\201909152058304_AddOrderModel.Designer.cs">
+      <DependentUpon>201909152058304_AddOrderModel.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -198,6 +203,7 @@
     <Compile Include="Models\MenuModel.cs" />
     <Compile Include="Models\PizzaBulder.cs" />
     <Compile Include="Models\PizzaModel.cs" />
+    <Compile Include="Models\PizzaOrder.cs" />
     <Compile Include="Models\UserToRoleModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -307,6 +313,7 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Views\Orders\Cart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -325,6 +332,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201909151607388_models1.resx">
       <DependentUpon>201909151607388_models1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201909152058304_AddOrderModel.resx">
+      <DependentUpon>201909152058304_AddOrderModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -9,7 +9,7 @@
 
 </head>
 @using PicerijaBarka5.Helpers
-@{ 
+@{
     var controller = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
     var action = HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString();
 }
@@ -31,9 +31,9 @@
                     <li class="nav-item @Html.SetActiveClass(controller, "Pizzas", action, "MyPizzas")">
                         <a class="nav-link" href="@Url.Action("MyPizzas","Pizzas")">My Pizzas</a>
                     </li>
-                @*@<li class="nav-item @Html.SetActiveClass(controller, "Pizzas")">
-                    <a class="nav-link disabled" href="#">Disabled</a>
-                </li>*@
+                    <li class="nav-item @Html.SetActiveClass(controller, "Orders", action, "Cart")">
+                        <a class="nav-link" href="@Url.Action("Cart","Orders")">Cart</a>
+                    </li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
