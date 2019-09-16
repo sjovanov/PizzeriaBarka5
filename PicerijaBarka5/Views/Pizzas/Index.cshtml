@@ -33,7 +33,7 @@
                 @Html.ActionLink("Edit", "Edit", new { id = item.PizzaId }) |
                 @Html.ActionLink("Details", "Details", new { id = item.PizzaId }) |
                 @Html.ActionLink("Delete", "Delete", new { id = item.PizzaId }) |
-                <a href="@Url.Action("AddToCart", "Orders", new { id = item.PizzaId })">Add to cart</a>
+                <a href="@Url.Action("AddToCart", "Cart", new { id = item.PizzaId })">Add to cart</a>
             </td>
         </tr>
     }

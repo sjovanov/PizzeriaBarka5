@@ -31,8 +31,8 @@
                     <li class="nav-item @Html.SetActiveClass(controller, "Pizzas", action, "MyPizzas")">
                         <a class="nav-link" href="@Url.Action("MyPizzas","Pizzas")">My Pizzas</a>
                     </li>
-                    <li class="nav-item @Html.SetActiveClass(controller, "Orders", action, "Cart")">
-                        <a class="nav-link" href="@Url.Action("Cart","Orders")">Cart</a>
+                    <li class="nav-item @Html.SetActiveClass(controller, "Cart", action, "Index")">
+                        <a class="nav-link" href="@Url.Action("Index","Cart")">Cart</a>
                     </li>
                 </ul>
                 @Html.Partial("_LoginPartial")

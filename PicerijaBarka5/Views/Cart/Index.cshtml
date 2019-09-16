@@ -19,27 +19,33 @@
                 <th>
                     Price
                 </th>
+                <th>
+                    Quantity in cart
+                </th>
                 <th></th>
             </tr>
 
-            @foreach (var item in Model.PizzasToOrder)
+            @foreach (var item in Model.Items)
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Name)
+                        @Html.DisplayFor(modelItem => item.Pizza.Name)
                     </td>
                     <td>
-                        @item.getPrice()
+                        @item.Pizza.getPrice()
                     </td>
                     <td>
-                        Remove from cart
+                        @item.Quantity
+                    </td>
+                    <td>
+                        <a href="@Url.Action("RemoveFromCart", "Cart", new { id = item.Pizza.PizzaId })">Remove from cart</a>
                     </td>
                 </tr>
             }
 
         </table>
 
-        @Model.PizzasToOrder.Sum(x => x.getPrice());
+        @Model.Items.Sum(x => x.Pizza.getPrice() * x.Quantity);
 
     }
     else

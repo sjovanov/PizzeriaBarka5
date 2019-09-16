@@ -17,14 +17,14 @@ namespace PicerijaBarka5.Models
 
         public ApplicationUser User { get; set; }
 
-        public virtual ICollection<Pizza> PizzasToOrder { get; set; }
+        public virtual ICollection<PizzaOrderItem> Items { get; set; }
 
         [Required]
         public string Address { get; set; }
 
         public PizzaOrder()
         {
-            PizzasToOrder = new List<Pizza>();
+            Items = new List<PizzaOrderItem>();
         }
     }
 }

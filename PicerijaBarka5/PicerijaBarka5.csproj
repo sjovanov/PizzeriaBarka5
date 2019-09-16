@@ -176,6 +176,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\IngredientsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -193,6 +194,10 @@
     <Compile Include="Migrations\201909152058304_AddOrderModel.Designer.cs">
       <DependentUpon>201909152058304_AddOrderModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201909160919288_UpdateModels.cs" />
+    <Compile Include="Migrations\201909160919288_UpdateModels.Designer.cs">
+      <DependentUpon>201909160919288_UpdateModels.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CreatePizzaViewModel.cs" />
@@ -204,6 +209,7 @@
     <Compile Include="Models\PizzaBulder.cs" />
     <Compile Include="Models\PizzaModel.cs" />
     <Compile Include="Models\PizzaOrder.cs" />
+    <Compile Include="Models\PizzaOrderItem.cs" />
     <Compile Include="Models\UserToRoleModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -313,10 +319,11 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
-    <Content Include="Views\Orders\Cart.cshtml" />
+    <Content Include="Views\Cart\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Orders\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -335,6 +342,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201909152058304_AddOrderModel.resx">
       <DependentUpon>201909152058304_AddOrderModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201909160919288_UpdateModels.resx">
+      <DependentUpon>201909160919288_UpdateModels.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
