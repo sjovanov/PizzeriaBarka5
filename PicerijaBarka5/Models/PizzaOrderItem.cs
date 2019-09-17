@@ -13,9 +13,15 @@ namespace PicerijaBarka5.Models
 
         public uint Quantity { get; set; }
 
+        public PizzaOrderItem()
+        {
+
+        }
+
         public PizzaOrderItem(Pizza pizza, uint Quantity)
         {
             this.Pizza = pizza;
+            this.PizzaId = pizza.PizzaId;
             this.Quantity = Quantity;
         }
     }

@@ -1,4 +1,5 @@
 ﻿@model PicerijaBarka5.Models.PizzaOrder
+@using Newtonsoft.Json
 @{
     ViewBag.Title = "Cart";
 }
@@ -45,7 +46,15 @@
 
         </table>
 
-        @Model.Items.Sum(x => x.Pizza.getPrice() * x.Quantity);
+        @Model.Items.Sum(x => x.Pizza.getPrice() * x.Quantity)
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Address)
+            <input type="text" name="Address" class="form-control" id="address"/>
+        </div>
+       
+        <button class="btn btn-primary" id="sendRequest">Make order</button>
+
 
     }
     else
@@ -56,3 +65,29 @@
 
 }
 
+
+@section scripts{
+    @{
+        var data = (PicerijaBarka5.Models.PizzaOrder)Session["cart"];
+        var dataToSend = JsonConvert.SerializeObject(data, new JsonSerializerSettings { Formatting = Formatting.None, ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+    }
+    <script>
+
+        $("#sendRequest").on('click', function () {
+            let address = $("#address").val();
+
+            $.ajax({
+                type: "POST",
+                url: "/Orders/Create?Address=" + address,
+                data: @Html.Raw(dataToSend),
+                success: function () {
+                    alert("Your order has been placed");
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert("Enter a valid address")
+                },
+                dataType: "json"
+            })
+        })
+    </script>
+}

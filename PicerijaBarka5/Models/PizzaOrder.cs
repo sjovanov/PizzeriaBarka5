@@ -22,8 +22,12 @@ namespace PicerijaBarka5.Models
         [Required]
         public string Address { get; set; }
 
+        [Required]
+        public IngredientTypeEnum.OrderStatus OrderStatus { get; set; }
+
         public PizzaOrder()
         {
+            OrderStatus = IngredientTypeEnum.OrderStatus.InProgress;
             Items = new List<PizzaOrderItem>();
         }
     }

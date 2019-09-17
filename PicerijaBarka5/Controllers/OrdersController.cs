@@ -16,7 +16,7 @@ namespace PicerijaBarka5.Controllers
         // GET: Orders
         public ActionResult Index()
         {
-            return View();
+            return View(db.PizzaOrders.ToList());
         }
 
         // GET: Orders/Details/5
@@ -29,15 +29,16 @@ namespace PicerijaBarka5.Controllers
         [HttpPost]
         public ActionResult Create(PizzaOrder pizzaOrder)
         {
-            try
+            string Address = Request.QueryString["Address"];
+            if(string.IsNullOrEmpty(Address))
             {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
+                return View("Cart/Index");
+            } else
             {
-                return View();
+                pizzaOrder.Address = Address;
+                db.PizzaOrders.Add(pizzaOrder);
+                db.SaveChanges();
+                return View("Index", pizzaOrder);
             }
         }
 

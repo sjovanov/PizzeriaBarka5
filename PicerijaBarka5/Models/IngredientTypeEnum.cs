@@ -21,5 +21,13 @@ namespace PicerijaBarka5.Models
             User,
             Owner
         }
+
+        public enum OrderStatus
+        {
+            InProgress,
+            Accepted,
+            InDelivery,
+            Delivered
+        }
     }
 }

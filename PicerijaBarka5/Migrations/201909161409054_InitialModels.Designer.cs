@@ -7,13 +7,13 @@ namespace PicerijaBarka5.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class UpdateModels : IMigrationMetadata
+    public sealed partial class InitialModels : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(UpdateModels));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(InitialModels));
         
         string IMigrationMetadata.Id
         {
-            get { return "201909160919288_UpdateModels"; }
+            get { return "201909161409054_InitialModels"; }
         }
         
         string IMigrationMetadata.Source

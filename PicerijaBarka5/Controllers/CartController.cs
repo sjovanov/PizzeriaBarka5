@@ -35,6 +35,7 @@ namespace PicerijaBarka5.Controllers
         {
             object sessionCart = Session["cart"];
             var pizzaToAdd = db.Pizzas.FirstOrDefault(pizza => pizza.PizzaId == id);
+            pizzaToAdd.PizzaId = id;
 
             if (sessionCart != null)
             {
