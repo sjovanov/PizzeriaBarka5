@@ -29,23 +29,32 @@ namespace PicerijaBarka5.Controllers
 
         // POST: Orders/Create
         [HttpPost]
-        public ActionResult Create(PizzaOrder pizzaOrder)
+        public ActionResult Create(CartOrder orderFromCart)
         {
             string Address = Request.QueryString["Address"];
-            if (string.IsNullOrEmpty(Address))
+            if (!ModelState.IsValid)
             {
                 return View("Cart/Index");
             }
             else
             {
-                pizzaOrder.Address = Address;
-                using (var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db)))
+                PizzaOrder PizzaOrder = new PizzaOrder();
+
+                PizzaOrder.OrderId = Guid.NewGuid();
+                PizzaOrder.UserFk = User.Identity.GetUserId();
+                PizzaOrder.Address = Address;
+
+                foreach (var pair in orderFromCart.Items)
                 {
-                    pizzaOrder.User = userManager.FindById(pizzaOrder.UserFk);
+                    for (int i = 0; i < pair.Value; i++)
+                    {
+                        PizzaOrder.Items.Add(pair.Key);
+                    }
                 }
+
                 try
                 {
-                    db.PizzaOrders.Add(pizzaOrder);
+                    db.PizzaOrders.Add(PizzaOrder);
                     db.SaveChanges();
                 }
                 catch (DbEntityValidationException e)
@@ -62,7 +71,7 @@ namespace PicerijaBarka5.Controllers
                     }
                     throw;
                 }
-                return View("Index", pizzaOrder);
+                return View("Index", orderFromCart);
             }
         }
 

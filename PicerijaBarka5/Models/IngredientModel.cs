@@ -10,11 +10,13 @@ namespace PicerijaBarka5.Models
     {
         [Key]
         public Guid IngredientId { get; set; }
+
         /// <summary>
         /// The name of the ingredient in the menu item
         /// </summary>
         [Required]
         public string Name { get; set; }
+
         /// <summary>
         /// The quantity of the ingredient used when making a small pizza in the menu in grams
         /// </summary>
@@ -33,6 +35,7 @@ namespace PicerijaBarka5.Models
         /// </summary>
         [Required]
         public double Price { get; set; }
+
         ///<summary>
         /// Collection of pizzas that include the ingredient
         ///</summary>

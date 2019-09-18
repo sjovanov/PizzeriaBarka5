@@ -27,42 +27,34 @@ namespace PicerijaBarka5.Controllers
                 ViewBag.Valid = "False";
             }
 
-            return View((PizzaOrder)sessionCart);
+            return View((CartOrder)sessionCart);
         }
 
         // POST: Cart/AddToCart
         [HttpPost]
         public void AddToCart(Guid id)
         {
+            CartOrder cart;
             object sessionCart = Session["cart"];
-            var pizzaToAdd = db.Pizzas.FirstOrDefault(pizza => pizza.PizzaId == id);
-            pizzaToAdd.PizzaId = id;
 
             if (sessionCart != null)
             {
-                PizzaOrder cart = (PizzaOrder)sessionCart;
-                var pizzaInCart = cart.Items.FirstOrDefault(item => item.Pizza.PizzaId == id);
-
-                if (pizzaInCart == default(PizzaOrderItem))
+                cart = (CartOrder)sessionCart;
+                var pizzaInCart = cart.Items.First(item => item.Key.PizzaId == id);
+                if (pizzaInCart.Key != null)
                 {
-                    cart.Items.Add(new PizzaOrderItem(pizzaToAdd, 1));
+                    ;
                 }
                 else
                 {
-                    pizzaInCart.Quantity++;
+                    cart.Items.Add(pizzaToAdd, 1);
                 }
             }
             else
             {
-                PizzaOrder newPizzaOrder = new PizzaOrder();
-                newPizzaOrder.OrderId = Guid.NewGuid();
-                newPizzaOrder.UserFk = User.Identity.GetUserId();
-                using (var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db)))
-                {
-                    newPizzaOrder.User = userManager.FindById(newPizzaOrder.UserFk);
-                }
-                newPizzaOrder.Items.Add(new PizzaOrderItem(pizzaToAdd, 1));
-                Session["cart"] = newPizzaOrder;
+                cart = new CartOrder();
+                cart.Items.Add(pizzaToAdd, 1);
+                Session["cart"] = cart;
             }
         }
 
@@ -70,24 +62,24 @@ namespace PicerijaBarka5.Controllers
         [HttpDelete]
         public ActionResult RemoveFromCart(Guid id)
         {
+            CartOrder cart = null;
             object sessionCart = Session["cart"];
             var pizzaToRemove = db.Pizzas.Find(id);
-            PizzaOrder cart = (PizzaOrder)sessionCart;
 
             if (sessionCart != null)
             {
-                var pizzaToRemoveInCart = cart.Items.Where(x => x.Pizza.PizzaId == id).FirstOrDefault();
-                if (pizzaToRemoveInCart != default(PizzaOrderItem))
+                cart = (CartOrder)sessionCart;
+                if (cart.Items.ContainsKey(pizzaToRemove))
                 {
-                    pizzaToRemoveInCart.Quantity--;
-                    if (pizzaToRemoveInCart.Quantity == 0)
+                    cart.Items[pizzaToRemove]--;
+                    if(cart.Items[pizzaToRemove] == 0)
                     {
-                        cart.Items = cart.Items.Where(x => x.Pizza.PizzaId != id).ToList();
+                        cart.Items.Remove(pizzaToRemove);
                     }
                 }
                 Session["cart"] = cart;
             }
-            if (cart.Items.Count == 0)
+            if (cart != null && cart.Items.Count == 0)
             {
                 Session["cart"] = null;
             }

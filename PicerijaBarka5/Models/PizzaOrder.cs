@@ -11,13 +11,8 @@ namespace PicerijaBarka5.Models
     {
         [Key]
         public Guid OrderId { get; set; }
-
-        [ForeignKey("User")]
+        
         public string UserFk { get; set; }
-
-        public ApplicationUser User { get; set; }
-
-        public virtual ICollection<PizzaOrderItem> Items { get; set; }
 
         [Required]
         public string Address { get; set; }
@@ -25,10 +20,12 @@ namespace PicerijaBarka5.Models
         [Required]
         public OrderStatus OrderStatus { get; set; }
 
+        public virtual ICollection<Pizza> Items { get; set; }
+
         public PizzaOrder()
         {
             OrderStatus = OrderStatus.InProgress;
-            Items = new List<PizzaOrderItem>();
+            Items = new List<Pizza>();
         }
     }
 }

@@ -8,13 +8,19 @@ namespace PicerijaBarka5.Models
 {
     public class CreatePizzaViewModel
     {
+        [Required]
         public string Name { set; get; }
-        public string UserEmail { get; set; }
         public double IncomeCoef { set; get; }
         [Required(ErrorMessage = "Dough type is required")]
         public string Dough { set; get; }
         [Required(ErrorMessage = "You have to select at least one ingredient")]
-        public ICollection<String> selectedIngredients { set; get; }
+        public ICollection<string> selectedIngredients { set; get; }
         public ICollection<Ingredient> availableIngredients { set; get; }
+
+        public CreatePizzaViewModel()
+        {
+            selectedIngredients = new List<string>();
+            availableIngredients = new List<Ingredient>();
+        }
     }
 }

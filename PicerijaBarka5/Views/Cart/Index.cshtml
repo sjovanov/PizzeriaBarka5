@@ -1,4 +1,4 @@
-﻿@model PicerijaBarka5.Models.PizzaOrder
+﻿@model PicerijaBarka5.Models.CartOrder
 @using Newtonsoft.Json
 @{
     ViewBag.Title = "Cart";
@@ -9,9 +9,6 @@
 @{
     if (ViewBag.Valid == "True")
     {
-        <h2>Hello @Model.User.UserName!</h2>
-        <br />
-        <h3>Your order Id: @Model.OrderId</h3>
         <table class="table">
             <tr>
                 <th>
@@ -30,16 +27,16 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Pizza.Name)
+                        @Html.DisplayFor(modelItem => item.Key.Name)
                     </td>
                     <td>
-                        @item.Pizza.getPrice()
+                        @item.Key.getPrice()
                     </td>
                     <td>
-                        @item.Quantity
+                        @item.Value
                     </td>
                     <td>
-                        <a href="@Url.Action("RemoveFromCart", "Cart", new { id = item.Pizza.PizzaId })">Remove from cart</a>
+                        <button class="btn btn-danger removeFromCart" item-id="@item.Key.PizzaId">Remove from cart</button>
                         @{ 
                             //TODO: Implement AJAX CALL
                         }
@@ -49,14 +46,15 @@
 
         </table>
 
-        @Model.Items.Sum(x => x.Pizza.getPrice() * x.Quantity)
+        @Model.Items.Sum(x => x.Key.getPrice() * x.Value)
 
         <div class="form-group">
-            @Html.LabelFor(m => m.Address)
+            <label for="address">Address</label>
             <input type="text" name="Address" class="form-control" id="address"/>
+            
         </div>
        
-        <button class="btn btn-primary" id="sendRequest">Make order</button>
+        <button class="btn btn-primary" id="makeOrderButton">Make order</button>
 
 
     }
@@ -71,20 +69,36 @@
 
 @section scripts{
     @{
-        var data = (PicerijaBarka5.Models.PizzaOrder)Session["cart"];
-        var dataToSend = JsonConvert.SerializeObject(data, new JsonSerializerSettings { Formatting = Formatting.None, ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+        var data = (PicerijaBarka5.Models.CartOrder)Session["cart"];
+        var orderFromCart = JsonConvert.SerializeObject(data, new JsonSerializerSettings { Formatting = Formatting.None, ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
     }
     <script>
 
-        $("#sendRequest").on('click', function () {
+        $("#makeOrderButton").on('click', function () {
             let address = $("#address").val();
 
             $.ajax({
                 type: "POST",
                 url: "/Orders/Create?Address=" + address,
-                data: @Html.Raw(dataToSend),
+                data: @Html.Raw(orderFromCart),
                 success: function () {
                     alert("Your order has been placed");
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert("Enter a valid address")
+                },
+                dataType: "json"
+            })
+        })
+
+        $(".removeFromCart").on('click', function () {
+            let id = $(this).attr("item-id");
+
+            $.ajax({
+                type: "DELETE",
+                url: "/Cart/RemoveFromCart/" + id,
+                success: function () {
+                    alert("Item successfully removed from cart");
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
                     alert("Enter a valid address")

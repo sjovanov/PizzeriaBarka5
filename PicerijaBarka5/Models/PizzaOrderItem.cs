@@ -26,6 +26,7 @@ namespace PicerijaBarka5.Models
 
         public PizzaOrderItem(Pizza pizza, uint Quantity)
         {
+            this.PizzaOrderItemId = Guid.NewGuid();
             this.Pizza = pizza;
             this.PizzaId = pizza.PizzaId;
             this.Quantity = Quantity;

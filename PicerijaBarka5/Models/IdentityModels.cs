@@ -20,14 +20,8 @@ namespace PicerijaBarka5.Models
         }
 
         public virtual ICollection<Pizza> Pizzas { get; set; }
-
-        public virtual ICollection<PizzaOrder> Orders { get; set; }
-
-        public ApplicationUser(): base()
-        {
-            Pizzas = new List<Pizza>();
-            Orders = new List<PizzaOrder>();
-        }
+        
+        public virtual ICollection<PizzaOrder> PizzaOrders { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
