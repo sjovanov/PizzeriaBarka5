@@ -19,11 +19,6 @@ namespace PicerijaBarka5.Models
         public String Name { get; set; }
 
         /// <summary>
-        /// The price of the pizza. Price of pizza is sum of price multiplied by the quantity and the income coeficient.
-        /// </summary>
-        public double Price { get; set; }
-
-        /// <summary>
         /// List of ingredients in the pizza
         /// </summary>
         public virtual ICollection<Ingredient> Ingredients { get; set; }

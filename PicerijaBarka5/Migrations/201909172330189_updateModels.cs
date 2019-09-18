@@ -3,7 +3,7 @@ namespace PicerijaBarka5.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class InitialModels : DbMigration
+    public partial class updateModels : DbMigration
     {
         public override void Up()
         {
@@ -25,7 +25,6 @@ namespace PicerijaBarka5.Migrations
                     {
                         PizzaId = c.Guid(nullable: false),
                         Name = c.String(nullable: false),
-                        Price = c.Double(nullable: false),
                         incomeCoeficient = c.Double(nullable: false),
                         UserFk = c.String(maxLength: 128),
                     })
@@ -79,19 +78,6 @@ namespace PicerijaBarka5.Migrations
                 .Index(t => t.UserId);
             
             CreateTable(
-                "dbo.AspNetUserRoles",
-                c => new
-                    {
-                        UserId = c.String(nullable: false, maxLength: 128),
-                        RoleId = c.String(nullable: false, maxLength: 128),
-                    })
-                .PrimaryKey(t => new { t.UserId, t.RoleId })
-                .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
-                .ForeignKey("dbo.AspNetRoles", t => t.RoleId, cascadeDelete: true)
-                .Index(t => t.UserId)
-                .Index(t => t.RoleId);
-            
-            CreateTable(
                 "dbo.PizzaOrders",
                 c => new
                     {
@@ -105,17 +91,17 @@ namespace PicerijaBarka5.Migrations
                 .Index(t => t.UserFk);
             
             CreateTable(
-                "dbo.PizzaOrderItems",
+                "dbo.AspNetUserRoles",
                 c => new
                     {
-                        PizzaId = c.Guid(nullable: false),
-                        PizzaOrder_OrderId = c.Guid(),
+                        UserId = c.String(nullable: false, maxLength: 128),
+                        RoleId = c.String(nullable: false, maxLength: 128),
                     })
-                .PrimaryKey(t => t.PizzaId)
-                .ForeignKey("dbo.Pizzas", t => t.PizzaId)
-                .ForeignKey("dbo.PizzaOrders", t => t.PizzaOrder_OrderId)
-                .Index(t => t.PizzaId)
-                .Index(t => t.PizzaOrder_OrderId);
+                .PrimaryKey(t => new { t.UserId, t.RoleId })
+                .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
+                .ForeignKey("dbo.AspNetRoles", t => t.RoleId, cascadeDelete: true)
+                .Index(t => t.UserId)
+                .Index(t => t.RoleId);
             
             CreateTable(
                 "dbo.AspNetRoles",
@@ -145,11 +131,9 @@ namespace PicerijaBarka5.Migrations
         public override void Down()
         {
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
-            DropForeignKey("dbo.PizzaOrders", "UserFk", "dbo.AspNetUsers");
-            DropForeignKey("dbo.PizzaOrderItems", "PizzaOrder_OrderId", "dbo.PizzaOrders");
-            DropForeignKey("dbo.PizzaOrderItems", "PizzaId", "dbo.Pizzas");
             DropForeignKey("dbo.Pizzas", "UserFk", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
+            DropForeignKey("dbo.PizzaOrders", "UserFk", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.PizzaIngredients", "Ingredient_IngredientId", "dbo.Ingredients");
@@ -157,20 +141,17 @@ namespace PicerijaBarka5.Migrations
             DropIndex("dbo.PizzaIngredients", new[] { "Ingredient_IngredientId" });
             DropIndex("dbo.PizzaIngredients", new[] { "Pizza_PizzaId" });
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
-            DropIndex("dbo.PizzaOrderItems", new[] { "PizzaOrder_OrderId" });
-            DropIndex("dbo.PizzaOrderItems", new[] { "PizzaId" });
-            DropIndex("dbo.PizzaOrders", new[] { "UserFk" });
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
+            DropIndex("dbo.PizzaOrders", new[] { "UserFk" });
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
             DropIndex("dbo.Pizzas", new[] { "UserFk" });
             DropTable("dbo.PizzaIngredients");
             DropTable("dbo.AspNetRoles");
-            DropTable("dbo.PizzaOrderItems");
-            DropTable("dbo.PizzaOrders");
             DropTable("dbo.AspNetUserRoles");
+            DropTable("dbo.PizzaOrders");
             DropTable("dbo.AspNetUserLogins");
             DropTable("dbo.AspNetUserClaims");
             DropTable("dbo.AspNetUsers");

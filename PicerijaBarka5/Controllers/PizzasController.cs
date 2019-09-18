@@ -25,7 +25,7 @@ namespace PicerijaBarka5.Controllers
             {
                 foreach (Pizza p in db.Pizzas.ToList())
                 {
-                    if(userManager.GetRoles(p.UserFk).Contains(IngredientTypeEnum.Roles.Owner.ToString()))
+                    if(userManager.GetRoles(p.UserFk).Contains(Roles.Owner.ToString()))
                     {
                         pizzas.Add(p);
                     }

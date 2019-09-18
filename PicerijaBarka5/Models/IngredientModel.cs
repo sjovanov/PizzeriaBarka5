@@ -26,7 +26,7 @@ namespace PicerijaBarka5.Models
         /// The type of ingredient
         /// </summary>
         [Required]
-        public IngredientTypeEnum.IngredientType IngredientType { get; set; }
+        public IngredientType IngredientType { get; set; }
 
         /// <summary>
         /// The price per kilogram of the ingredient in the menu item

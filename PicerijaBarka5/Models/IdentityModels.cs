@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
@@ -16,6 +17,16 @@ namespace PicerijaBarka5.Models
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
             // Add custom user claims here
             return userIdentity;
+        }
+
+        public virtual ICollection<Pizza> Pizzas { get; set; }
+
+        public virtual ICollection<PizzaOrder> Orders { get; set; }
+
+        public ApplicationUser(): base()
+        {
+            Pizzas = new List<Pizza>();
+            Orders = new List<PizzaOrder>();
         }
     }
 

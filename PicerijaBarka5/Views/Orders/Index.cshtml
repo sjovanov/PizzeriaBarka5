@@ -23,16 +23,16 @@
         {
             <tr>
                 <td>
-                    @Html.Display(order.User.UserName)
+                    @*@Html.Display(order.User.UserName)*@
                 </td>
                 <td>
-                    @order.Items.Sum(x => x.Pizza.getPrice())
+                    @order.Items.Sum(x => x.Key.getPrice())
                 </td>
                 <td>
                     @{ 
                         foreach (var pizza in order.Items)
                         {
-                            <p>@pizza.Pizza.Name</p>
+                            <p>@pizza.Key.Name</p>
                         }
                     }
                 </td>

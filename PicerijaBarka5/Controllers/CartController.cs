@@ -31,7 +31,8 @@ namespace PicerijaBarka5.Controllers
         }
 
         // POST: Cart/AddToCart
-        public ActionResult AddToCart(Guid id)
+        [HttpPost]
+        public void AddToCart(Guid id)
         {
             object sessionCart = Session["cart"];
             var pizzaToAdd = db.Pizzas.FirstOrDefault(pizza => pizza.PizzaId == id);
@@ -63,12 +64,10 @@ namespace PicerijaBarka5.Controllers
                 newPizzaOrder.Items.Add(new PizzaOrderItem(pizzaToAdd, 1));
                 Session["cart"] = newPizzaOrder;
             }
-
-            return RedirectToAction("Index", "Pizzas");
         }
 
         // DELETE: Cart/Delete/id
-
+        [HttpDelete]
         public ActionResult RemoveFromCart(Guid id)
         {
             object sessionCart = Session["cart"];
@@ -78,14 +77,14 @@ namespace PicerijaBarka5.Controllers
             if (sessionCart != null)
             {
                 var pizzaToRemoveInCart = cart.Items.Where(x => x.Pizza.PizzaId == id).FirstOrDefault();
-                if(pizzaToRemoveInCart != default(PizzaOrderItem))
+                if (pizzaToRemoveInCart != default(PizzaOrderItem))
                 {
                     pizzaToRemoveInCart.Quantity--;
-                    if(pizzaToRemoveInCart.Quantity == 0)
+                    if (pizzaToRemoveInCart.Quantity == 0)
                     {
                         cart.Items = cart.Items.Where(x => x.Pizza.PizzaId != id).ToList();
                     }
-                } 
+                }
                 Session["cart"] = cart;
             }
             if (cart.Items.Count == 0)
@@ -94,6 +93,5 @@ namespace PicerijaBarka5.Controllers
             }
             return RedirectToAction("Index", "Cart");
         }
-
     }
 }

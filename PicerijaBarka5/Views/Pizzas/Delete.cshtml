@@ -20,10 +20,6 @@
             @Html.DisplayFor(model => model.Name)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
-
         <dd>
             @Model.getPrice()
         </dd>
@@ -34,7 +30,7 @@
 
         <dd>
             @{
-                foreach (var typeOfIngredient in Enum.GetValues(typeof(IngredientTypeEnum.IngredientType)))
+                foreach (var typeOfIngredient in Enum.GetValues(typeof(IngredientType)))
                 {
                     <strong>@typeOfIngredient.ToString(): </strong>
                     foreach (var ingredient in Model.Ingredients)

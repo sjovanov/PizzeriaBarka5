@@ -192,16 +192,20 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\HtmlHelpers.cs" />
-    <Compile Include="Migrations\201909161409054_InitialModels.cs" />
-    <Compile Include="Migrations\201909161409054_InitialModels.Designer.cs">
-      <DependentUpon>201909161409054_InitialModels.cs</DependentUpon>
+    <Compile Include="Migrations\201909172330189_updateModels.cs" />
+    <Compile Include="Migrations\201909172330189_updateModels.Designer.cs">
+      <DependentUpon>201909172330189_updateModels.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201909172347536_updateModels1.cs" />
+    <Compile Include="Migrations\201909172347536_updateModels1.Designer.cs">
+      <DependentUpon>201909172347536_updateModels1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CreatePizzaViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\IngredientModel.cs" />
-    <Compile Include="Models\IngredientTypeEnum.cs" />
+    <Compile Include="Models\AppEnums.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\MenuModel.cs" />
     <Compile Include="Models\PizzaBulder.cs" />
@@ -221,7 +225,6 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -335,8 +338,11 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201909161409054_InitialModels.resx">
-      <DependentUpon>201909161409054_InitialModels.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201909172330189_updateModels.resx">
+      <DependentUpon>201909172330189_updateModels.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201909172347536_updateModels1.resx">
+      <DependentUpon>201909172347536_updateModels1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

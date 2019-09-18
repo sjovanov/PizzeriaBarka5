@@ -23,11 +23,11 @@ namespace PicerijaBarka5.Models
         public string Address { get; set; }
 
         [Required]
-        public IngredientTypeEnum.OrderStatus OrderStatus { get; set; }
+        public OrderStatus OrderStatus { get; set; }
 
         public PizzaOrder()
         {
-            OrderStatus = IngredientTypeEnum.OrderStatus.InProgress;
+            OrderStatus = OrderStatus.InProgress;
             Items = new List<PizzaOrderItem>();
         }
     }

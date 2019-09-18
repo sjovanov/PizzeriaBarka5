@@ -3,6 +3,8 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using PicerijaBarka5.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -30,14 +32,36 @@ namespace PicerijaBarka5.Controllers
         public ActionResult Create(PizzaOrder pizzaOrder)
         {
             string Address = Request.QueryString["Address"];
-            if(string.IsNullOrEmpty(Address))
+            if (string.IsNullOrEmpty(Address))
             {
                 return View("Cart/Index");
-            } else
+            }
+            else
             {
                 pizzaOrder.Address = Address;
-                db.PizzaOrders.Add(pizzaOrder);
-                db.SaveChanges();
+                using (var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db)))
+                {
+                    pizzaOrder.User = userManager.FindById(pizzaOrder.UserFk);
+                }
+                try
+                {
+                    db.PizzaOrders.Add(pizzaOrder);
+                    db.SaveChanges();
+                }
+                catch (DbEntityValidationException e)
+                {
+                    foreach (var eve in e.EntityValidationErrors)
+                    {
+                        Debug.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                            eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                        foreach (var ve in eve.ValidationErrors)
+                        {
+                            Debug.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                                ve.PropertyName, ve.ErrorMessage);
+                        }
+                    }
+                    throw;
+                }
                 return View("Index", pizzaOrder);
             }
         }
