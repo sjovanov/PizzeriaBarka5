@@ -74,17 +74,17 @@
             $("#makeOrderButton").on('click', function () {
             let address = $("#address").val();
 
-            $.ajax({
-                type: "POST",
-                url: "Orders/Create?Address=" + address,
-                data: @Html.Raw(Html.GetOrderRequestJson(data)),
+                $.ajax({
+                    type: "POST",
+                    url: "Orders/Create?Address=" + address,
+                    data: @Html.Raw(Html.GetOrderRequestJson(data)),
                 success: function () {
-                    alert("Your order has been placed");
+                    
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
                     alert("Enter a valid address")
                 },
-                dataType: "json"
+                dataType: "application/json"
             })
         })
         })

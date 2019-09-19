@@ -237,7 +237,7 @@ namespace PicerijaBarka5.Services
                     .ToList();
         }
 
-        public void CreateOrderForUser(OrderRequest order, string userFk, string address)
+        public void CreateOrderForUser(Dictionary<string, int> Items, string userFk, string address)
         {
             PizzaOrder dbPizzaOrder = new PizzaOrder
             {
@@ -249,11 +249,11 @@ namespace PicerijaBarka5.Services
 
             var orderedPizzas = new List<Pizza>();
 
-            foreach (var orderedItem in order.Items)
+            foreach (var orderedItem in Items)
             {
                 for (int i = 0; i < orderedItem.Value; i++)
                 {
-                    Pizza dbPizzaFromOrder = db.Pizzas.Find(orderedItem.Key);
+                    Pizza dbPizzaFromOrder = db.Pizzas.Find(new Guid(orderedItem.Key));
                     dbPizzaFromOrder.Orders.Add(dbPizzaOrder);
                     orderedPizzas.Add(dbPizzaFromOrder);
                 }

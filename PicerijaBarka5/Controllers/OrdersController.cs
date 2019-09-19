@@ -30,7 +30,7 @@ namespace PicerijaBarka5.Controllers
 
         // POST: Orders/Create
         [HttpPost]
-        public ActionResult Create(OrderRequest orderFromCart)
+        public ActionResult Create(Dictionary<string, int> Items)
         {
             string Address = Request.QueryString["Address"];
             if (!ModelState.IsValid)
@@ -39,7 +39,7 @@ namespace PicerijaBarka5.Controllers
             }
             else
             {
-                repository.CreateOrderForUser(orderFromCart, User.Identity.GetUserId(), Address);
+                repository.CreateOrderForUser(Items, User.Identity.GetUserId(), Address);
                 return RedirectToAction("Index", "Orders", repository.GetOrders());
             }
         }
