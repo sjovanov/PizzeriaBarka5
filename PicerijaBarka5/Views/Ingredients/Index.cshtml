@@ -1,4 +1,4 @@
-﻿@model IEnumerable<PicerijaBarka5.Models.Ingredient>
+﻿@model IEnumerable<PicerijaBarka5.Models.Dtos.IngredientDto>
 
 @{
     ViewBag.Title = "Index";
@@ -33,7 +33,7 @@
                 @Html.DisplayFor(modelItem => item.QuantityPerSmallPizza)
             </td>
             <td>
-                <span>@item.getPriceForIngredientInSmallPizza()</span>
+                <span>@item.Price</span>
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.IngredientId }) |

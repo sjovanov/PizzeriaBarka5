@@ -188,29 +188,35 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Controllers\PizzasController.cs" />
+    <Compile Include="Extentions\Extentions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\HtmlHelpers.cs" />
-    <Compile Include="Migrations\201909182307563_initialModels.cs" />
-    <Compile Include="Migrations\201909182307563_initialModels.Designer.cs">
-      <DependentUpon>201909182307563_initialModels.cs</DependentUpon>
+    <Compile Include="Migrations\201909191017348_Initial-Models.cs" />
+    <Compile Include="Migrations\201909191017348_Initial-Models.Designer.cs">
+      <DependentUpon>201909191017348_Initial-Models.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CartOrderModel.cs" />
     <Compile Include="Models\CreatePizzaViewModel.cs" />
+    <Compile Include="Models\Dtos\IngredientDto.cs" />
+    <Compile Include="Models\Dtos\PizzaDto.cs" />
+    <Compile Include="Models\Dtos\PizzaOrderDto.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\IngredientModel.cs" />
     <Compile Include="Models\AppEnums.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\MenuModel.cs" />
+    <Compile Include="Models\OrderRequest.cs" />
     <Compile Include="Models\PizzaBulder.cs" />
     <Compile Include="Models\PizzaModel.cs" />
     <Compile Include="Models\PizzaOrder.cs" />
     <Compile Include="Models\PizzaOrderItem.cs" />
     <Compile Include="Models\UserToRoleModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Repository.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -335,8 +341,8 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201909182307563_initialModels.resx">
-      <DependentUpon>201909182307563_initialModels.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201909191017348_Initial-Models.resx">
+      <DependentUpon>201909191017348_Initial-Models.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

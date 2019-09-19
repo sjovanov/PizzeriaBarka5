@@ -3,7 +3,7 @@ namespace PicerijaBarka5.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class initialModels : DbMigration
+    public partial class InitialModels : DbMigration
     {
         public override void Up()
         {
@@ -26,7 +26,7 @@ namespace PicerijaBarka5.Migrations
                         PizzaId = c.Guid(nullable: false),
                         Name = c.String(nullable: false),
                         UserFk = c.String(nullable: false),
-                        incomeCoeficient = c.Double(nullable: false),
+                        IncomeCoeficient = c.Double(nullable: false),
                         ApplicationUser_Id = c.String(maxLength: 128),
                     })
                 .PrimaryKey(t => t.PizzaId)

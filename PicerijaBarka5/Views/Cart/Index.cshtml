@@ -1,5 +1,6 @@
 ﻿@model PicerijaBarka5.Models.CartOrder
-@using Newtonsoft.Json
+@using PicerijaBarka5.Models
+@using PicerijaBarka5.Helpers
 @{
     ViewBag.Title = "Cart";
 }
@@ -30,23 +31,20 @@
                         @Html.DisplayFor(modelItem => item.Key.Name)
                     </td>
                     <td>
-                        @item.Key.getPrice()
+                        @item.Key.Price
                     </td>
                     <td>
                         @item.Value
                     </td>
                     <td>
-                        <button class="btn btn-danger removeFromCart" item-id="@item.Key.PizzaId">Remove from cart</button>
-                        @{ 
-                            //TODO: Implement AJAX CALL
-                        }
+                        <a class="btn btn-danger removeFromCart" href="@Url.Action("RemoveFromCart", "Cart", routeValues: new { id = item.Key.PizzaId })">Remove from cart</a>
                     </td>
                 </tr>
             }
 
         </table>
 
-        @Model.Items.Sum(x => x.Key.getPrice() * x.Value)
+        @Model.Items.Sum(x => x.Key.Price * x.Value)
 
         <div class="form-group">
             <label for="address">Address</label>
@@ -69,18 +67,17 @@
 
 @section scripts{
     @{
-        var data = (PicerijaBarka5.Models.CartOrder)Session["cart"];
-        var orderFromCart = JsonConvert.SerializeObject(data, new JsonSerializerSettings { Formatting = Formatting.None, ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+        var data = (CartOrder)Session["cart"];
     }
     <script>
-
-        $("#makeOrderButton").on('click', function () {
+        $(document).ready(function () {
+            $("#makeOrderButton").on('click', function () {
             let address = $("#address").val();
 
             $.ajax({
                 type: "POST",
-                url: "/Orders/Create?Address=" + address,
-                data: @Html.Raw(orderFromCart),
+                url: "Orders/Create?Address=" + address,
+                data: @Html.Raw(Html.GetOrderRequestJson(data)),
                 success: function () {
                     alert("Your order has been placed");
                 },
@@ -90,21 +87,8 @@
                 dataType: "json"
             })
         })
-
-        $(".removeFromCart").on('click', function () {
-            let id = $(this).attr("item-id");
-
-            $.ajax({
-                type: "DELETE",
-                url: "/Cart/RemoveFromCart/" + id,
-                success: function () {
-                    alert("Item successfully removed from cart");
-                },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    alert("Enter a valid address")
-                },
-                dataType: "json"
-            })
         })
+
+        
     </script>
 }

@@ -1,48 +1,54 @@
-﻿@model IEnumerable<PicerijaBarka5.Models.PizzaOrder>
+﻿@model IEnumerable<PicerijaBarka5.Models.Dtos.PizzaOrderDto>
 @{
     ViewBag.Title = "Index";
 }
 
 <h2>Order</h2>
 
-    <table class="table">
+<table class="table">
+    <tr>
+        <th>
+            Client
+        </th>
+        <th>
+            Address
+        </th>
+        <th>
+            Price
+        </th>
+        <th>
+            Products
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var order in Model)
+    {
         <tr>
-            <th>
-                User
-            </th>
-            <th>
-                Price
-            </th>
-            <th>
-                Products
-            </th>
-            <th></th>
-        </tr>
-
-        @foreach (var order in Model)
-        {
-            <tr>
-                <td>
-                    @*@Html.Display(order.User.UserName)*@
-                </td>
-                <td>
-                    @order.Items.Sum(x => x.Key.getPrice())
-                </td>
-                <td>
-                    @{ 
-                        foreach (var pizza in order.Items)
-                        {
-                            <p>@pizza.Key.Name</p>
-                        }
+            <td>
+                @*@order.User.UserName*@
+            </td>
+            <td>
+                @order.Address
+            </td>
+            <td>
+                @order.Items.Sum(x => x.Price)
+            </td>
+            <td>
+                @{
+                    foreach (var pizza in order.Items)
+                    {
+                        <p>@pizza.Name</p>
                     }
-                </td>
-                <td>
-                    <a href="@Url.Action("Details", "Order", new { id = order.OrderId })">View order details</a>
-                </td>
-            </tr>
-        }
+                }
+            </td>
+            <td>
+                <a href="@Url.Action("Details", "Order", new { id = order.OrderId })">View order details</a>
+            </td>
+        </tr>
+    }
 
-    </table>
+</table>
 
 
 

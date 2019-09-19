@@ -38,17 +38,17 @@ namespace PicerijaBarka5.Models
         /// <summary>
         /// The percentage of profit the pizzeria makes for selling a single pizza
         /// </summary>
-        public double incomeCoeficient { get; set; }
+        public double IncomeCoeficient { get; set; }
 
         /// <summary>
-        /// Returns the price for making a small pizza based on the price of its ingredients and the incomeCoeficient of the pizzeria
+        /// Returns the price for making a small pizza based on the price of its ingredients and the IncomeCoeficient of the pizzeria
         /// </summary>
         /// <returns></returns>
         public double getPrice()
         {
             if (Ingredients.Count > 0)
             {
-                return Ingredients.Sum(it => it.getPriceForIngredientInSmallPizza()) * (1 + incomeCoeficient);
+                return Ingredients.Sum(it => it.getPriceForIngredientInSmallPizza()) * (1 + IncomeCoeficient);
             }
             else
             {
@@ -67,7 +67,7 @@ namespace PicerijaBarka5.Models
             PizzaId = id;
             Name = name;
             Ingredients = ingredients;
-            incomeCoeficient = incomeCoef;
+            IncomeCoeficient = incomeCoef;
             Orders = new List<PizzaOrder>();
         }
 

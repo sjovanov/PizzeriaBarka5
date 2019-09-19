@@ -10,51 +10,43 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using PicerijaBarka5.Models;
+using PicerijaBarka5.Models.Dtos;
+using PicerijaBarka5.Services;
 
 namespace PicerijaBarka5.Controllers
 {
     public class PizzasController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private Repository repository = Repository.GetInstance();
 
         // GET: Pizzas
         public ActionResult Index()
         {
-            ICollection<Pizza> pizzas = new List<Pizza>();
-            using (var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db)))
-            {
-                foreach (Pizza p in db.Pizzas.ToList())
-                {
-                    if(userManager.GetRoles(p.UserFk).Contains(Roles.Owner.ToString()))
-                    {
-                        pizzas.Add(p);
-                    }
-                }
-            }
-            return View(pizzas);
+            return View(repository.GetPizzasFromUsersWithRole(Roles.Owner));
         }
 
         // GET: Pizzas/Details/5
-        public ActionResult Details(Guid? id)
+        public ActionResult Details(Guid id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Pizza pizza = db.Pizzas.Find(id);
-            if (pizza == null)
+            try
+            {
+                return View(repository.GetPizza(id));
+            }
+            catch (Exception)
             {
                 return HttpNotFound();
             }
-            return View(pizza);
         }
 
         // GET: Pizzas/Create
         public ActionResult Create()
         {
             CreatePizzaViewModel createPizzaViewModel = new CreatePizzaViewModel();
-            createPizzaViewModel.availableIngredients = db.Ingredients.ToList();
-            createPizzaViewModel.selectedIngredients = new List<String>();
+            createPizzaViewModel.availableIngredients = repository.GetIngredients();
             return View(createPizzaViewModel);
         }
 
@@ -67,35 +59,29 @@ namespace PicerijaBarka5.Controllers
         {
             if (ModelState.IsValid)
             {
-                PizzaBulder pb = new PizzaBulder();
-                var pizza = pb.withName(pizzaResponse.Name)
-                                .withIngredients(db.Ingredients.Where(x => pizzaResponse.selectedIngredients.Contains(x.IngredientId.ToString())).ToList())
-                                .withIncomeCoef(pizzaResponse.IncomeCoef)
-                                .withDough(db.Ingredients.Where(x => x.IngredientId.ToString() == pizzaResponse.Dough).FirstOrDefault())
-                                .build();
-                pizza.UserFk = User.Identity.GetUserId();
-                db.Pizzas.Add(pizza);
-                db.SaveChanges();
+                repository.CreatePizzaForUser(pizzaResponse, User.Identity.GetUserId());
                 return RedirectToAction("Index");
             }
 
-            pizzaResponse.availableIngredients = db.Ingredients.ToList();
+            pizzaResponse.availableIngredients = repository.GetIngredients();
             return View(pizzaResponse);
         }
 
         // GET: Pizzas/Edit/5
-        public ActionResult Edit(Guid? id)
+        public ActionResult Edit(Guid id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Pizza pizza = db.Pizzas.Find(id);
-            if (pizza == null)
+            try
+            {
+                return View(repository.GetPizza(id));
+            }
+            catch (Exception)
             {
                 return HttpNotFound();
             }
-            return View(pizza);
         }
 
         // POST: Pizzas/Edit/5
@@ -103,30 +89,31 @@ namespace PicerijaBarka5.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "PizzaId,Name,Price")] Pizza pizza)
+        public ActionResult Edit([Bind(Include = "PizzaId,Name,Price")] PizzaDto pizza)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(pizza).State = EntityState.Modified;
-                db.SaveChanges();
+                repository.UpdatePizza(pizza);
                 return RedirectToAction("Index");
             }
             return View(pizza);
         }
 
         // GET: Pizzas/Delete/5
-        public ActionResult Delete(Guid? id)
+        public ActionResult Delete(Guid id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Pizza pizza = db.Pizzas.Find(id);
-            if (pizza == null)
+            try
+            {
+                return View(repository.GetPizza(id));
+            }
+            catch (Exception)
             {
                 return HttpNotFound();
             }
-            return View(pizza);
         }
 
         // POST: Pizzas/Delete/5
@@ -134,25 +121,29 @@ namespace PicerijaBarka5.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(Guid id)
         {
-            Pizza pizza = db.Pizzas.Find(id);
-            db.Pizzas.Remove(pizza);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            try
+            {
+                repository.DeletePizza(id);
+                return RedirectToAction("Index");
+            }
+            catch (Exception)
+            {
+                return HttpNotFound();
+            }
         }
 
         // Get: Pizzas/MyPizzas
         public ActionResult MyPizzas()
         {
-            IEnumerable<Pizza> pizzasToDisplay = db.Pizzas.ToList().Where(pizza => pizza.UserFk == User.Identity.GetUserId());  
-            return View("Index", pizzasToDisplay);
+            return View("Index", repository.GetPizzasFromUser(User.Identity.GetUserId()));
         }
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
-            {
-                db.Dispose();
-            }
             base.Dispose(disposing);
         }
     }

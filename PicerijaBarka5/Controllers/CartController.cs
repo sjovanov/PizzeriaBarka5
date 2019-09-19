@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using PicerijaBarka5.Models;
+using PicerijaBarka5.Models.Dtos;
+using PicerijaBarka5.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +14,7 @@ namespace PicerijaBarka5.Controllers
     public class CartController : Controller
     {
 
-        ApplicationDbContext db = new ApplicationDbContext();
+        private Repository repository = Repository.GetInstance();
 
         // GET: Cart
         public ActionResult Index()
@@ -37,18 +39,21 @@ namespace PicerijaBarka5.Controllers
             CartOrder cart;
             object sessionCart = Session["cart"];
 
+            PizzaDto pizzaToAdd = repository.GetPizza(id);
+
             if (sessionCart != null)
             {
                 cart = (CartOrder)sessionCart;
-                var pizzaInCart = cart.Items.First(item => item.Key.PizzaId == id);
-                if (pizzaInCart.Key != null)
+                ;
+                if (cart.Items.ContainsKey(pizzaToAdd))
                 {
-                    ;
+                    cart.Items[pizzaToAdd]++;
                 }
                 else
                 {
                     cart.Items.Add(pizzaToAdd, 1);
                 }
+                Session["cart"] = cart;
             }
             else
             {
@@ -59,31 +64,28 @@ namespace PicerijaBarka5.Controllers
         }
 
         // DELETE: Cart/Delete/id
-        [HttpDelete]
         public ActionResult RemoveFromCart(Guid id)
         {
-            CartOrder cart = null;
-            object sessionCart = Session["cart"];
-            var pizzaToRemove = db.Pizzas.Find(id);
+            CartOrder cart = (CartOrder)Session["cart"];
 
-            if (sessionCart != null)
+            var pizzaToRemove = cart.Items.Keys.First(x => x.PizzaId == id);
+
+            cart.Items[pizzaToRemove]--;
+
+            if (cart.Items[pizzaToRemove] == 0)
             {
-                cart = (CartOrder)sessionCart;
-                if (cart.Items.ContainsKey(pizzaToRemove))
-                {
-                    cart.Items[pizzaToRemove]--;
-                    if(cart.Items[pizzaToRemove] == 0)
-                    {
-                        cart.Items.Remove(pizzaToRemove);
-                    }
-                }
-                Session["cart"] = cart;
+                cart.Items.Remove(pizzaToRemove);
             }
-            if (cart != null && cart.Items.Count == 0)
+
+            Session["cart"] = cart;
+
+            if (cart.Items.Count == 0)
             {
                 Session["cart"] = null;
             }
+
             return RedirectToAction("Index", "Cart");
         }
+
     }
 }

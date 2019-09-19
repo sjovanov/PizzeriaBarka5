@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using PicerijaBarka5.Models;
+using PicerijaBarka5.Services;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Validation;
@@ -13,12 +14,12 @@ namespace PicerijaBarka5.Controllers
 {
     public class OrdersController : Controller
     {
-        ApplicationDbContext db = new ApplicationDbContext();
+        private Repository repository = Repository.GetInstance();
 
         // GET: Orders
         public ActionResult Index()
         {
-            return View(db.PizzaOrders.ToList());
+            return View(repository.GetOrders());
         }
 
         // GET: Orders/Details/5
@@ -29,7 +30,7 @@ namespace PicerijaBarka5.Controllers
 
         // POST: Orders/Create
         [HttpPost]
-        public ActionResult Create(CartOrder orderFromCart)
+        public ActionResult Create(OrderRequest orderFromCart)
         {
             string Address = Request.QueryString["Address"];
             if (!ModelState.IsValid)
@@ -38,40 +39,8 @@ namespace PicerijaBarka5.Controllers
             }
             else
             {
-                PizzaOrder PizzaOrder = new PizzaOrder();
-
-                PizzaOrder.OrderId = Guid.NewGuid();
-                PizzaOrder.UserFk = User.Identity.GetUserId();
-                PizzaOrder.Address = Address;
-
-                foreach (var pair in orderFromCart.Items)
-                {
-                    for (int i = 0; i < pair.Value; i++)
-                    {
-                        PizzaOrder.Items.Add(pair.Key);
-                    }
-                }
-
-                try
-                {
-                    db.PizzaOrders.Add(PizzaOrder);
-                    db.SaveChanges();
-                }
-                catch (DbEntityValidationException e)
-                {
-                    foreach (var eve in e.EntityValidationErrors)
-                    {
-                        Debug.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-                            eve.Entry.Entity.GetType().Name, eve.Entry.State);
-                        foreach (var ve in eve.ValidationErrors)
-                        {
-                            Debug.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
-                                ve.PropertyName, ve.ErrorMessage);
-                        }
-                    }
-                    throw;
-                }
-                return View("Index", orderFromCart);
+                repository.CreateOrderForUser(orderFromCart, User.Identity.GetUserId(), Address);
+                return RedirectToAction("Index", "Orders", repository.GetOrders());
             }
         }
 
