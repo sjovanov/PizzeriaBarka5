@@ -1,4 +1,6 @@
-﻿using PicerijaBarka5.Models;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using PicerijaBarka5.Models;
 using PicerijaBarka5.Models.Dtos;
 using System;
 using System.Collections.Generic;
@@ -28,7 +30,6 @@ namespace PicerijaBarka5.Extentions
                 PizzaId = dbPizza.PizzaId,
                 Name = dbPizza.Name,
                 Ingredients = dbPizza.Ingredients.Select(ingredient => ingredient.toIngredientDto()).ToList(),
-                UserFk = dbPizza.UserFk,
                 Price = dbPizza.getPrice(),
                 incomeCoeficient = dbPizza.IncomeCoeficient
             };
@@ -38,12 +39,20 @@ namespace PicerijaBarka5.Extentions
         {
             return new PizzaOrderDto
             {
+                User = dbPizzaOrder.User,
                 OrderId = dbPizzaOrder.OrderId,
                 Address = dbPizzaOrder.Address,
                 Items = dbPizzaOrder.Items.Select(item => item.toPizzaDto()).ToList(),
-                OrderStatus = dbPizzaOrder.OrderStatus,
-                UserFk = dbPizzaOrder.UserFk
+                OrderStatus = dbPizzaOrder.OrderStatus
             };
+        }
+
+        public static bool IsInRole (this ApplicationUser user, Roles role)
+        {
+            using (var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext())))
+            {
+                return userManager.GetRoles(user.Id).Contains(role.ToString());
+            }
         }
     }
 }

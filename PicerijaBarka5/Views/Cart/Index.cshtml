@@ -37,7 +37,7 @@
                         @item.Value
                     </td>
                     <td>
-                        <a class="btn btn-danger removeFromCart" href="@Url.Action("RemoveFromCart", "Cart", routeValues: new { id = item.Key.PizzaId })">Remove from cart</a>
+                        <a class="btn btn-danger removeFromCart" href="@Url.Action("RemoveFromCart", "Cart" , routeValues: new { id=item.Key.PizzaId })">Remove from cart</a>
                     </td>
                 </tr>
             }
@@ -48,10 +48,10 @@
 
         <div class="form-group">
             <label for="address">Address</label>
-            <input type="text" name="Address" class="form-control" id="address"/>
-            
+            <input type="text" name="Address" class="form-control" id="address" />
+
         </div>
-       
+
         <button class="btn btn-primary" id="makeOrderButton">Make order</button>
 
 
@@ -70,6 +70,11 @@
         var data = (CartOrder)Session["cart"];
     }
     <script>
+
+        response = {
+
+        }
+
         $(document).ready(function () {
             $("#makeOrderButton").on('click', function () {
             let address = $("#address").val();
@@ -78,17 +83,17 @@
                     type: "POST",
                     url: "Orders/Create?Address=" + address,
                     data: @Html.Raw(Html.GetOrderRequestJson(data)),
-                success: function () {
-                    
-                },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    alert("Enter a valid address")
-                },
-                dataType: "application/json"
+                    success: function (response) {
+                        a=confirm(JSON.parse(response.responseText).message)
+                    },
+                    error: function (response) {
+                        alert(JSON.parse(response.responseText).message)
+                    },
+                    dataType: "application/json"
+                })
             })
         })
-        })
 
-        
+
     </script>
 }

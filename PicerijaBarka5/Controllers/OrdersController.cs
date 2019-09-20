@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Data.Entity.Validation;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -23,9 +24,9 @@ namespace PicerijaBarka5.Controllers
         }
 
         // GET: Orders/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(Guid id)
         {
-            return View();
+            return View(repository.GetOrder(id));
         }
 
         // POST: Orders/Create
@@ -35,12 +36,15 @@ namespace PicerijaBarka5.Controllers
             string Address = Request.QueryString["Address"];
             if (!ModelState.IsValid)
             {
-                return View("Cart/Index");
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json(new { message = "There was a problem with placing your order. Please try again later" });
             }
             else
             {
                 repository.CreateOrderForUser(Items, User.Identity.GetUserId(), Address);
-                return RedirectToAction("Index", "Orders", repository.GetOrders());
+                Response.StatusCode = (int)HttpStatusCode.OK;
+                Session["cart"] = null;
+                return Json(new { message = "Your order has been placed" });
             }
         }
 

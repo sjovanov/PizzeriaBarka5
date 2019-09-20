@@ -17,9 +17,9 @@ namespace PicerijaBarka5.Models.Dtos
         public String Name { get; set; }
 
         /// <summary>
-        /// Id of the user that created the pizza
+        /// The user that created the pizza
         /// </summary>
-        public string UserFk { get; set; }
+        public ApplicationUser User { get; set; }
 
         /// <summary>
         /// List of ingredients in the pizza

@@ -57,26 +57,18 @@ namespace PicerijaBarka5.Services
         public ICollection<PizzaDto> GetPizzasFromUsersWithRole (Roles role)
         {
             var pizzas = new List<PizzaDto>();
-
-            using (var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db)))
-            {
-                foreach (PizzaDto p in GetPizzas())
-                {
-                    if (userManager.GetRoles(p.UserFk).Contains(Roles.Owner.ToString()))
-                    {
-                        pizzas.Add(p);
-                    }
-                }
-            }
-
-            return pizzas;
+            string stringRole = ((int)role).ToString();
+            //IdentityRole ownerRole = db.Roles.Where(x => x.Name == role.ToString()).First();
+            return db.Pizzas.Where(pizza => pizza.User.Roles.Any(r => r.RoleId == stringRole))
+                            .ToList()
+                            .Select(p => p.toPizzaDto()).ToList();
         }
 
         public ICollection<PizzaDto> GetPizzasFromUser (string userFk)
         {
             return db.Users.Find(userFk)
                             .Pizzas.ToList()
-                            .Select(x => x.toPizzaDto())
+                            .Select(pizza => pizza.toPizzaDto())
                             .ToList();
         }
 
@@ -88,11 +80,9 @@ namespace PicerijaBarka5.Services
                 Name = pizza.Name,
                 IncomeCoeficient = pizza.IncomeCoef,
                 Ingredients = db.Ingredients.Where(x => pizza.selectedIngredients.Contains(x.IngredientId.ToString()) || x.IngredientId.ToString() == pizza.Dough).ToList(),
-                UserFk = userFk,
                 Orders = new List<PizzaOrder>()
             };
             db.Users.Find(userFk).Pizzas.Add(dbPizza);
-            db.Pizzas.Add(dbPizza);
             db.SaveChanges();
         }
 
@@ -243,8 +233,7 @@ namespace PicerijaBarka5.Services
             {
                 OrderId = Guid.NewGuid(),
                 Address = address,
-                OrderStatus = OrderStatus.InProgress,
-                UserFk = userFk
+                OrderStatus = OrderStatus.InProgress
             };
 
             var orderedPizzas = new List<Pizza>();
@@ -254,7 +243,6 @@ namespace PicerijaBarka5.Services
                 for (int i = 0; i < orderedItem.Value; i++)
                 {
                     Pizza dbPizzaFromOrder = db.Pizzas.Find(new Guid(orderedItem.Key));
-                    dbPizzaFromOrder.Orders.Add(dbPizzaOrder);
                     orderedPizzas.Add(dbPizzaFromOrder);
                 }
             }

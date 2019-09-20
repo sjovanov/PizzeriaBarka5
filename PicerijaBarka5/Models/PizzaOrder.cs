@@ -11,8 +11,8 @@ namespace PicerijaBarka5.Models
     {
         [Key]
         public Guid OrderId { get; set; }
-        
-        public string UserFk { get; set; }
+
+        public virtual ApplicationUser User { get; set; }
 
         [Required]
         public string Address { get; set; }

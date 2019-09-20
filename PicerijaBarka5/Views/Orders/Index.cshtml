@@ -26,7 +26,7 @@
     {
         <tr>
             <td>
-                @*@order.User.UserName*@
+                @order.User.UserName
             </td>
             <td>
                 @order.Address
@@ -43,7 +43,7 @@
                 }
             </td>
             <td>
-                <a href="@Url.Action("Details", "Order", new { id = order.OrderId })">View order details</a>
+                <a href="@Url.Action("Details", "Orders", new { id = order.OrderId })">View order details</a>
             </td>
         </tr>
     }
