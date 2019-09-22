@@ -37,9 +37,14 @@ namespace PicerijaBarka5.Models
         public double Price { get; set; }
 
         ///<summary>
-        /// Collection of pizzas that include the ingredient
+        /// Navigational property to pizzas
         ///</summary>
         public virtual ICollection<Pizza> Pizzas { get; set; }
+
+        /// <summary>
+        /// Quantity of the ingredient in stock
+        /// </summary>
+        public double QuantityInStock { get; set; }
 
         public Ingredient()
         {

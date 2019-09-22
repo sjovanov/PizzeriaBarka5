@@ -22,7 +22,7 @@ namespace PicerijaBarka5.Controllers
         // GET: Pizzas
         public ActionResult Index()
         {
-            return View(repository.GetPizzasFromUsersWithRole(Roles.Owner));
+            return View(repository.GetPizzasFromUsersWithRole(UserRoles.Owner));
         }
 
         // GET: Pizzas/Details/5

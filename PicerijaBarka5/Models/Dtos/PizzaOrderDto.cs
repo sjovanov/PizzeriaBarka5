@@ -17,11 +17,11 @@ namespace PicerijaBarka5.Models.Dtos
 
         public OrderStatus OrderStatus { get; set; }
 
-        public List<PizzaDto> Items { get; set; }
+        public List<CartItemDto> Items { get; set; }
 
         public PizzaOrderDto()
         {
-            Items = new List<PizzaDto>();
+            Items = new List<CartItemDto>();
         }
     }
 }

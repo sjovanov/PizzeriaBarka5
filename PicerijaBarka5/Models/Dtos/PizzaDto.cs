@@ -19,7 +19,7 @@ namespace PicerijaBarka5.Models.Dtos
         /// <summary>
         /// The user that created the pizza
         /// </summary>
-        public ApplicationUser User { get; set; }
+        public UserDto User { get; set; }
 
         /// <summary>
         /// List of ingredients in the pizza

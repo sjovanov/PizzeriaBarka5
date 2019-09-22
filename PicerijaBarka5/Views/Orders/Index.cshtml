@@ -32,13 +32,15 @@
                 @order.Address
             </td>
             <td>
-                @order.Items.Sum(x => x.Price)
+                @order.Items.Sum(x => x.Pizza.Price * x.Quantity)
             </td>
             <td>
                 @{
-                    foreach (var pizza in order.Items)
+                    foreach (var cartItem in order.Items)
                     {
-                        <p>@pizza.Name</p>
+                        <span>@cartItem.Pizza.Name</span> <br />
+                        <span>@cartItem.Quantity</span>
+
                     }
                 }
             </td>

@@ -19,9 +19,19 @@ namespace PicerijaBarka5.Extentions
                 Name = dbIngredient.Name,
                 IngredientType = dbIngredient.IngredientType,
                 Price = dbIngredient.getPriceForIngredientInSmallPizza(),
-                QuantityPerSmallPizza = dbIngredient.QuantityPerSmallPizza
+                QuantityPerSmallPizza = dbIngredient.QuantityPerSmallPizza,
+                QuantityInStock = dbIngredient.QuantityInStock
             };
         }
+
+        public static UserDto toUserDto(this ApplicationUser dbUser)
+        {
+            return new UserDto
+            {
+                Name = dbUser.UserName,
+                Email = dbUser.Email
+            };
+        } 
 
         public static PizzaDto toPizzaDto(this Pizza dbPizza)
         {
@@ -29,9 +39,21 @@ namespace PicerijaBarka5.Extentions
             {
                 PizzaId = dbPizza.PizzaId,
                 Name = dbPizza.Name,
-                Ingredients = dbPizza.Ingredients.Select(ingredient => ingredient.toIngredientDto()).ToList(),
+                Ingredients = dbPizza.Ingredients
+                                        .Select(ingredient => ingredient.toIngredientDto())
+                                        .ToList(),
                 Price = dbPizza.getPrice(),
+                User = dbPizza.User.toUserDto(),
                 incomeCoeficient = dbPizza.IncomeCoeficient
+            };
+        }
+
+        public static CartItemDto toCartItemDto(this CartItem cartItem)
+        {
+            return new CartItemDto
+            {
+                Pizza = cartItem.Pizza.toPizzaDto(),
+                Quantity = cartItem.Quantity
             };
         }
 
@@ -42,17 +64,11 @@ namespace PicerijaBarka5.Extentions
                 User = dbPizzaOrder.User,
                 OrderId = dbPizzaOrder.OrderId,
                 Address = dbPizzaOrder.Address,
-                Items = dbPizzaOrder.Items.Select(item => item.toPizzaDto()).ToList(),
+                Items = dbPizzaOrder.Items.Select(item => item.toCartItemDto())
+                                            .ToList(),
                 OrderStatus = dbPizzaOrder.OrderStatus
             };
         }
 
-        public static bool IsInRole (this ApplicationUser user, Roles role)
-        {
-            using (var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext())))
-            {
-                return userManager.GetRoles(user.Id).Contains(role.ToString());
-            }
-        }
     }
 }

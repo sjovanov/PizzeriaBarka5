@@ -35,6 +35,11 @@ namespace PicerijaBarka5.Models
         public virtual ICollection<PizzaOrder> Orders { get; set; }
 
         /// <summary>
+        /// Navigational property to items in cart
+        /// </summary>
+        public virtual ICollection<CartItem> CartItems { get; set; }
+
+        /// <summary>
         /// The percentage of profit the pizzeria makes for selling a single pizza
         /// </summary>
         public double IncomeCoeficient { get; set; }

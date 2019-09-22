@@ -36,6 +36,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <MvcBuildViews>true</MvcBuildViews>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -193,32 +194,24 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\HtmlHelpers.cs" />
-    <Compile Include="Migrations\201909191017348_Initial-Models.cs" />
-    <Compile Include="Migrations\201909191017348_Initial-Models.Designer.cs">
-      <DependentUpon>201909191017348_Initial-Models.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201909201347129_a.cs" />
-    <Compile Include="Migrations\201909201347129_a.Designer.cs">
-      <DependentUpon>201909201347129_a.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201909201350552_ab.cs" />
-    <Compile Include="Migrations\201909201350552_ab.Designer.cs">
-      <DependentUpon>201909201350552_ab.cs</DependentUpon>
+    <Compile Include="Migrations\201909220013024_CreateDatabase.cs" />
+    <Compile Include="Migrations\201909220013024_CreateDatabase.Designer.cs">
+      <DependentUpon>201909220013024_CreateDatabase.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\CartItem.cs" />
     <Compile Include="Models\CartOrderModel.cs" />
     <Compile Include="Models\CreatePizzaViewModel.cs" />
+    <Compile Include="Models\Dtos\CartItemDto.cs" />
     <Compile Include="Models\Dtos\IngredientDto.cs" />
     <Compile Include="Models\Dtos\PizzaDto.cs" />
     <Compile Include="Models\Dtos\PizzaOrderDto.cs" />
+    <Compile Include="Models\Dtos\UserDto.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\IngredientModel.cs" />
     <Compile Include="Models\AppEnums.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Models\MenuModel.cs" />
-    <Compile Include="Models\OrderRequest.cs" />
-    <Compile Include="Models\PizzaBulder.cs" />
     <Compile Include="Models\PizzaModel.cs" />
     <Compile Include="Models\PizzaOrder.cs" />
     <Compile Include="Models\PizzaOrderItem.cs" />
@@ -350,14 +343,8 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201909191017348_Initial-Models.resx">
-      <DependentUpon>201909191017348_Initial-Models.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201909201347129_a.resx">
-      <DependentUpon>201909201347129_a.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201909201350552_ab.resx">
-      <DependentUpon>201909201350552_ab.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201909220013024_CreateDatabase.resx">
+      <DependentUpon>201909220013024_CreateDatabase.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
@@ -401,4 +388,7 @@
   </Target>
   <Target Name="AfterBuild">
   </Target> -->
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
 </Project>

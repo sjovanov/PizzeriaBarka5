@@ -7,13 +7,13 @@ using System.Web;
 
 namespace PicerijaBarka5.Models
 {
-    public class CartOrder
+    public class CartOrderDto
     {
-        public Dictionary<PizzaDto, int> Items { get; set; }
+        public List<CartItemDto> Items { get; set; }
 
-        public CartOrder()
+        public CartOrderDto()
         {
-            Items = new Dictionary<PizzaDto, int>(new PizzaDtoDictionaryComparer());
+            Items = new List<CartItemDto>();
         }
     }
 

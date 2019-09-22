@@ -7,6 +7,7 @@ using System.Linq;
 using System.Web;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Web.Security;
 
 namespace PicerijaBarka5.Services
 {
@@ -14,7 +15,7 @@ namespace PicerijaBarka5.Services
     {
         private static Repository repository;
 
-        ApplicationDbContext db = new ApplicationDbContext();
+        private static ApplicationDbContext db = null;
 
         private Repository() { }
 
@@ -27,6 +28,7 @@ namespace PicerijaBarka5.Services
             if (repository == null)
             {
                 repository = new Repository();
+                db = new ApplicationDbContext();
             }
             return repository;
         }
@@ -54,21 +56,25 @@ namespace PicerijaBarka5.Services
                             .ToList();
         }
 
-        public ICollection<PizzaDto> GetPizzasFromUsersWithRole (Roles role)
+        public ICollection<PizzaDto> GetPizzasFromUsersWithRole (string role)
         {
             var pizzas = new List<PizzaDto>();
-            string stringRole = ((int)role).ToString();
-            //IdentityRole ownerRole = db.Roles.Where(x => x.Name == role.ToString()).First();
-            return db.Pizzas.Where(pizza => pizza.User.Roles.Any(r => r.RoleId == stringRole))
-                            .ToList()
-                            .Select(p => p.toPizzaDto()).ToList();
+                
+            using (var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext())))
+            {
+                pizzas = db.Pizzas.ToList()
+                        .Where(pizza => userManager.IsInRole(pizza.User.Id, role))
+                        .Select(x => x.toPizzaDto())
+                        .ToList();
+            }
+            return pizzas;
         }
 
         public ICollection<PizzaDto> GetPizzasFromUser (string userFk)
         {
             return db.Users.Find(userFk)
                             .Pizzas.ToList()
-                            .Select(pizza => pizza.toPizzaDto())
+                            .Select(x => x.toPizzaDto())
                             .ToList();
         }
 
@@ -80,9 +86,10 @@ namespace PicerijaBarka5.Services
                 Name = pizza.Name,
                 IncomeCoeficient = pizza.IncomeCoef,
                 Ingredients = db.Ingredients.Where(x => pizza.selectedIngredients.Contains(x.IngredientId.ToString()) || x.IngredientId.ToString() == pizza.Dough).ToList(),
-                Orders = new List<PizzaOrder>()
+                Orders = new List<PizzaOrder>(),
+                User = db.Users.Find(userFk)
             };
-            db.Users.Find(userFk).Pizzas.Add(dbPizza);
+            db.Pizzas.Add(dbPizza);
             db.SaveChanges();
         }
 
@@ -108,11 +115,8 @@ namespace PicerijaBarka5.Services
             dbPizza.Name = pizzaDto.Name;
             dbPizza.IncomeCoeficient = pizzaDto.incomeCoeficient;
             
-            var dbIngredients = db.Ingredients.Where(ingredient => ingredient.Pizzas.Any(pizza => pizza.PizzaId == pizzaDto.PizzaId)).ToList();
+            var dbIngredients = db.Ingredients.Where(ingredient => pizzaDto.Ingredients.Any(x => x.IngredientId == ingredient.IngredientId)).ToList();
             dbPizza.Ingredients = dbIngredients;
-
-            var dbOrders = db.PizzaOrders.Where(order => order.Items.Any(item => item.PizzaId == pizzaDto.PizzaId)).ToList();
-            dbPizza.Orders = dbOrders;
 
             db.SaveChanges();
         }
@@ -145,6 +149,7 @@ namespace PicerijaBarka5.Services
         public ICollection<IngredientDto> GetIngredientsForPizza (Guid pizzaId)
         {
             return db.Ingredients.Where(ingredient => ingredient.Pizzas.Any(pizza => pizza.PizzaId == pizzaId))
+                                .ToList()
                                 .Select(ingredient => ingredient.toIngredientDto())
                                 .ToList();
         }
@@ -158,9 +163,7 @@ namespace PicerijaBarka5.Services
                 IngredientType = ingredient.IngredientType,
                 QuantityPerSmallPizza = ingredient.QuantityPerSmallPizza,
                 Price = ingredient.Price,
-                Pizzas = new List<Pizza>()
             };
-
             db.Ingredients.Add(dbIngredient);
             db.SaveChanges();
         }
@@ -227,30 +230,25 @@ namespace PicerijaBarka5.Services
                     .ToList();
         }
 
-        public void CreateOrderForUser(Dictionary<string, int> Items, string userFk, string address)
+        public void CreateOrder(List<CartItemDto> cartItems, string userFk, string address)
         {
-            PizzaOrder dbPizzaOrder = new PizzaOrder
+            PizzaOrder dbOrder = new PizzaOrder
             {
                 OrderId = Guid.NewGuid(),
                 Address = address,
-                OrderStatus = OrderStatus.InProgress
+                OrderStatus = OrderStatus.InProgress,
+                User = db.Users.Find(userFk),
             };
-
-            var orderedPizzas = new List<Pizza>();
-
-            foreach (var orderedItem in Items)
+            foreach (var item in cartItems)
             {
-                for (int i = 0; i < orderedItem.Value; i++)
+                dbOrder.Items.Add(new CartItem
                 {
-                    Pizza dbPizzaFromOrder = db.Pizzas.Find(new Guid(orderedItem.Key));
-                    orderedPizzas.Add(dbPizzaFromOrder);
-                }
+                    CartItemId = Guid.NewGuid(),
+                    Pizza = db.Pizzas.Find(item.Pizza.PizzaId),
+                    Quantity = item.Quantity
+                });
             }
-
-            dbPizzaOrder.Items = orderedPizzas;
-
-            db.Users.Find(userFk).PizzaOrders.Add(dbPizzaOrder);
-            db.PizzaOrders.Add(dbPizzaOrder);
+            db.PizzaOrders.Add(dbOrder);
             db.SaveChanges();
         }
 
@@ -278,6 +276,10 @@ namespace PicerijaBarka5.Services
             db.SaveChanges();
         }
 
+        public IEnumerable<ApplicationUser> GetUsers()
+        {
+            return db.Users.ToList();
+        }
 
         #endregion
         public void Dispose(bool disposing)

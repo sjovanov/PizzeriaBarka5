@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using PicerijaBarka5.Models;
+using PicerijaBarka5.Models.Dtos;
 using PicerijaBarka5.Services;
 using System;
 using System.Collections.Generic;
@@ -31,7 +32,7 @@ namespace PicerijaBarka5.Controllers
 
         // POST: Orders/Create
         [HttpPost]
-        public ActionResult Create(Dictionary<string, int> Items)
+        public ActionResult Create(List<CartItemDto> Items)
         {
             string Address = Request.QueryString["Address"];
             if (!ModelState.IsValid)
@@ -41,7 +42,7 @@ namespace PicerijaBarka5.Controllers
             }
             else
             {
-                repository.CreateOrderForUser(Items, User.Identity.GetUserId(), Address);
+                repository.CreateOrder(Items, User.Identity.GetUserId(), Address);
                 Response.StatusCode = (int)HttpStatusCode.OK;
                 Session["cart"] = null;
                 return Json(new { message = "Your order has been placed" });

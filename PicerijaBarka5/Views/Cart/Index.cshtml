@@ -1,4 +1,4 @@
-﻿@model PicerijaBarka5.Models.CartOrder
+﻿@model PicerijaBarka5.Models.CartOrderDto
 @using PicerijaBarka5.Models
 @using PicerijaBarka5.Helpers
 @{
@@ -28,23 +28,23 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Key.Name)
+                        @Html.DisplayFor(modelItem => item.Pizza.Name)
                     </td>
                     <td>
-                        @item.Key.Price
+                        @item.Pizza.Price
                     </td>
                     <td>
-                        @item.Value
+                        @item.Quantity
                     </td>
                     <td>
-                        <a class="btn btn-danger removeFromCart" href="@Url.Action("RemoveFromCart", "Cart" , routeValues: new { id=item.Key.PizzaId })">Remove from cart</a>
+                        <a class="btn btn-danger removeFromCart" href="@Url.Action("RemoveFromCart", "Cart" , routeValues: new { id=item.Pizza.PizzaId })">Remove from cart</a>
                     </td>
                 </tr>
             }
 
         </table>
 
-        @Model.Items.Sum(x => x.Key.Price * x.Value)
+        @Model.Items.Sum(x => x.Pizza.Price * x.Quantity)
 
         <div class="form-group">
             <label for="address">Address</label>
@@ -67,7 +67,7 @@
 
 @section scripts{
     @{
-        var data = (CartOrder)Session["cart"];
+        var data = (CartOrderDto)Session["cart"];
     }
     <script>
 

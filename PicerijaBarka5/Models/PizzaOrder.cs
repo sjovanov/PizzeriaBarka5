@@ -20,12 +20,12 @@ namespace PicerijaBarka5.Models
         [Required]
         public OrderStatus OrderStatus { get; set; }
 
-        public virtual ICollection<Pizza> Items { get; set; }
+        public virtual ICollection<CartItem> Items { get; set; }
 
         public PizzaOrder()
         {
             OrderStatus = OrderStatus.InProgress;
-            Items = new List<Pizza>();
+            Items = new List<CartItem>();
         }
     }
 }

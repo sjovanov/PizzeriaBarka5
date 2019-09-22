@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using PicerijaBarka5.Models;
+using PicerijaBarka5.Models.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,17 +23,14 @@ namespace PicerijaBarka5.Helpers
             }
         }
 
-        public static string GetOrderRequestJson(this HtmlHelper helper, CartOrder cart)
+        public static string GetOrderRequestJson(this HtmlHelper helper, CartOrderDto cart)
         {
-            var request = new OrderRequest();
+            var items = new List<CartItemDto>();
             if (cart != null)
             {
-                foreach (var item in cart.Items)
-                {
-                    request.Items.Add(item.Key.PizzaId, item.Value);
-                }
+                items = cart.Items;
             }
-            return JsonConvert.SerializeObject(request, Formatting.None);
+            return JsonConvert.SerializeObject(cart, Formatting.None);
         }
     }
 }

@@ -71,7 +71,7 @@ namespace PicerijaBarka5.Controllers
         public ActionResult AddUserToRole(UserToRoleModel model)
         {
             var user = UserManager.FindByEmail(model.Email);
-            UserManager.AddToRole(user.Id, model.Role.ToString());
+            UserManager.AddToRole(user.Id, model.Role);
             return RedirectToAction("Index", "Home");
         }
         //

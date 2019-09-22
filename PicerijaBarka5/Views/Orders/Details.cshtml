@@ -38,10 +38,19 @@
             @Html.DisplayNameFor(model => model.Items)
         </dt>
 
-        @foreach (var a in Model.Items)
+        @foreach (var cartItem in Model.Items)
         {
-            <p>@a.Name</p>
+            <p>@cartItem.Pizza.Name</p>
+            <p>@cartItem.Quantity</p>
         }
+
+        <dd>
+            Price
+        </dd>
+
+        <dt>
+            @Model.Items.Sum(cartItem => cartItem.Pizza.Price * cartItem.Quantity)
+        </dt>
 
     </dl>
 </div>

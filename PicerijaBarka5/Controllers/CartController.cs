@@ -29,36 +29,43 @@ namespace PicerijaBarka5.Controllers
                 ViewBag.Valid = "False";
             }
 
-            return View((CartOrder)sessionCart);
+            return View((CartOrderDto)sessionCart);
         }
 
         // POST: Cart/AddToCart
         [HttpPost]
         public void AddToCart(Guid id)
         {
-            CartOrder cart;
+            CartOrderDto cart;
             object sessionCart = Session["cart"];
 
             PizzaDto pizzaToAdd = repository.GetPizza(id);
 
             if (sessionCart != null)
             {
-                cart = (CartOrder)sessionCart;
-                ;
-                if (cart.Items.ContainsKey(pizzaToAdd))
+                cart = (CartOrderDto)sessionCart;
+                if (cart.Items.Any(item => item.Pizza.PizzaId == id))
                 {
-                    cart.Items[pizzaToAdd]++;
+                    cart.Items.First(x => x.Pizza.PizzaId == id).Quantity++;
                 }
                 else
                 {
-                    cart.Items.Add(pizzaToAdd, 1);
+                    cart.Items.Add(new CartItemDto
+                    {
+                        Pizza = pizzaToAdd,
+                        Quantity = 1
+                    });
                 }
                 Session["cart"] = cart;
             }
             else
             {
-                cart = new CartOrder();
-                cart.Items.Add(pizzaToAdd, 1);
+                cart = new CartOrderDto();
+                cart.Items.Add(new CartItemDto
+                {
+                    Pizza = pizzaToAdd,
+                    Quantity = 1
+                });
                 Session["cart"] = cart;
             }
         }
@@ -66,13 +73,11 @@ namespace PicerijaBarka5.Controllers
         // DELETE: Cart/Delete/id
         public ActionResult RemoveFromCart(Guid id)
         {
-            CartOrder cart = (CartOrder)Session["cart"];
+            CartOrderDto cart = (CartOrderDto)Session["cart"];
 
-            var pizzaToRemove = cart.Items.Keys.First(x => x.PizzaId == id);
-
-            cart.Items[pizzaToRemove]--;
-
-            if (cart.Items[pizzaToRemove] == 0)
+            var pizzaToRemove = cart.Items.First(x => x.Pizza.PizzaId == id);
+            pizzaToRemove.Quantity--;
+            if (pizzaToRemove.Quantity == 0)
             {
                 cart.Items.Remove(pizzaToRemove);
             }

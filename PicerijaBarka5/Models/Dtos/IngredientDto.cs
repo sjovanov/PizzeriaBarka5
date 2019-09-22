@@ -36,6 +36,11 @@ namespace PicerijaBarka5.Models.Dtos
         [Required]
         public double Price { get; set; }
 
+        /// <summary>
+        /// Quantity of the ingredient in stock
+        /// </summary>
+        public double QuantityInStock { get; set; }
+
         public IngredientDto()
         {
 

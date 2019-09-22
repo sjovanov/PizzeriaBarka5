@@ -32,6 +32,8 @@ namespace PicerijaBarka5.Models
 
         public DbSet<PizzaOrder> PizzaOrders { get; set; }
 
+        public DbSet<CartItem> OrderedPizzas { get; set; }
+
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
