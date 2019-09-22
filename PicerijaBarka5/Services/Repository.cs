@@ -163,6 +163,7 @@ namespace PicerijaBarka5.Services
                 IngredientType = ingredient.IngredientType,
                 QuantityPerSmallPizza = ingredient.QuantityPerSmallPizza,
                 Price = ingredient.Price,
+                QuantityInStock = ingredient.QuantityInStock
             };
             db.Ingredients.Add(dbIngredient);
             db.SaveChanges();
@@ -191,7 +192,7 @@ namespace PicerijaBarka5.Services
             dbIngredient.IngredientType = ingredient.IngredientType;
             dbIngredient.Price = ingredient.Price;
             dbIngredient.QuantityPerSmallPizza = ingredient.QuantityPerSmallPizza;
-
+            dbIngredient.QuantityInStock = ingredient.QuantityInStock;
             db.SaveChanges();
         }
 
@@ -275,13 +276,13 @@ namespace PicerijaBarka5.Services
 
             db.SaveChanges();
         }
-
+        #endregion
         public IEnumerable<ApplicationUser> GetUsers()
         {
             return db.Users.ToList();
         }
 
-        #endregion
+ 
         public void Dispose(bool disposing)
         {
             if (disposing)

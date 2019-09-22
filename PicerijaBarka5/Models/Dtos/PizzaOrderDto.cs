@@ -9,9 +9,7 @@ namespace PicerijaBarka5.Models.Dtos
     {
         public Guid OrderId { get; set; }
 
-        public string UserFk { get; set; }
-
-        public ApplicationUser User { get; set; }
+        public UserDto User { get; set; }
 
         public string Address { get; set; }
 

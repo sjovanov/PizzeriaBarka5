@@ -28,7 +28,7 @@ namespace PicerijaBarka5.Extentions
         {
             return new UserDto
             {
-                Name = dbUser.UserName,
+                UserName = dbUser.UserName,
                 Email = dbUser.Email
             };
         } 
@@ -61,7 +61,7 @@ namespace PicerijaBarka5.Extentions
         {
             return new PizzaOrderDto
             {
-                User = dbPizzaOrder.User,
+                User = dbPizzaOrder.User.toUserDto(),
                 OrderId = dbPizzaOrder.OrderId,
                 Address = dbPizzaOrder.Address,
                 Items = dbPizzaOrder.Items.Select(item => item.toCartItemDto())
