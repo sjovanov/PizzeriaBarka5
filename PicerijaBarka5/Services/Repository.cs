@@ -85,7 +85,7 @@ namespace PicerijaBarka5.Services
                 PizzaId = Guid.NewGuid(),
                 Name = pizza.Name,
                 IncomeCoeficient = pizza.IncomeCoef,
-                Ingredients = db.Ingredients.Where(x => pizza.selectedIngredients.Contains(x.IngredientId.ToString()) || x.IngredientId.ToString() == pizza.Dough).ToList(),
+                Ingredients = db.Ingredients.Where(x => pizza.selectedIngredients.Contains(x.IngredientId.ToString())).ToList(),
                 Orders = new List<PizzaOrder>(),
                 User = db.Users.Find(userFk)
             };
@@ -277,6 +277,7 @@ namespace PicerijaBarka5.Services
             db.SaveChanges();
         }
         #endregion
+
         public IEnumerable<ApplicationUser> GetUsers()
         {
             return db.Users.ToList();

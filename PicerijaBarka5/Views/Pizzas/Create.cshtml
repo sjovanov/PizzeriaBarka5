@@ -50,7 +50,7 @@
                     @foreach (var dough in doughs)
                     {
                         <div class="m-1">
-                            <input type="radio" value="@dough.IngredientId" name="Dough" id="@dough.IngredientId" class="form-check-input" />
+                            <input type="radio" value="@dough.IngredientId" name="selectedIngredients" id="@dough.IngredientId" class="form-check-input" />
                             @Html.Label(dough.Name, htmlAttributes: new { @for = dough.IngredientId, @class = "form-check-label" })
                         </div>
                     }

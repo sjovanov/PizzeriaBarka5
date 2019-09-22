@@ -89,7 +89,7 @@ namespace PicerijaBarka5.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "PizzaId,Name,Price")] PizzaDto pizza)
+        public ActionResult Edit([Bind(Include = "PizzaId,Name,Price,Ingredients,User")] PizzaDto pizza)
         {
             if (ModelState.IsValid)
             {

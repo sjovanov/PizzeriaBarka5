@@ -32,5 +32,10 @@ namespace PicerijaBarka5.Helpers
             }
             return JsonConvert.SerializeObject(cart, Formatting.None);
         }
+
+        public static string SetCheckedAttribute(this HtmlHelper helper, ICollection<IngredientDto> ingredients, Guid id)
+        {
+            return ingredients.Any(x => x.IngredientId == id) ? "checked" : "";
+        }
     }
 }
