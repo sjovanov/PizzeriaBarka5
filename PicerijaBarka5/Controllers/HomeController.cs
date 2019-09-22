@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using PicerijaBarka5.Services;
 
 namespace PicerijaBarka5.Controllers
 {
     public class HomeController : Controller
     {
+        Repository repository = Repository.GetInstance();
         public ActionResult Index()
         {
-            return View();
+            return View(repository.GetMostSold());
         }
 
         public ActionResult About()

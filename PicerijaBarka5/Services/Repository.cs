@@ -121,6 +121,13 @@ namespace PicerijaBarka5.Services
             db.SaveChanges();
         }
 
+        public ICollection<PizzaDto> GetMostSold()
+        {
+            return db.Pizzas.Take(4).ToList()
+                            .Select(x => x.toPizzaDto())
+                            .ToList();
+        }
+
         #endregion
 
         #region IngredientRepository

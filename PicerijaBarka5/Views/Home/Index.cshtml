@@ -1,31 +1,107 @@
-﻿@{
+﻿@model ICollection<PicerijaBarka5.Models.Dtos.PizzaDto>
+@{
     ViewBag.Title = "Home Page";
 }
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
+<section id="landImage" class="row full-row align-content-center">
+    <div class="container">
+        <div class="col-8 bordered" style="background-color: rgba(0, 0, 0, 0.3)">
+            <div class="mr-auto text-white text-uppercase text-left py-4 px-5 h-60" id="landText">
+                <h1><span class="text-orange text-italic">Welcome</span> to our</h1>
+                <h1 class="text-large">Pizzeria <span class="text-orange">barka 5</span></h1>
+                <hr class="red my-2 ml-0" />
+                <h4>
+                    It's more than just making a pizza
+                </h4>
+            </div>
+        </div>
+    </div>
+</section>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+<section id="About">
+    <div class="row">
+        <div class="col-7">
+            <h1 class="text-uppercase">About us</h1>
+            <hr class="red my-2 ml-0" />
+            <p class="text-justify">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sagittis aliquam risus ac congue.
+                Morbi sed hendrerit arcu, at convallis orci. Sed malesuada quis nulla vitae tincidunt. Aenean vulputate
+                laoreet ipsum vitae sodales. Vestibulum semper leo diam, sit amet dapibus lectus gravida id. Sed gravida
+                sem vitae velit placerat tempus. Cras malesuada libero leo, at porta augue pretium id. Quisque fringilla
+                pulvinar felis, ut faucibus urna rutrum eget. Fusce quis enim eu magna aliquet porttitor.
+            </p>
+            <p class="text-justify">
+                Nunc vel erat id quam vehicula pellentesque. Donec ultricies orci ut felis porttitor, in auctor mi euismod.
+                Nam eu volutpat arcu, eget tincidunt nulla. Etiam nec lorem feugiat, fermentum arcu sit amet, porttitor nisl.
+                Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+            </p>
+        </div>
+        <div class="col-5">
+            <img class="img-fluid" src="~/Content/Images/pizza-making-event.jpg" />
+        </div>
     </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+</section>
+
+<section id="customersValues">
+    <h1 class="text-uppercase text-center">What our costumers value</h1>
+    <hr class="red mx-auto mb-5" />
+    <div class="row text-center">
+        <div class="col">
+            <i class="fas fa-pizza-slice circle-icon"></i>
+            <h3>Product quality</h3>
+            <p class="text-justify">
+                Nunc vel erat id quam vehicula pellentesque. Donec ultricies orci ut felis porttitor, in auctor mi euismod.
+                Nam eu volutpat arcu, eget tincidunt nulla.
+            </p>
+        </div>
+        <div class="col">
+            <i class="fas fa-hourglass-half circle-icon"></i>
+            <h3>Always on time</h3>
+            <p class="text-justify">
+                Nunc vel erat id quam vehicula pellentesque. Donec ultricies orci ut felis porttitor, in auctor mi euismod.
+                Nam eu volutpat arcu, eget tincidunt nulla.
+            </p>
+        </div>
+        <div class="col">
+            <i class="fas fa-truck-loading circle-icon"></i>
+            <h3>Doorstep delivery</h3>
+            <p class="text-justify">
+                Nunc vel erat id quam vehicula pellentesque. Donec ultricies orci ut felis porttitor, in auctor mi euismod.
+                Nam eu volutpat arcu, eget tincidunt nulla.
+            </p>
+        </div>
     </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+</section>
+
+<section id="menu" class="full-row bg-dark">
+    <div class="container text-right">
+        <div class="row">
+            @{
+                int j = 0;
+                for (int col = 0; col < 2; col++)
+                {
+                    <div class="col-3">
+                        @Model.ElementAt(j++).Name;
+                    </div>
+                }
+            }
+            <div class="col-6">
+                <h1 class="text-uppercase text-orange">Our top sellers</h1>
+                <hr class="red my-2 mr-0" />
+                <p class="text-justify text-white">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sagittis aliquam risus ac congue.
+                    Morbi sed hendrerit arcu, at convallis orci. Sed malesuada quis nulla vitae tincidunt. Aenean vulputate
+                    laoreet ipsum vitae sodales. Vestibulum semper leo diam, sit amet dapibus lectus gravida id. Sed gravida
+                    sem vitae velit placerat tempus. Cras malesuada libero leo, at porta augue pretium id. Quisque fringilla
+                    pulvinar felis, ut faucibus urna rutrum eget. Fusce quis enim eu magna aliquet porttitor.
+                </p>
+                <p class="text-justify text-white">
+                    Nunc vel erat id quam vehicula pellentesque. Donec ultricies orci ut felis porttitor, in auctor mi euismod.
+                    Nam eu volutpat arcu, eget tincidunt nulla. Etiam nec lorem feugiat, fermentum arcu sit amet, porttitor nisl.
+                    Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+                </p>
+            </div>
+        </div>
     </div>
-</div>
+</section>
+
