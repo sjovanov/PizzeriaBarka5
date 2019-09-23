@@ -85,3 +85,9 @@ a.custom-card-link:hover{
     color: #f3ad58
 }
 
+label.toggle {
+    display: inline-block;
+    border: 1.5px solid darkorange;
+    padding: 7px;
+    border-radius: 7%;
+}

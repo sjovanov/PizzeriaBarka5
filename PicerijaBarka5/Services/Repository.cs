@@ -161,6 +161,14 @@ namespace PicerijaBarka5.Services
                                 .ToList();
         }
 
+        public ICollection<IngredientDto> GetIngredientsByType (IngredientType type)
+        {
+            return db.Ingredients.Where(x => x.IngredientType == type)
+                                    .ToList()
+                                    .Select(x => x.toIngredientDto())
+                                    .ToList();
+        }
+
         public void CreateIngredient (IngredientDto ingredient)
         {
             Ingredient dbIngredient = new Ingredient

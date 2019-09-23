@@ -22,6 +22,7 @@ namespace PicerijaBarka5.Controllers
         // GET: Pizzas
         public ActionResult Index()
         {
+            ViewBag.Title = "Barka 5's Menu";
             return View(repository.GetPizzasFromUsersWithRole(UserRoles.Owner));
         }
 
@@ -46,7 +47,10 @@ namespace PicerijaBarka5.Controllers
         public ActionResult Create()
         {
             CreatePizzaViewModel createPizzaViewModel = new CreatePizzaViewModel();
-            createPizzaViewModel.availableIngredients = repository.GetIngredients();
+            foreach (var TypeOfIngredient in Enum.GetValues(typeof(IngredientType)))
+            {
+                createPizzaViewModel.TypeIngredientListPairs.Add(TypeOfIngredient.ToString(), repository.GetIngredientsByType((IngredientType)TypeOfIngredient));
+            }
             return View(createPizzaViewModel);
         }
 
@@ -62,8 +66,10 @@ namespace PicerijaBarka5.Controllers
                 repository.CreatePizzaForUser(pizzaResponse, User.Identity.GetUserId());
                 return RedirectToAction("Index");
             }
-
-            pizzaResponse.availableIngredients = repository.GetIngredients();
+            foreach (var TypeOfIngredient in Enum.GetValues(typeof(IngredientType)))
+            {
+                pizzaResponse.TypeIngredientListPairs.Add(TypeOfIngredient.ToString(), repository.GetIngredientsByType((IngredientType)TypeOfIngredient));
+            }
             return View(pizzaResponse);
         }
 
@@ -139,6 +145,7 @@ namespace PicerijaBarka5.Controllers
         // Get: Pizzas/MyPizzas
         public ActionResult MyPizzas()
         {
+            ViewBag.Title = "These are your custom pizzas";
             return View("Index", repository.GetPizzasFromUser(User.Identity.GetUserId()));
         }
 
