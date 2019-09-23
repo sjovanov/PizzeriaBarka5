@@ -1,0 +1,76 @@
+﻿body {
+}
+
+#landImage{
+    background: url("Images/pizza-wallpaper-full-hd-1080p-390199.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100vh;
+}
+
+.full-row {
+    width: 99.55vw;
+    position: relative;
+    margin-left: -50vw;
+    left: 50%;
+    padding: 10px;
+}
+
+.text-large{
+    font-size: 4.5rem;
+}
+
+.h-60{
+    height: 60%;
+}
+
+.text-orange {
+    color: darkorange;
+}
+
+.bg-orange{
+    background-color: darkorange;
+}
+
+hr.red {
+    border-top: darkred 5px solid;
+    width: 25%;
+}
+
+.bordered{
+    border: 2px solid darkorange;
+}
+
+.nav-item.active a {
+    color: darkorange;
+}
+
+nav.bg-dark{
+    color: rgba(0, 0, 0, 0.4)
+}
+
+section{
+    margin-bottom: 30px;
+}
+
+.circle-icon {
+    display: inline-block;
+    border-radius: 50%;
+    border: 1px solid black;
+    padding: 1.6em 1.7em;
+    margin-bottom: 7px;
+    font-size: 2em;
+}
+
+.bg-transparent-black {
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.mapouter {
+    text-align: right;
+}
+
+.gmap_canvas {
+    overflow: hidden;
+    background: none !important;
+}

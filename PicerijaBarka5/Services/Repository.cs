@@ -121,6 +121,13 @@ namespace PicerijaBarka5.Services
             db.SaveChanges();
         }
 
+        public ICollection<PizzaDto> GetMostSold()
+        {
+            return db.Pizzas.Take(4).ToList()
+                            .Select(x => x.toPizzaDto())
+                            .ToList();
+        }
+
         #endregion
 
         #region IngredientRepository
@@ -277,6 +284,23 @@ namespace PicerijaBarka5.Services
             db.SaveChanges();
         }
         #endregion
+
+        public void AddContactEntrie(ContactForm contactForm)
+        {
+            contactForm.ContactId = Guid.NewGuid();
+            db.ContactFormEntries.Add(contactForm);
+            db.SaveChanges();
+        }
+
+        public IEnumerable<ContactForm> GetContactFormEntires()
+        {
+            return db.ContactFormEntries.ToList();
+        }
+
+        public ContactForm GetContact(Guid id)
+        {
+            return db.ContactFormEntries.Find(id);
+        }
 
         public IEnumerable<ApplicationUser> GetUsers()
         {
