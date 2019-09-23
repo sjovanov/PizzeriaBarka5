@@ -194,9 +194,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\HtmlHelpers.cs" />
-    <Compile Include="Migrations\201909231200048_contactForm.cs" />
-    <Compile Include="Migrations\201909231200048_contactForm.Designer.cs">
-      <DependentUpon>201909231200048_contactForm.cs</DependentUpon>
+    <Compile Include="Migrations\201909231319091_Models.cs" />
+    <Compile Include="Migrations\201909231319091_Models.Designer.cs">
+      <DependentUpon>201909231319091_Models.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -347,8 +347,8 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201909231200048_contactForm.resx">
-      <DependentUpon>201909231200048_contactForm.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201909231319091_Models.resx">
+      <DependentUpon>201909231319091_Models.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

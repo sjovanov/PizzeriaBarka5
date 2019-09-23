@@ -43,7 +43,7 @@ namespace PicerijaBarka5.Controllers
         {
             if (ModelState.IsValid)
             {
-                repository.AddContactEntrie(form);
+                repository.AddContactEntry(form);
                 Response.StatusCode = (int)HttpStatusCode.OK;
                 return View("Index", repository.GetMostSold());
             }

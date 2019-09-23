@@ -3,7 +3,7 @@ namespace PicerijaBarka5.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class contactForm : DbMigration
+    public partial class Models : DbMigration
     {
         public override void Up()
         {

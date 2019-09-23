@@ -74,3 +74,14 @@ section{
     overflow: hidden;
     background: none !important;
 }
+
+a.custom-card-link,
+a.custom-card-link:hover {
+    text-decoration: none;
+    color: inherit;
+}
+
+a.custom-card-link:hover{
+    color: #f3ad58
+}
+
