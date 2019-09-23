@@ -35,7 +35,7 @@ namespace PicerijaBarka5.Controllers
         public ActionResult Create(List<CartItemDto> Items)
         {
             string Address = Request.QueryString["Address"];
-            if (Items.Count <= 0)
+            if ((Items != null && Items.Count <= 0) || (Items == null))
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return Json(new { message = "There was a problem with placing your order. Please try again later" });
