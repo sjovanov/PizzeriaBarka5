@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using PicerijaBarka5.Models;
+using PicerijaBarka5.Models.Dtos;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,12 +13,29 @@ namespace PicerijaBarka5.Helpers
     {
         public static string SetActiveClass(this HtmlHelper helper, string controller, string compareController, string action = "", string compareAction = "")
         {
-            if (String.IsNullOrEmpty(action)) { 
+            if (String.IsNullOrEmpty(action))
+            {
                 return controller == compareController ? "active" : "";
-            } else
+            }
+            else
             {
                 return action == compareAction && controller == compareController ? "active" : "";
             }
+        }
+
+        public static string GetOrderRequestJson(this HtmlHelper helper, CartOrderDto cart)
+        {
+            var items = new List<CartItemDto>();
+            if (cart != null)
+            {
+                items = cart.Items;
+            }
+            return JsonConvert.SerializeObject(cart, Formatting.None);
+        }
+
+        public static string SetCheckedAttribute(this HtmlHelper helper, ICollection<IngredientDto> ingredients, Guid id)
+        {
+            return ingredients.Any(x => x.IngredientId == id) ? "checked" : "";
         }
     }
 }

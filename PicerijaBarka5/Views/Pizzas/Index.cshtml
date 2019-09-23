@@ -1,4 +1,4 @@
-﻿@model IEnumerable<PicerijaBarka5.Models.Pizza>
+﻿@model IEnumerable<PicerijaBarka5.Models.Dtos.PizzaDto>
 
 @{
     ViewBag.Title = "Index";
@@ -15,7 +15,7 @@
             @Html.DisplayNameFor(model => model.Name)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Price)
+            Price
         </th>
         <th></th>
     </tr>
@@ -27,14 +27,33 @@
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @item.getPrice()
+                @Html.DisplayFor(modelItem => item.Price)
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.PizzaId }) |
                 @Html.ActionLink("Details", "Details", new { id = item.PizzaId }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.PizzaId })
+                @Html.ActionLink("Delete", "Delete", new { id = item.PizzaId }) |
+                <button class="btn btn-outline-success addToCart" pizza-id="@item.PizzaId">Add to cart</button>
             </td>
         </tr>
     }
 
 </table>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $(".addToCart").on('click', function () {
+                let id = $(this).attr('pizza-id');
+                console.log(id)
+                $.ajax({
+                    type: "POST",
+                    url: "/Cart/AddToCart/" + id,
+                    success: function () {
+                        alert("Pizza added to cart");
+                    }
+                })
+            })
+        })
+    </script>
+}

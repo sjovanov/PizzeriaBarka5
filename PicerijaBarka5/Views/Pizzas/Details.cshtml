@@ -1,4 +1,4 @@
-﻿@model PicerijaBarka5.Models.Pizza
+﻿@model PicerijaBarka5.Models.Dtos.PizzaDto
 @using PicerijaBarka5.Models
 @{
     ViewBag.Title = "Details";
@@ -18,12 +18,8 @@
             @Html.DisplayFor(model => model.Name)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
-
         <dd>
-            @Model.getPrice()
+            @Model.Price
         </dd>
 
         <dt>
@@ -32,7 +28,7 @@
 
         <dd>
             @{
-                foreach (var typeOfIngredient in Enum.GetValues(typeof(IngredientTypeEnum.IngredientType)))
+                foreach (var typeOfIngredient in Enum.GetValues(typeof(IngredientType)))
                 {
                     <strong>@typeOfIngredient.ToString(): </strong>
                     foreach (var ingredient in Model.Ingredients)
