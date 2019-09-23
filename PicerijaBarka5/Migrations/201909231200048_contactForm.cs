@@ -3,10 +3,22 @@ namespace PicerijaBarka5.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class CreateDatabase : DbMigration
+    public partial class contactForm : DbMigration
     {
         public override void Up()
         {
+            CreateTable(
+                "dbo.ContactForms",
+                c => new
+                    {
+                        ContactId = c.Guid(nullable: false),
+                        Name = c.String(nullable: false),
+                        LastName = c.String(nullable: false),
+                        Email = c.String(nullable: false),
+                        Message = c.String(nullable: false),
+                    })
+                .PrimaryKey(t => t.ContactId);
+            
             CreateTable(
                 "dbo.Ingredients",
                 c => new
@@ -183,6 +195,7 @@ namespace PicerijaBarka5.Migrations
             DropTable("dbo.CartItems");
             DropTable("dbo.Pizzas");
             DropTable("dbo.Ingredients");
+            DropTable("dbo.ContactForms");
         }
     }
 }

@@ -194,14 +194,15 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\HtmlHelpers.cs" />
-    <Compile Include="Migrations\201909220013024_CreateDatabase.cs" />
-    <Compile Include="Migrations\201909220013024_CreateDatabase.Designer.cs">
-      <DependentUpon>201909220013024_CreateDatabase.cs</DependentUpon>
+    <Compile Include="Migrations\201909231200048_contactForm.cs" />
+    <Compile Include="Migrations\201909231200048_contactForm.Designer.cs">
+      <DependentUpon>201909231200048_contactForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CartItem.cs" />
     <Compile Include="Models\CartOrderModel.cs" />
+    <Compile Include="Models\ContactFormModel.cs" />
     <Compile Include="Models\CreatePizzaViewModel.cs" />
     <Compile Include="Models\Dtos\CartItemDto.cs" />
     <Compile Include="Models\Dtos\IngredientDto.cs" />
@@ -284,7 +285,6 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
@@ -329,6 +329,8 @@
     <Content Include="Views\Cart\Index.cshtml" />
     <Content Include="Views\Orders\Index.cshtml" />
     <Content Include="Views\Orders\Details.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -345,8 +347,8 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201909220013024_CreateDatabase.resx">
-      <DependentUpon>201909220013024_CreateDatabase.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201909231200048_contactForm.resx">
+      <DependentUpon>201909231200048_contactForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

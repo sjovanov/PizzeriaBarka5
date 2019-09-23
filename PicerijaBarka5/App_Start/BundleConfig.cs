@@ -25,7 +25,6 @@ namespace PicerijaBarka5
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.min.css",
-                      "~/Content/site.css",
                       "~/Content/custom.css").Include("~/Content/font-awesome.css", new CssRewriteUrlTransform()));
         }
     }

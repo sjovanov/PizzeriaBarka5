@@ -285,6 +285,23 @@ namespace PicerijaBarka5.Services
         }
         #endregion
 
+        public void AddContactEntrie(ContactForm contactForm)
+        {
+            contactForm.ContactId = Guid.NewGuid();
+            db.ContactFormEntries.Add(contactForm);
+            db.SaveChanges();
+        }
+
+        public IEnumerable<ContactForm> GetContactFormEntires()
+        {
+            return db.ContactFormEntries.ToList();
+        }
+
+        public ContactForm GetContact(Guid id)
+        {
+            return db.ContactFormEntries.Find(id);
+        }
+
         public IEnumerable<ApplicationUser> GetUsers()
         {
             return db.Users.ToList();

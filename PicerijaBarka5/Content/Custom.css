@@ -9,7 +9,7 @@
 }
 
 .full-row {
-    width: 99.45vw;
+    width: 99.55vw;
     position: relative;
     margin-left: -50vw;
     left: 50%;
@@ -28,6 +28,10 @@
     color: darkorange;
 }
 
+.bg-orange{
+    background-color: darkorange;
+}
+
 hr.red {
     border-top: darkred 5px solid;
     width: 25%;
@@ -37,7 +41,7 @@ hr.red {
     border: 2px solid darkorange;
 }
 
-.nav-item.active>a {
+.nav-item.active a {
     color: darkorange;
 }
 
@@ -53,6 +57,20 @@ section{
     display: inline-block;
     border-radius: 50%;
     border: 1px solid black;
-    padding: 2.6em 2.7em;
+    padding: 1.6em 1.7em;
     margin-bottom: 7px;
+    font-size: 2em;
+}
+
+.bg-transparent-black {
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.mapouter {
+    text-align: right;
+}
+
+.gmap_canvas {
+    overflow: hidden;
+    background: none !important;
 }
