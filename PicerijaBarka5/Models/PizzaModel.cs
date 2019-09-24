@@ -23,6 +23,8 @@ namespace PicerijaBarka5.Models
         /// </summary>
         public double Price { get; set; }
 
+        public string SearchString { get; set; }
+
         /// <summary>
         /// List of ingredients in the pizza
         /// </summary>

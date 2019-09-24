@@ -16,23 +16,51 @@ namespace PicerijaBarka5.Controllers
     public class PizzasController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-
+        public string search = null;
         // GET: Pizzas
-        public ActionResult Index()
+        public ActionResult Index(string sortBy)
         {
+
+            ViewBag.SortingName = string.IsNullOrEmpty(sortBy) ? "Name desc" : "";
+            var pizzasSort = db.Pizzas.AsQueryable();
             ICollection<Pizza> pizzas = new List<Pizza>();
-            using (var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db)))
-            {
-                foreach (Pizza p in db.Pizzas.ToList())
+                using (var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db)))
                 {
-                    if(userManager.GetRoles(p.UserFk).Contains(IngredientTypeEnum.Roles.Owner.ToString()))
+                    foreach (Pizza p in db.Pizzas.ToList())
                     {
-                        pizzas.Add(p);
+                        if (userManager.GetRoles(p.UserFk).Contains(IngredientTypeEnum.Roles.Owner.ToString()))
+                        {
+                            pizzas.Add(p);
+                        }
                     }
                 }
+            if (!String.IsNullOrEmpty(sortBy))
+            {
+                System.Diagnostics.Debug.WriteLine(sortBy);
+                switch (sortBy)
+                {
+                    case "Name desc":
+                        pizzasSort = pizzasSort.OrderByDescending(s => s.Name);
+                        break;
+                    case "Name":
+                        pizzasSort = pizzasSort.OrderBy(s => s.Name);
+                        break;
+                    case "Price desc":
+                        pizzasSort = pizzasSort.OrderByDescending(s => s.Price);
+                        break;
+                    case "Price":
+                        pizzasSort = pizzasSort.OrderBy(s => s.Price);
+                        break;
+                    default:
+                        pizzasSort = pizzasSort.OrderBy(s => s.Name);
+                        break;
+                }
+                return View(pizzasSort.ToList());
             }
             return View(pizzas);
+            
         }
+       
 
         // GET: Pizzas/Details/5
         public ActionResult Details(Guid? id)
@@ -160,5 +188,6 @@ namespace PicerijaBarka5.Controllers
             }
             base.Dispose(disposing);
         }
+      
     }
 }

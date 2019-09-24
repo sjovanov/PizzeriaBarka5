@@ -22,3 +22,9 @@ select,
 textarea {
     max-width: 280px;
 }
+
+#up {
+    background-color: red;
+    width: 10px;
+    height: 10px;
+}

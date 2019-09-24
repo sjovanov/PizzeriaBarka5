@@ -10,20 +10,34 @@
     @Html.ActionLink("Create New", "Create")
 </p>
 
-<table class="table">
+@using (Html.BeginForm("Index", "Pizzas", FormMethod.Get))
+{
+    <p>
+        Find by name:  @Html.TextBox("SearchString", null, new { id = "searchPizza", @class = "form-control d-inline" })
+
+        <input type="submit" value="Search" class="btn btn-outline d-inline" />
+    </p>
+}
+
+
+<table id="pizzaTable" class="table">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Name)
+            <a href="@Url.Action("Index", "Pizzas", new { sortBy = ViewBag.SortingName })"><i class="fa fa-sort ml-4"></i></a>
+          
+
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Price)
+            <a href="@Url.Action("Index", "Pizzas", new { sortBy = ViewBag.SortingName })"><i class="fa fa-sort ml-4"></i></a>
         </th>
         <th></th>
     </tr>
 
     @foreach (var item in Model)
     {
-        <tr>
+        <tr class="Search">
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
@@ -39,3 +53,32 @@
     }
 
 </table>
+  
+
+
+
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            function Contains(text_one, text_two) {
+                if (text_one.indexOf(text_two) != -1)
+                    return true;
+            }
+         
+            $('#searchPizza').keyup(function () {
+                var searchText = $("#searchPizza").val().toLowerCase();
+                $(".Search").each(function () {
+                    if (!Contains($(this).text().toLowerCase(), searchText)) {
+                        $(this).hide();
+                    }
+                    else {
+                        $(this).show();
+                    }
+                });
+            });
+        });
+    </script>
+
+ 
+}
