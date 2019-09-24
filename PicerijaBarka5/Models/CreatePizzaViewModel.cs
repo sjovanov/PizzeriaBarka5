@@ -9,17 +9,23 @@ namespace PicerijaBarka5.Models
 {
     public class CreatePizzaViewModel
     {
+        public Guid? PizzaId { get; set; }
+
         [Required]
         public string Name { set; get; }
+
+        [Display(Name = "Income coeficient")]
         public double IncomeCoef { set; get; }
+
         [Required(ErrorMessage = "You have to select at least one ingredient")]
         public ICollection<string> selectedIngredients { set; get; }
-        public ICollection<IngredientDto> availableIngredients { set; get; }
+
+        public Dictionary<string, ICollection<IngredientDto>> TypeIngredientListPairs { set; get; }
 
         public CreatePizzaViewModel()
         {
             selectedIngredients = new List<string>();
-            availableIngredients = new List<IngredientDto>();
+            TypeIngredientListPairs = new Dictionary<string, ICollection<IngredientDto>>();
         }
     }
 }

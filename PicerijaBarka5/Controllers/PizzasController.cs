@@ -22,6 +22,7 @@ namespace PicerijaBarka5.Controllers
         // GET: Pizzas
         public ActionResult Index()
         {
+            ViewBag.Title = "Barka 5's Menu";
             return View(repository.GetPizzasFromUsersWithRole(UserRoles.Owner));
         }
 
@@ -45,9 +46,7 @@ namespace PicerijaBarka5.Controllers
         // GET: Pizzas/Create
         public ActionResult Create()
         {
-            CreatePizzaViewModel createPizzaViewModel = new CreatePizzaViewModel();
-            createPizzaViewModel.availableIngredients = repository.GetIngredients();
-            return View(createPizzaViewModel);
+            return View(setupCreateOrEditViewModel(null));
         }
 
         // POST: Pizzas/Create
@@ -62,8 +61,10 @@ namespace PicerijaBarka5.Controllers
                 repository.CreatePizzaForUser(pizzaResponse, User.Identity.GetUserId());
                 return RedirectToAction("Index");
             }
-
-            pizzaResponse.availableIngredients = repository.GetIngredients();
+            foreach (var TypeOfIngredient in Enum.GetValues(typeof(IngredientType)))
+            {
+                pizzaResponse.TypeIngredientListPairs.Add(TypeOfIngredient.ToString(), repository.GetIngredientsByType((IngredientType)TypeOfIngredient));
+            }
             return View(pizzaResponse);
         }
 
@@ -76,7 +77,7 @@ namespace PicerijaBarka5.Controllers
             }
             try
             {
-                return View(repository.GetPizza(id));
+                return View(setupCreateOrEditViewModel(id));
             }
             catch (Exception)
             {
@@ -89,14 +90,15 @@ namespace PicerijaBarka5.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "PizzaId,Name,Price,Ingredients,User")] PizzaDto pizza)
+        public ActionResult Edit([Bind(Include = "PizzaId,Name,IncomeCoef,selectedIngredients,TypeIngredientListPairs")] CreatePizzaViewModel pizza)
         {
             if (ModelState.IsValid)
             {
                 repository.UpdatePizza(pizza);
                 return RedirectToAction("Index");
             }
-            return View(pizza);
+
+            return View(setupCreateOrEditViewModel(pizza.PizzaId));
         }
 
         // GET: Pizzas/Delete/5
@@ -139,12 +141,48 @@ namespace PicerijaBarka5.Controllers
         // Get: Pizzas/MyPizzas
         public ActionResult MyPizzas()
         {
+            ViewBag.Title = "These are your custom pizzas";
             return View("Index", repository.GetPizzasFromUser(User.Identity.GetUserId()));
         }
 
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);
+        }
+
+        private CreatePizzaViewModel setupCreateOrEditViewModel(Guid? id)
+        {
+            CreatePizzaViewModel viewModel = new CreatePizzaViewModel();
+
+            if (id != null)
+            {
+                var a = id;
+
+                var pizzaToEdit = repository.GetPizza(id);
+
+                viewModel.PizzaId = id;
+
+                foreach (var TypeOfIngredient in Enum.GetValues(typeof(IngredientType)))
+                {
+                    viewModel.TypeIngredientListPairs.Add(TypeOfIngredient.ToString(), repository.GetIngredientsByType((IngredientType)TypeOfIngredient));
+                }
+
+                viewModel.selectedIngredients = repository.GetIngredientsForPizza(id)
+                                                        .Select(x => x.IngredientId.ToString())
+                                                        .ToList();
+
+                viewModel.Name = pizzaToEdit.Name;
+                viewModel.IncomeCoef = pizzaToEdit.incomeCoeficient;
+            }
+            else
+            {
+                foreach (var TypeOfIngredient in Enum.GetValues(typeof(IngredientType)))
+                {
+                    viewModel.TypeIngredientListPairs.Add(TypeOfIngredient.ToString(), repository.GetIngredientsByType((IngredientType)TypeOfIngredient));
+                }
+            }
+
+            return viewModel;
         }
     }
 }
