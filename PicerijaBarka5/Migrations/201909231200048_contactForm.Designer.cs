@@ -7,13 +7,13 @@ namespace PicerijaBarka5.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class CreateDatabase : IMigrationMetadata
+    public sealed partial class contactForm : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(CreateDatabase));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(contactForm));
         
         string IMigrationMetadata.Id
         {
-            get { return "201909220013024_CreateDatabase"; }
+            get { return "201909231200048_contactForm"; }
         }
         
         string IMigrationMetadata.Source
