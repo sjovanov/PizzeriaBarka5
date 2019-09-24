@@ -1,7 +1,7 @@
 ﻿body {
 }
 
-#landImage{
+#landImage {
     background: url("Images/pizza-wallpaper-full-hd-1080p-390199.jpg");
     background-size: cover;
     background-repeat: no-repeat;
@@ -16,11 +16,11 @@
     padding: 10px;
 }
 
-.text-large{
+.text-large {
     font-size: 4.5rem;
 }
 
-.h-60{
+.h-60 {
     height: 60%;
 }
 
@@ -28,7 +28,7 @@
     color: darkorange !important;
 }
 
-.bg-orange{
+.bg-orange {
     background-color: darkorange;
 }
 
@@ -37,7 +37,7 @@ hr.red {
     width: 25%;
 }
 
-.bordered{
+.bordered {
     border: 2px solid darkorange;
 }
 
@@ -46,11 +46,11 @@ hr.red {
     font-weight: bold;
 }
 
-nav.bg-dark{
+nav.bg-dark {
     color: rgba(0, 0, 0, 0.4)
 }
 
-section{
+section {
     margin-bottom: 30px;
 }
 
@@ -82,9 +82,9 @@ a.custom-card-link:hover {
     color: inherit;
 }
 
-a.custom-card-link:hover{
-    color: #f3ad58
-}
+    a.custom-card-link:hover {
+        color: #f3ad58
+    }
 
 input[type=checkbox].toggle + label, input[type=radio].toggle + label {
     background-color: lightgray;
@@ -100,7 +100,15 @@ label.toggle-label {
     cursor: pointer;
 }
 
-.navbar-brand :hover {
-    color: #f3ad58 !important;
-    background-color: darkorange!important;
+.navbar-brand:hover {
+    color: black !important;
+    background-color: darkorange !important;
 }
+
+.hoverable {
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.3)
+}
+
+    .hoverable:hover {
+        box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.8)
+    }
