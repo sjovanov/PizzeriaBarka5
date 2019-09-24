@@ -35,7 +35,7 @@ namespace PicerijaBarka5.Services
 
         #region PizzaRepository
 
-        public PizzaDto GetPizza (Guid id)
+        public PizzaDto GetPizza (Guid? id)
         {
             PizzaDto pizza = db.Pizzas.Find(id).toPizzaDto();
 
@@ -108,14 +108,14 @@ namespace PicerijaBarka5.Services
             }
         }
 
-        public void UpdatePizza (PizzaDto pizzaDto)
+        public void UpdatePizza (CreatePizzaViewModel viewModel)
         {
-            var dbPizza = db.Pizzas.Find(pizzaDto.PizzaId);
+            var dbPizza = db.Pizzas.Find(viewModel.PizzaId);
 
-            dbPizza.Name = pizzaDto.Name;
-            dbPizza.IncomeCoeficient = pizzaDto.incomeCoeficient;
+            dbPizza.Name = viewModel.Name;
+            dbPizza.IncomeCoeficient = viewModel.IncomeCoef;
             
-            var dbIngredients = db.Ingredients.Where(ingredient => pizzaDto.Ingredients.Any(x => x.IngredientId == ingredient.IngredientId)).ToList();
+            var dbIngredients = db.Ingredients.Where(ingredient => viewModel.selectedIngredients.Any(x => x == ingredient.IngredientId.ToString())).ToList();
             dbPizza.Ingredients = dbIngredients;
 
             db.SaveChanges();
@@ -153,7 +153,7 @@ namespace PicerijaBarka5.Services
             }
         }
 
-        public ICollection<IngredientDto> GetIngredientsForPizza (Guid pizzaId)
+        public ICollection<IngredientDto> GetIngredientsForPizza (Guid? pizzaId)
         {
             return db.Ingredients.Where(ingredient => ingredient.Pizzas.Any(pizza => pizza.PizzaId == pizzaId))
                                 .ToList()

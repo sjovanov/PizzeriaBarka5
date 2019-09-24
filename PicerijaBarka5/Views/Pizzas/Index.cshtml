@@ -6,18 +6,35 @@
         var end = 0;
     }
 
+    @{
+        if (Model.Count() == 0)
+        {
+            <div class="card text-white bg-dark mb-3 col-3" title="Add new">
+                <a href="@Url.Action("Create")" class="custom-card-link">
+                    <div class="card-body" style="width: inherit; height: inherit">
+                        <h5 class="card-title">Create new</h5>
+                        <hr class="red ml-0 mx-0" />
+                        <div class="text-center" style="min-height: 100px">
+                            <i class="fa fa-plus mt-4 fa-3x"></i>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        }
+    }
+
     @for (int j = 0; j < Model.Count();)
     {
-        <div class="row justify-content-between">
+        <div class="card-deck">
             @{ if (firstRow)
                 {
-                    <div class="card text-white bg-dark mb-3" style="min-width: 370px" title="Add new">
+                    <div class="card text-white bg-dark mb-3" title="Add new">
                         <a href="@Url.Action("Create")" class="custom-card-link">
-                            <div class="card-body" style="width: inherit; height: inherit">
+                            <div class="card-body" style="min-height:200px">
                                 <h5 class="card-title">Create new</h5>
                                 <hr class="red ml-0 mx-0" />
                                 <div class="text-center" style="min-height: 100px">
-                                    <i class="fa fa-plus mt-4 fa-2x"></i>
+                                    <i class="fa fa-plus mt-5 fa-3x"></i>
                                 </div>
                             </div>
                         </a>
@@ -36,13 +53,13 @@
                 {
                     var item = Model.ElementAt(j);
 
-                    <div class="card text-white bg-dark mb-3" style="max-width: 370px;" title="View details">
+                    <div class="card text-white bg-dark mb-3" title="View details">
                         <a href="@Url.Action("Details", new { id = item.PizzaId })" class="custom-card-link">
-                            <div class="card-body" style="min-height: 180px">
-                                <h5 class="card-title">@item.Name</h5>
+                            <div class="card-body" style="min-height: 250px">
+                                <h5 class="card-title pb-0">@item.Name</h5>
                                 <hr class="red ml-0 mx-0" />
                                 <p class="card-text">
-                                    Ingredients: @string.Join(", ", item.Ingredients.Select(x => x.Name).ToList())
+                                    @string.Join(", ", item.Ingredients.Select(x => x.Name).ToList())
                                 </p>
                             </div>
                         </a>
@@ -50,10 +67,8 @@
                             @Html.ActionLink("Edit", "Edit", new { id = item.PizzaId }, new { @class = "btn bg-orange text-white" })
                             @Html.ActionLink("Delete", "Delete", new { id = item.PizzaId }, new { @class = "btn bg-danger text-white" })
                             <button class="btn btn-success addToCart" pizza-id="@item.PizzaId">Add to cart</button>
-                            <div class="float-right mt-1">@item.Price den.</div>
+                            <span class="float-right mt-2">@Math.Round(item.Price) den.</span>
                         </div>
-
-
                     </div>
                 }
                 j++;
