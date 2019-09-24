@@ -46,12 +46,7 @@ namespace PicerijaBarka5.Controllers
         // GET: Pizzas/Create
         public ActionResult Create()
         {
-            CreatePizzaViewModel createPizzaViewModel = new CreatePizzaViewModel();
-            foreach (var TypeOfIngredient in Enum.GetValues(typeof(IngredientType)))
-            {
-                createPizzaViewModel.TypeIngredientListPairs.Add(TypeOfIngredient.ToString(), repository.GetIngredientsByType((IngredientType)TypeOfIngredient));
-            }
-            return View(createPizzaViewModel);
+            return View(setupCreateOrEditViewModel(null));
         }
 
         // POST: Pizzas/Create
@@ -82,7 +77,7 @@ namespace PicerijaBarka5.Controllers
             }
             try
             {
-                return View(repository.GetPizza(id));
+                return View(setupCreateOrEditViewModel(id));
             }
             catch (Exception)
             {
@@ -95,14 +90,15 @@ namespace PicerijaBarka5.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "PizzaId,Name,Price,Ingredients,User")] PizzaDto pizza)
+        public ActionResult Edit([Bind(Include = "PizzaId,Name,IncomeCoef,selectedIngredients,TypeIngredientListPairs")] CreatePizzaViewModel pizza)
         {
             if (ModelState.IsValid)
             {
                 repository.UpdatePizza(pizza);
                 return RedirectToAction("Index");
             }
-            return View(pizza);
+
+            return View(setupCreateOrEditViewModel(pizza.PizzaId));
         }
 
         // GET: Pizzas/Delete/5
@@ -152,6 +148,41 @@ namespace PicerijaBarka5.Controllers
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);
+        }
+
+        private CreatePizzaViewModel setupCreateOrEditViewModel(Guid? id)
+        {
+            CreatePizzaViewModel viewModel = new CreatePizzaViewModel();
+
+            if (id != null)
+            {
+                var a = id;
+
+                var pizzaToEdit = repository.GetPizza(id);
+
+                viewModel.PizzaId = id;
+
+                foreach (var TypeOfIngredient in Enum.GetValues(typeof(IngredientType)))
+                {
+                    viewModel.TypeIngredientListPairs.Add(TypeOfIngredient.ToString(), repository.GetIngredientsByType((IngredientType)TypeOfIngredient));
+                }
+
+                viewModel.selectedIngredients = repository.GetIngredientsForPizza(id)
+                                                        .Select(x => x.IngredientId.ToString())
+                                                        .ToList();
+
+                viewModel.Name = pizzaToEdit.Name;
+                viewModel.IncomeCoef = pizzaToEdit.incomeCoeficient;
+            }
+            else
+            {
+                foreach (var TypeOfIngredient in Enum.GetValues(typeof(IngredientType)))
+                {
+                    viewModel.TypeIngredientListPairs.Add(TypeOfIngredient.ToString(), repository.GetIngredientsByType((IngredientType)TypeOfIngredient));
+                }
+            }
+
+            return viewModel;
         }
     }
 }

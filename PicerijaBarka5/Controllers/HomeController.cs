@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using PicerijaBarka5.Models;
 using PicerijaBarka5.Services;
@@ -45,10 +46,11 @@ namespace PicerijaBarka5.Controllers
             {
                 repository.AddContactEntry(form);
                 Response.StatusCode = (int)HttpStatusCode.OK;
-                return View("Index", repository.GetMostSold());
+                ViewBag.Section = "true";
+                return Json (new { responseText = "OK"}); 
             }
             Response.StatusCode = (int)HttpStatusCode.BadRequest;
-            return View("Index", repository.GetMostSold());
+            return Json(new { responseText = "BAD" });
         }
     }
 }

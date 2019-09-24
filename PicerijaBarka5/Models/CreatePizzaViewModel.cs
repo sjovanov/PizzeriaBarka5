@@ -9,9 +9,12 @@ namespace PicerijaBarka5.Models
 {
     public class CreatePizzaViewModel
     {
+        public Guid? PizzaId { get; set; }
+
         [Required]
         public string Name { set; get; }
 
+        [Display(Name = "Income coeficient")]
         public double IncomeCoef { set; get; }
 
         [Required(ErrorMessage = "You have to select at least one ingredient")]
