@@ -21,7 +21,7 @@ namespace PicerijaBarka5.Controllers
         public ActionResult Index()
         {
             ICollection<Pizza> pizzas = new List<Pizza>();
-            using (var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext())))
+            using (var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db)))
             {
                 foreach (Pizza p in db.Pizzas.ToList())
                 {
@@ -74,6 +74,11 @@ namespace PicerijaBarka5.Controllers
                                 .withDough(db.Ingredients.Where(x => x.IngredientId.ToString() == pizzaResponse.Dough).FirstOrDefault())
                                 .build();
                 pizza.UserFk = User.Identity.GetUserId();
+                
+                using (var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db)))
+                {
+                    pizza.User = userManager.FindById(pizza.UserFk);
+                }
                 db.Pizzas.Add(pizza);
                 db.SaveChanges();
                 return RedirectToAction("Index");
