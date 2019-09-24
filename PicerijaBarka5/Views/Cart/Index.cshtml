@@ -1,0 +1,99 @@
+﻿@model PicerijaBarka5.Models.CartOrderDto
+@using PicerijaBarka5.Models
+@using PicerijaBarka5.Helpers
+@{
+    ViewBag.Title = "Cart";
+}
+
+<h2>Cart</h2>
+
+@{
+    if (ViewBag.Valid == "True")
+    {
+        <table class="table">
+            <tr>
+                <th>
+                    Name of the pizza
+                </th>
+                <th>
+                    Price
+                </th>
+                <th>
+                    Quantity in cart
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model.Items)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Pizza.Name)
+                    </td>
+                    <td>
+                        @item.Pizza.Price
+                    </td>
+                    <td>
+                        @item.Quantity
+                    </td>
+                    <td>
+                        <a class="btn btn-danger removeFromCart" href="@Url.Action("RemoveFromCart", "Cart" , routeValues: new { id=item.Pizza.PizzaId })">Remove from cart</a>
+                    </td>
+                </tr>
+            }
+
+        </table>
+
+        @Model.Items.Sum(x => x.Pizza.Price * x.Quantity)
+
+        <div class="form-group">
+            <label for="address">Address</label>
+            <input type="text" name="Address" class="form-control" id="address" />
+
+        </div>
+
+        <button class="btn btn-primary" id="makeOrderButton">Make order</button>
+
+
+    }
+    else
+    {
+        <h1>Your cart is empty!</h1>
+        <h3>Are you full or just haven't chosen a pizza yet?</h3>
+    }
+
+}
+
+
+@section scripts{
+    @{
+        var data = (CartOrderDto)Session["cart"];
+    }
+    <script>
+
+        response = {
+
+        }
+
+        $(document).ready(function () {
+            $("#makeOrderButton").on('click', function () {
+            let address = $("#address").val();
+
+                $.ajax({
+                    type: "POST",
+                    url: "Orders/Create?Address=" + address,
+                    data: @Html.Raw(Html.GetOrderRequestJson(data)),
+                    success: function (response) {
+                        a=confirm(JSON.parse(response.responseText).message)
+                    },
+                    error: function (response) {
+                        alert(JSON.parse(response.responseText).message)
+                    },
+                    dataType: "application/json"
+                })
+            })
+        })
+
+
+    </script>
+}

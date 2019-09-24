@@ -1,0 +1,60 @@
+﻿@model PicerijaBarka5.Models.Dtos.PizzaOrderDto
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>PizzaOrder</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.User.UserName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.User.UserName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Address)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Address)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderStatus)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OrderStatus)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Items)
+        </dt>
+
+        @foreach (var cartItem in Model.Items)
+        {
+            <p>@cartItem.Pizza.Name</p>
+            <p>@cartItem.Quantity</p>
+        }
+
+        <dd>
+            Price
+        </dd>
+
+        <dt>
+            @Model.Items.Sum(cartItem => cartItem.Pizza.Price * cartItem.Quantity)
+        </dt>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.OrderId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

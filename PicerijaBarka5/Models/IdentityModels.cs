@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
@@ -17,6 +18,10 @@ namespace PicerijaBarka5.Models
             // Add custom user claims here
             return userIdentity;
         }
+
+        public virtual ICollection<Pizza> Pizzas { get; set; }
+        
+        public virtual ICollection<PizzaOrder> PizzaOrders { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
@@ -24,6 +29,13 @@ namespace PicerijaBarka5.Models
         public DbSet<Ingredient> Ingredients { get; set; }
 
         public DbSet<Pizza> Pizzas { get; set; }
+
+        public DbSet<PizzaOrder> PizzaOrders { get; set; }
+
+        public DbSet<CartItem> OrderedPizzas { get; set; }
+
+        public DbSet<ContactForm> ContactFormEntries { get; set; }
+
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)

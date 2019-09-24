@@ -1,56 +1,58 @@
-﻿@model PicerijaBarka5.Models.Pizza
+﻿@model PicerijaBarka5.Models.Dtos.PizzaDto
 @using PicerijaBarka5.Models
 @{
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
-
-<div>
-    <h4>Pizza</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
-
-        <dd>
-            @Model.getPrice()
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Ingredients)
-        </dt>
-
-        <dd>
-            @{
-                foreach (var typeOfIngredient in Enum.GetValues(typeof(IngredientTypeEnum.IngredientType)))
-                {
-                    <strong>@typeOfIngredient.ToString(): </strong>
-                    foreach (var ingredient in Model.Ingredients)
-                    {
-                        if (ingredient.IngredientType.ToString() == typeOfIngredient.ToString())
-                        {
-                            <span>@ingredient.Name</span>
-                        }
-                    }
-                    <br />
-                }
-            }
-
-        </dd>
-
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.PizzaId }, htmlAttributes: new { @class = "btn btn-warning"}) 
-    @Html.ActionLink("Back to List", "Index", routeValues: null, htmlAttributes: new { @class = "btn btn-primary" })
-</p>
+<section id="details" style="margin-top: 80px">
+    <div class="card bg-dark">
+        <div class="card-header">
+            <span class="text-orange text-uppercase">Details</span>
+        </div>
+        <div class="card-body pr-5">
+            <div class="row">
+                <div class="col-5 align-middle my-auto h-100">
+                    <img class="img-fluid d-inline-block" src="~/Content/Images/pizza-wallpaper-full-hd-1080p-390199.jpg" />
+                </div>
+                <div class="col text-white">
+                    <h1 class="text-orange">@Model.Name <span class="float-right">@Model.Price den.</span></h1>
+                    <hr class="red ml-0" />
+                    <div class="row">
+                        <div class="col-5">
+                            <h4>Ingredients:</h4>
+                            <p>
+                                @{
+                                    foreach (var typeOfIngredient in Enum.GetValues(typeof(IngredientType)))
+                                    {
+                                        if (Model.Ingredients.Any(x => x.IngredientType.ToString() == typeOfIngredient.ToString()))
+                                        {
+                                            <strong>@typeOfIngredient.ToString(): </strong>
+                                            <span>
+                                                @string.Join(", ", Model.Ingredients
+                                                                        .Where(x => x.IngredientType.ToString() == typeOfIngredient.ToString())
+                                                                        .Select(x => x.Name).ToList())
+                                            </span>
+                                            <br />
+                                        }
+                                    }
+                                }
+                            </p>
+                        </div>
+                        <div class="col">
+                            <h4>Description:</h4>
+                            <p class="text-justify">
+                                Nunc vel erat id quam vehicula pellentesque. Donec ultricies orci ut felis porttitor,
+                                in auctor mi euismod. Nam eu volutpat arcu, eget tincidunt nulla. Etiam nec lorem feugiat,
+                                fermentum arcu sit amet, porttitor nisl.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            @Html.ActionLink("Edit", "Edit", new { id = Model.PizzaId }, htmlAttributes: new { @class = "btn btn-warning" })
+            @Html.ActionLink("Back to List", "Index", routeValues: null, htmlAttributes: new { @class = "btn btn-primary" })
+        </div>
+    </div>
+</section>

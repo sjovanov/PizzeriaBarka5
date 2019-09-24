@@ -4,11 +4,13 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace PicerijaBarka5.Models
+namespace PicerijaBarka5.Models.Dtos
 {
-    public class Ingredient
+    public class IngredientDto
     {
-        [Key]
+        /// <summary>
+        /// The Id of the ingredient
+        /// </summary>
         public Guid IngredientId { get; set; }
 
         /// <summary>
@@ -20,14 +22,12 @@ namespace PicerijaBarka5.Models
         /// <summary>
         /// The quantity of the ingredient used when making a small pizza in the menu in grams
         /// </summary>
-        [Required]
         [Display(Name = "Quantity per small pizza")]
         public int QuantityPerSmallPizza { get; set; }
-        
+
         ///<summary>
         /// The type of ingredient
         /// </summary>
-        [Required]
         public IngredientType IngredientType { get; set; }
 
         /// <summary>
@@ -36,29 +36,14 @@ namespace PicerijaBarka5.Models
         [Required]
         public double Price { get; set; }
 
-        ///<summary>
-        /// Navigational property to pizzas
-        ///</summary>
-        public virtual ICollection<Pizza> Pizzas { get; set; }
-
         /// <summary>
         /// Quantity of the ingredient in stock
         /// </summary>
         public double QuantityInStock { get; set; }
 
-        public Ingredient()
+        public IngredientDto()
         {
-            Pizzas = new List<Pizza>();
-        }
 
-        /// <summary>
-        /// Returns the price for the ingredient to make a single small pizza
-        /// </summary>
-        /// <returns></returns>
-        public double getPriceForIngredientInSmallPizza()
-        {
-            return QuantityPerSmallPizza * Price / 1000; 
         }
-
     }
 }
