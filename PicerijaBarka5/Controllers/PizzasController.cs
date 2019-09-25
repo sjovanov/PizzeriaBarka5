@@ -22,23 +22,17 @@ namespace PicerijaBarka5.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
         public string search = null;
         // GET: Pizzas
-        public ActionResult Index(string sortBy)
+        public ActionResult Index(string order)
         {
-
-            ViewBag.SortingName = string.IsNullOrEmpty(sortBy) ? "Name desc" : "";
-            var pizzasSort = db.Pizzas.AsQueryable();
-            ICollection<Pizza> pizzas = new List<Pizza>();
-                using (var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db)))
-                {
-                    foreach (Pizza p in db.Pizzas.ToList())
-                    {
-                        if (userManager.GetRoles(p.UserFk).Contains(IngredientTypeEnum.Roles.Owner.ToString()))
-                        {
-                            pizzas.Add(p);
-                        }
-                    }
-                }
-            if (!String.IsNullOrEmpty(sortBy))
+            /*ViewBag.SortingName = string.IsNullOrEmpty(sortBy) ? "Name desc" : "";
+            var pizzasSort = repository.GetPizzas().AsQueryable();*/
+            if (!string.IsNullOrEmpty(order))
+            {
+                return View(repository.getSortedPizzas());
+            }
+            ICollection<PizzaDto> pizzas = new List<PizzaDto>();
+            pizzas = repository.GetPizzasFromUsersWithRole(UserRoles.Owner);   
+           /* if (!String.IsNullOrEmpty(sortBy))
             {
                 System.Diagnostics.Debug.WriteLine(sortBy);
                 switch (sortBy)
@@ -60,7 +54,7 @@ namespace PicerijaBarka5.Controllers
                         break;
                 }
                 return View(pizzasSort.ToList());
-            }
+            }*/
             return View(pizzas);
             
         }
@@ -223,6 +217,23 @@ namespace PicerijaBarka5.Controllers
             }
 
             return viewModel;
+        }
+    
+        public ActionResult OrderBy(string sortOrder)
+        {
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "price_desc" : "";
+            switch (sortOrder)
+            {
+                case "price_desc":
+                    return View("Index", repository.getSortedPizzasDesc());
+
+                default:
+                    return View("Index", repository.getSortedPizzas());
+                 
+                
+                    
+            }
+            
         }
       
     }

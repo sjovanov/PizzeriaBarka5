@@ -70,6 +70,24 @@ namespace PicerijaBarka5.Services
             return pizzas;
         }
 
+        public ICollection<PizzaDto> getSortedPizzas()
+        {
+            var pizzas = db.Pizzas.ToList().OrderBy(x => x.getPrice())
+                                  .ToList()
+                                  .Select(x => x.toPizzaDto())
+                                  .ToList();
+            return pizzas;
+        }
+
+        public ICollection<PizzaDto> getSortedPizzasDesc()
+        {
+            var pizzas = db.Pizzas.ToList().OrderByDescending(x => x.getPrice())
+                                  .ToList()
+                                  .Select(x => x.toPizzaDto())
+                                  .ToList();
+            return pizzas;
+        }
+
         public ICollection<PizzaDto> GetPizzasFromUser (string userFk)
         {
             return db.Users.Find(userFk)
@@ -314,6 +332,7 @@ namespace PicerijaBarka5.Services
         {
             return db.Users.ToList();
         }
+
 
  
         public void Dispose(bool disposing)

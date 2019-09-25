@@ -1,13 +1,15 @@
 namespace PicerijaBarka5.Migrations
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Data.Entity.Migrations;
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
     using PicerijaBarka5.Models;
+    using System;
+    using System.Collections.Generic;
+    using System.Data.Entity;
+    using System.Data.Entity.Migrations;
+    using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<ApplicationDbContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<PicerijaBarka5.Models.ApplicationDbContext>
     {
         public Configuration()
         {
@@ -263,8 +265,9 @@ namespace PicerijaBarka5.Migrations
                 pizza9,
                 pizza10
             );
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
+            //  You can use the DbSet<T>.AddOrUpdate() helper extension method
             //  to avoid creating duplicate seed data.
         }
     }
 }
+

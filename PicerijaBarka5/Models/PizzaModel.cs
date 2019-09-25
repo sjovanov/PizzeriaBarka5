@@ -24,8 +24,6 @@ namespace PicerijaBarka5.Models
         /// </summary>
         public virtual ApplicationUser User { get; set; }
 
-        public string SearchString { get; set; }
-
         /// <summary>
         /// List of ingredients in the pizza
         /// </summary>

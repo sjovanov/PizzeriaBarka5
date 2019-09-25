@@ -37,7 +37,7 @@
                         @item.Quantity
                     </td>
                     <td>
-                        <a class="btn btn-danger removeFromCart" href="@Url.Action("RemoveFromCart", "Cart" , routeValues: new { id=item.Pizza.PizzaId })">Remove from cart</a>
+                        <a class="btn btn-danger removeFromCart" href="@Url.Action("RemoveFromCart", "Cart", routeValues: new { id = item.Pizza.PizzaId })">Remove from cart</a>
                     </td>
                 </tr>
             }
@@ -54,15 +54,13 @@
 
         <button class="btn btn-primary" id="makeOrderButton">Make order</button>
 
-
     }
     else
     {
         <h1>Your cart is empty!</h1>
         <h3>Are you full or just haven't chosen a pizza yet?</h3>
+        }
     }
-
-}
 
 
 @section scripts{

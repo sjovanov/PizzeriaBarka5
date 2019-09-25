@@ -200,9 +200,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\HtmlHelpers.cs" />
-    <Compile Include="Migrations\201909231319091_Models.cs" />
-    <Compile Include="Migrations\201909231319091_Models.Designer.cs">
-      <DependentUpon>201909231319091_Models.cs</DependentUpon>
+    <Compile Include="Migrations\201909242121331_Initial.cs" />
+    <Compile Include="Migrations\201909242121331_Initial.Designer.cs">
+      <DependentUpon>201909242121331_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -361,7 +361,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Migrations\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -375,8 +374,8 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201909231319091_Models.resx">
-      <DependentUpon>201909231319091_Models.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201909242121331_Initial.resx">
+      <DependentUpon>201909242121331_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
