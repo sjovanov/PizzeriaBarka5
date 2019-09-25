@@ -252,8 +252,9 @@ namespace PicerijaBarka5.Services
             {
                 OrderId = Guid.NewGuid(),
                 Address = address,
-                OrderStatus = OrderStatus.InProgress,
+                Status = OrderStatus.InProgress,
                 User = db.Users.Find(userFk),
+                TimeOfOrder = DateTime.Now
             };
             foreach (var item in cartItems)
             {
@@ -283,11 +284,11 @@ namespace PicerijaBarka5.Services
             }
         }
 
-        public void UpdateOrderStatus(Guid id, OrderStatus newStatus)
+        public void UpdateOrderStatus(Guid id, string newStatus)
         {
             PizzaOrder dbPizzaOrder = db.PizzaOrders.Find(id);
 
-            dbPizzaOrder.OrderStatus = newStatus;
+            dbPizzaOrder.Status = newStatus;
 
             db.SaveChanges();
         }

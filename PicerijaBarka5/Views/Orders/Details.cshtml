@@ -1,5 +1,5 @@
 ﻿@model PicerijaBarka5.Models.Dtos.PizzaOrderDto
-
+@using PicerijaBarka5.Models
 @{
     ViewBag.Title = "Details";
 }
@@ -27,11 +27,21 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.OrderStatus)
+            @Html.DisplayNameFor(model => model.Status)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.OrderStatus)
+            @{
+                Html.AntiForgeryToken();
+                var disabled = Model.Status == OrderStatus.Delivered ? "disabled" : "";
+                <select class="form-control" id="status" order-id="@Model.OrderId" @disabled>
+                    @foreach (var item in OrderStatus.GetOrderStatuses())
+                    {
+                        var selected = item == Model.Status ? "selected" : "";
+                        <option class="dropdown-item" @selected>@item</option>
+                    }
+                </select>
+            }
         </dd>
 
         <dt>
@@ -40,8 +50,8 @@
 
         @foreach (var cartItem in Model.Items)
         {
-            <p>@cartItem.Pizza.Name</p>
-            <p>@cartItem.Quantity</p>
+            <span class="d-inline-block">@cartItem.Pizza.Name</span>
+            <span class="d-inline-block">@cartItem.Quantity</span>
         }
 
         <dd>
@@ -58,3 +68,33 @@
     @Html.ActionLink("Edit", "Edit", new { id = Model.OrderId }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $("#status").change(function () {
+                var dropdown = $(this);
+                console.log(dropdown)
+                $.ajax({
+                    type: "POST",
+                    url: "http://localhost:62459/Orders/ChangeStatus",
+                    data: { id: dropdown.attr('order-id'), newStatus: dropdown.val() },
+                    success: function (response) {
+                        confirm(JSON.parse(response.responseText).message)
+                    },
+                    error: function (response) {
+                        alert(JSON.parse(response.responseText).message)
+                    },
+                    complete: function () {
+                        if (dropdown.val() == "Delivered") {
+                            dropdown.attr("disabled", "disabled")
+                        }
+                    },
+                    dataType: "application/json"
+                })
+            });
+        })
+
+    </script>
+
+}

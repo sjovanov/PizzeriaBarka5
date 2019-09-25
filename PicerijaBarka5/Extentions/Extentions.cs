@@ -66,7 +66,8 @@ namespace PicerijaBarka5.Extentions
                 Address = dbPizzaOrder.Address,
                 Items = dbPizzaOrder.Items.Select(item => item.toCartItemDto())
                                             .ToList(),
-                OrderStatus = dbPizzaOrder.OrderStatus
+                Status = dbPizzaOrder.Status,
+                TimeOfOrder = dbPizzaOrder.TimeOfOrder
             };
         }
 
