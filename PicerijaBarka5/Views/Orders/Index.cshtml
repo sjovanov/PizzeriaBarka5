@@ -53,7 +53,7 @@
                         <td class="col-2">
 
                             <span class="@Html.SetOrderStatusClass(order.Status)">
-                                <i class="fa fa-circle align-middle" style="font-size: 10px"></i>
+                                <i class="fa fa-circle align-middle" style="font-size: 7px"></i>
                                 @order.Status
                             </span>
                         </td>
@@ -62,9 +62,9 @@
                                 <a href="@Url.Action("Details", "Orders", new { id = order.OrderId })" class="text-decoration-none text-center" title="View details">
                                     <i class="fas fa-clipboard-list" id="info"></i>
                                 </a>
-                                <button class="text-decoration-none text-center deleteOrder" title="Delete order" order-id="@order.OrderId">
+                                <span class="text-decoration-none text-center deleteOrder" title="Delete order" order-id="@order.OrderId">
                                     <i class="fa fa-times" id="delete"></i>
-                                </button>
+                                </span>
                             </span>
                         </td>
                     </tr>

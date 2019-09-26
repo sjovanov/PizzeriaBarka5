@@ -28,8 +28,8 @@ namespace PicerijaBarka5.Services
             if (repository == null)
             {
                 repository = new Repository();
-                db = new ApplicationDbContext();
             }
+            db = new ApplicationDbContext();
             return repository;
         }
 
@@ -248,12 +248,13 @@ namespace PicerijaBarka5.Services
 
         public void CreateOrder(List<CartItemDto> cartItems, string userFk, string address)
         {
+            ApplicationUser user = db.Users.Find(userFk);
             PizzaOrder dbOrder = new PizzaOrder
             {
                 OrderId = Guid.NewGuid(),
                 Address = address,
                 Status = OrderStatus.InProgress,
-                User = db.Users.Find(userFk),
+                User = user,
                 TimeOfOrder = DateTime.Now
             };
             foreach (var item in cartItems)
@@ -265,13 +266,16 @@ namespace PicerijaBarka5.Services
                     Quantity = item.Quantity
                 });
             }
+            user.PizzaOrders.Add(dbOrder);
             db.PizzaOrders.Add(dbOrder);
             db.SaveChanges();
         }
 
         public void DeleteOrder(Guid id)
         {
-            PizzaOrder dbPizzaOrder = db.PizzaOrders.Find(id);
+            PizzaOrder dbPizzaOrder = db.PizzaOrders.Where(x => x.OrderId == id).FirstOrDefault();
+
+            db.OrderedPizzas.RemoveRange(db.OrderedPizzas.Where(x => dbPizzaOrder.OrderId == x.PizzaOrder.OrderId));
 
             if (dbPizzaOrder != null)
             {

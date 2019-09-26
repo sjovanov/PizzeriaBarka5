@@ -87,8 +87,9 @@ namespace PicerijaBarka5.Controllers
                 Response.StatusCode = (int)HttpStatusCode.OK;
                 return RedirectToAction("Index");
             }
-            catch
+            catch (Exception e)
             {
+                var a = e.Message;
                 return View();
             }
         }
@@ -99,6 +100,15 @@ namespace PicerijaBarka5.Controllers
             repository.UpdateOrderStatus(id, newStatus);
             Response.StatusCode = (int)HttpStatusCode.OK;
             return Json(new { message = $"Order status has been successfully changed to '{newStatus}'" });
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                repository.Dispose(disposing);
+            }
+            base.Dispose(disposing);
         }
     }
 }

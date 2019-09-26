@@ -11,7 +11,7 @@ using System.Web.Mvc;
 
 namespace PicerijaBarka5.Controllers
 {
-    public class CartController : Controller
+    public class CartController : Controller, IDisposable
     {
 
         private Repository repository = Repository.GetInstance();
@@ -71,6 +71,7 @@ namespace PicerijaBarka5.Controllers
         }
 
         // DELETE: Cart/Delete/id
+
         public ActionResult RemoveFromCart(Guid id)
         {
             CartOrderDto cart = (CartOrderDto)Session["cart"];
@@ -92,5 +93,18 @@ namespace PicerijaBarka5.Controllers
             return RedirectToAction("Index", "Cart");
         }
 
+        public ActionResult EnterAddress()
+        {
+            return View();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                repository.Dispose(disposing);
+            }
+            base.Dispose(disposing);
+        }
     }
 }

@@ -118,7 +118,12 @@ tr.row {
     margin-right: 0px;
 }
 
-a > i{
+a > i {
+    font-size: 1.4rem;
+    padding: 0px 6px 0px 6px;
+}
+
+span > i {
     font-size: 1.4rem;
     padding: 0px 6px 0px 6px;
 }

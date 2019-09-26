@@ -52,5 +52,13 @@ namespace PicerijaBarka5.Controllers
             Response.StatusCode = (int)HttpStatusCode.BadRequest;
             return Json(new { responseText = "BAD" });
         }
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                repository.Dispose(disposing);
+            }
+            base.Dispose(disposing);
+        }
     }
 }

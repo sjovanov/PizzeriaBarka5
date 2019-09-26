@@ -121,6 +121,10 @@ namespace PicerijaBarka5.Controllers
 
         protected override void Dispose(bool disposing)
         {
+            if (disposing)
+            {
+                repository.Dispose(disposing);
+            }
             base.Dispose(disposing);
         }
     }
