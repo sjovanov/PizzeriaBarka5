@@ -1,60 +1,106 @@
 ﻿@model PicerijaBarka5.Models.Dtos.PizzaOrderDto
+@using PicerijaBarka5.Models
+@using PicerijaBarka5.Helpers
 
 @{
     ViewBag.Title = "Details";
 }
+<section id="details" style="margin-top: 80px">
+    <div class="card bg-dark">
+        <div class="card-header">
+            <span class="text-orange text-uppercase">Order details</span>
+        </div>
+        <div class="card-body pr-5">
+            <div class="row">
+                <div class="col text-white">
 
-<h2>Details</h2>
+                    <div class="row">
 
-<div>
-    <h4>PizzaOrder</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.User.UserName)
-        </dt>
+                        <div class="col-6">
+                            <h3>Details for user:</h3>
+                            <hr class="red ml-0" />
+                            <ul>
+                                <li><span class="font-weight-bold">Email:</span> @Model.User.Email</li>
+                                <li><span class="font-weight-bold">Delivery address:</span> @Model.Address</li>
+                                <li><span class="font-weight-bold">Time of order:</span> @Model.TimeOfOrder</li>
+                            </ul>
+                        </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.User.UserName)
-        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Address)
-        </dt>
+                        <div class="col-6">
+                            <h3>Details for order:</h3>
+                            <hr class="red ml-0" />
+                            <ul>
+                                <li>
+                                    <span class="font-weight-bold">
+                                        Status:
+                                    </span>
+                                    <div class="d-inline-block">
+                                        @{
+                                            var isDisabled = Model.Status == OrderStatus.Delivered ? "disabled" : "";
+                                            <select class="form-control " id="status" order-id="@Model.OrderId" @isDisabled>
+                                                @foreach (var item in OrderStatus.GetOrderStatuses())
+                                                {
+                                                    var selected = item == Model.Status ? "selected" : "";
+                                                    <option class="dropdown-item" @selected>@item</option>
+                                                }
+                                            </select>
+                                        }
+                                    </div>
+                                </li>
+                                <li>
+                                    <span class="font-weight-bold">Ordered items: </span>
+                                    @{
+                                        <ul>
+                                            @foreach (var item in Model.Items)
+                                            {
+                                                <li>@item.Pizza.Name: @item.Quantity</li>
+                                            }
+                                        </ul>
+                                    }
+                                </li>
+                            </ul>
 
-        <dd>
-            @Html.DisplayFor(model => model.Address)
-        </dd>
+                        </div>
+                        <p class="pl-3">
+                            <h3>Total: @Model.Items.Select(x => x.Pizza.Price * x.Quantity).Sum()</h3>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            @Html.ActionLink("Back to List", "Index", routeValues: null, htmlAttributes: new { @class = "btn btn-primary" })
+        </div>
+    </div>
+</section>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.OrderStatus)
-        </dt>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $("#status").change(function () {
+                var dropdown = $(this);
+                console.log(dropdown)
+                $.ajax({
+                    type: "POST",
+                    url: "http://localhost:62459/Orders/ChangeStatus",
+                    data: { id: dropdown.attr('order-id'), newStatus: dropdown.val() },
+                    success: function (response) {
+                        confirm(JSON.parse(response.responseText).message)
+                    },
+                    error: function (response) {
+                        alert(JSON.parse(response.responseText).message)
+                    },
+                    complete: function () {
+                        if (dropdown.val() == "Delivered") {
+                            dropdown.attr("disabled", "disabled")
+                        }
+                    },
+                    dataType: "application/json"
+                })
+            });
+        })
 
-        <dd>
-            @Html.DisplayFor(model => model.OrderStatus)
-        </dd>
+    </script>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Items)
-        </dt>
-
-        @foreach (var cartItem in Model.Items)
-        {
-            <p>@cartItem.Pizza.Name</p>
-            <p>@cartItem.Quantity</p>
-        }
-
-        <dd>
-            Price
-        </dd>
-
-        <dt>
-            @Model.Items.Sum(cartItem => cartItem.Pizza.Price * cartItem.Quantity)
-        </dt>
-
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.OrderId }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+}

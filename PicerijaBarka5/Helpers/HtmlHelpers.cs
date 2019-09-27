@@ -37,5 +37,29 @@ namespace PicerijaBarka5.Helpers
         {
             return ingredients.Any(x => x.IngredientId == id) ? "checked" : "";
         }
+
+        public static string SetOrderStatusClass(this HtmlHelper helper, string status)
+        {
+            if (status == OrderStatus.Accepted)
+            {
+                return "text-primary";
+            }
+            else if (status == OrderStatus.InProgress)
+            {
+                return "text-warning";
+            }
+            else if (status == OrderStatus.InDelivery)
+            {
+                return "text-info";
+            }
+            else if (status == OrderStatus.Declined)
+            {
+                return "text-danger";
+            }
+            else
+            {
+                return "text-success";
+            }
+        }
     }
 }

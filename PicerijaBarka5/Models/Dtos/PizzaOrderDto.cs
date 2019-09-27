@@ -13,7 +13,9 @@ namespace PicerijaBarka5.Models.Dtos
 
         public string Address { get; set; }
 
-        public OrderStatus OrderStatus { get; set; }
+        public string Status { get; set; }
+
+        public DateTime TimeOfOrder { get; set; }
 
         public List<CartItemDto> Items { get; set; }
 

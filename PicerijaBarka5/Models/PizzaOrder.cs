@@ -18,13 +18,16 @@ namespace PicerijaBarka5.Models
         public string Address { get; set; }
 
         [Required]
-        public OrderStatus OrderStatus { get; set; }
+        public string Status { get; set; }
+
+        [Required]
+        public DateTime TimeOfOrder { get; set; }
 
         public virtual ICollection<CartItem> Items { get; set; }
 
         public PizzaOrder()
         {
-            OrderStatus = OrderStatus.InProgress;
+            Status = OrderStatus.InProgress;
             Items = new List<CartItem>();
         }
     }

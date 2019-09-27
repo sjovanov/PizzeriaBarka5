@@ -4,66 +4,97 @@
 @{
     ViewBag.Title = "Cart";
 }
+<section style="margin-top: 80px" id="cartSection">
 
-<h2>Cart</h2>
+    @{
+        if (ViewBag.Valid == "True")
+        {
+            <h1 class="w-50 mx-0 col-10">Items in cart</h1>
+            <table class="table table-hover table-striped mt-3" id="cartTable">
+                <thead class="bg-dark text-white p-0 m-0">
+                    <tr>
+                        <th>
+                            #
+                        </th>
+                        <th>
+                            Cart item
+                        </th>
+                        <th>
+                            Quantity in cart
+                        </th>
+                        <th>
+                            Price per item
+                        </th>
+                        <th>
+                            Total per item
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        int j = 1;
+                        foreach (var item in Model.Items)
+                        {
+                            <tr>
+                                <td>
+                                    <span>@j</span>
+                                </td>
+                                <td>
+                                    <span>@Html.DisplayFor(modelItem => item.Pizza.Name)</span>
+                                </td>
+                                <td>
+                                    <span>@item.Quantity</span>
+                                </td>
+                                <td>
+                                    <span>@item.Pizza.Price</span>
+                                </td>
+                                <td>
+                                    <span>
+                                        @(item.Pizza.Price * item.Quantity)
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="removeFromCart deleteOrder" cart-id="@item.Pizza.PizzaId" style="min-width: 1.5rem;">
+                                        <i class="fa fa-times deleteButton deleteButton"></i>
+                                    </span>
+                                </td>
+                            </tr>
+                            j++;
+                        }
+                    }
+                </tbody>
+                <tfoot class="bg-dark text-white p-0 m-0 font-weight-bold">
+                    <tr>
+                        <td colspan="4">Total:</td>
+                        <td>@Model.Items.Select(x => x.Pizza.Price * x.Quantity).Sum()</td>
+                        <td></td>
+                    </tr>
+                </tfoot>
+            </table>
+            <hr class="mt-5" />
+            <div class="row pr-3">
 
-@{
-    if (ViewBag.Valid == "True")
-    {
-        <table class="table">
-            <tr>
-                <th>
-                    Name of the pizza
-                </th>
-                <th>
-                    Price
-                </th>
-                <th>
-                    Quantity in cart
-                </th>
-                <th></th>
-            </tr>
-
-            @foreach (var item in Model.Items)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Pizza.Name)
-                    </td>
-                    <td>
-                        @item.Pizza.Price
-                    </td>
-                    <td>
-                        @item.Quantity
-                    </td>
-                    <td>
-                        <a class="btn btn-danger removeFromCart" href="@Url.Action("RemoveFromCart", "Cart" , routeValues: new { id=item.Pizza.PizzaId })">Remove from cart</a>
-                    </td>
-                </tr>
-            }
-
-        </table>
-
-        @Model.Items.Sum(x => x.Pizza.Price * x.Quantity)
-
-        <div class="form-group">
-            <label for="address">Address</label>
-            <input type="text" name="Address" class="form-control" id="address" />
-
-        </div>
-
-        <button class="btn btn-primary" id="makeOrderButton">Make order</button>
-
+                <div class="form-group col-8">
+                    <label for="Address" class="font-weight-bold">Please enter delivery address</label>
+                    <div class="row px-3">
+                        <input name="Addresss" id="address" class="form-control mr-0 w-75 " />
+                        <button id="makeOrderButton" class="btn bg-orange text-white font-weight-bold align-bottom ml-auto align-bottom" style="width: 8rem">
+                            Order &#187;
+                        </button>
+                    </div>
+                    <div id="valid" class="text-danger d-none">Please enter a delivery address</div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <h1>Your cart is empty!</h1>
+            <h3>Are you full or just haven't chosen a pizza yet?</h3>
+        }
 
     }
-    else
-    {
-        <h1>Your cart is empty!</h1>
-        <h3>Are you full or just haven't chosen a pizza yet?</h3>
-    }
-
-}
-
+</section>
 
 @section scripts{
     @{
@@ -71,14 +102,12 @@
     }
     <script>
 
-        response = {
-
-        }
-
-        $(document).ready(function () {
             $("#makeOrderButton").on('click', function () {
-            let address = $("#address").val();
-
+                let address = $("#address").val();
+                if (!address) {
+                    $('#valid').removeClass('d-none')
+                    return
+                }
                 $.ajax({
                     type: "POST",
                     url: "Orders/Create?Address=" + address,
@@ -89,10 +118,30 @@
                     error: function (response) {
                         alert(JSON.parse(response.responseText).message)
                     },
+                    complete: function () {
+                        window.location.reload();
+                    },
                     dataType: "application/json"
                 })
             })
-        })
+
+            var table = $("#cartTable");
+            $(".removeFromCart").click(function () {
+                var button = $(this);
+                $.ajax({
+                    method: "POST",
+                    url: "/Cart/RemoveFromCart",
+                    data: {id: button.attr("cart-id")},
+                    success: function () {
+                    },
+                    complete: function () {
+                        window.location.reload();
+                    },
+                    type: "application/json"
+                });
+            });
+
+
 
 
     </script>

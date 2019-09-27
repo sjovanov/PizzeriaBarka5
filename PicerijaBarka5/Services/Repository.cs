@@ -28,8 +28,8 @@ namespace PicerijaBarka5.Services
             if (repository == null)
             {
                 repository = new Repository();
-                db = new ApplicationDbContext();
             }
+            db = new ApplicationDbContext();
             return repository;
         }
 
@@ -115,8 +115,10 @@ namespace PicerijaBarka5.Services
             dbPizza.Name = viewModel.Name;
             dbPizza.IncomeCoeficient = viewModel.IncomeCoef;
             
-            var dbIngredients = db.Ingredients.Where(ingredient => viewModel.selectedIngredients.Any(x => x == ingredient.IngredientId.ToString())).ToList();
-            dbPizza.Ingredients = dbIngredients;
+            db.Entry(dbPizza).Collection(p => p.Ingredients).Load();
+
+            var newIngredients = db.Ingredients.Where(ing => viewModel.selectedIngredients.Contains(ing.IngredientId.ToString())).ToList();
+            dbPizza.Ingredients = newIngredients;
 
             db.SaveChanges();
         }
@@ -248,12 +250,14 @@ namespace PicerijaBarka5.Services
 
         public void CreateOrder(List<CartItemDto> cartItems, string userFk, string address)
         {
+            ApplicationUser user = db.Users.Find(userFk);
             PizzaOrder dbOrder = new PizzaOrder
             {
                 OrderId = Guid.NewGuid(),
                 Address = address,
-                OrderStatus = OrderStatus.InProgress,
-                User = db.Users.Find(userFk),
+                Status = OrderStatus.InProgress,
+                User = user,
+                TimeOfOrder = DateTime.Now
             };
             foreach (var item in cartItems)
             {
@@ -264,13 +268,16 @@ namespace PicerijaBarka5.Services
                     Quantity = item.Quantity
                 });
             }
+            user.PizzaOrders.Add(dbOrder);
             db.PizzaOrders.Add(dbOrder);
             db.SaveChanges();
         }
 
         public void DeleteOrder(Guid id)
         {
-            PizzaOrder dbPizzaOrder = db.PizzaOrders.Find(id);
+            PizzaOrder dbPizzaOrder = db.PizzaOrders.Where(x => x.OrderId == id).FirstOrDefault();
+
+            db.Entry(dbPizzaOrder).Collection(x => x.Items).Load();
 
             if (dbPizzaOrder != null)
             {
@@ -283,11 +290,11 @@ namespace PicerijaBarka5.Services
             }
         }
 
-        public void UpdateOrderStatus(Guid id, OrderStatus newStatus)
+        public void UpdateOrderStatus(Guid id, string newStatus)
         {
             PizzaOrder dbPizzaOrder = db.PizzaOrders.Find(id);
 
-            dbPizzaOrder.OrderStatus = newStatus;
+            dbPizzaOrder.Status = newStatus;
 
             db.SaveChanges();
         }

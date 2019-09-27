@@ -79,18 +79,37 @@ namespace PicerijaBarka5.Controllers
 
         // POST: Orders/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(Guid id)
         {
             try
             {
-                // TODO: Add delete logic here
-
+                repository.DeleteOrder(id);
+                Response.StatusCode = (int)HttpStatusCode.OK;
                 return RedirectToAction("Index");
             }
-            catch
+            catch (Exception e)
             {
+                var a = e.Message;
                 return View();
             }
         }
+
+        [HttpPost]
+        public ActionResult ChangeStatus(Guid id, string newStatus)
+        {
+            repository.UpdateOrderStatus(id, newStatus);
+            Response.StatusCode = (int)HttpStatusCode.OK;
+            return Json(new { message = $"Order status has been successfully changed to '{newStatus}'" });
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                repository.Dispose(disposing);
+            }
+            base.Dispose(disposing);
+        }
     }
 }
+

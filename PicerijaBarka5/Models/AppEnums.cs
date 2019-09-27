@@ -31,12 +31,25 @@ namespace PicerijaBarka5.Models
         }
     }
 
-    public enum OrderStatus
+    public static class OrderStatus
     {
-        InProgress,
-        Accepted,
-        InDelivery,
-        Delivered
+        public static readonly string InProgress = "In Progress";
+        public static readonly string Accepted = "Accepted";
+        public static readonly string InDelivery = "Is being delivered";
+        public static readonly string Delivered = "Delivered";
+        public static readonly string Declined = "Order declined";
+
+        public static string[] GetOrderStatuses()
+        {
+            return new string[]
+            {
+                InProgress,
+                Accepted,
+                InDelivery,
+                Delivered,
+                Declined
+            };
+        }
     }
 
 }

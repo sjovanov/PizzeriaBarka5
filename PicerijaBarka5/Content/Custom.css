@@ -112,3 +112,50 @@ label.toggle-label {
     .hoverable:hover {
         box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.8)
     }
+
+tr.row {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+a > i {
+    font-size: 1.4rem;
+    padding: 0px 6px 0px 6px;
+}
+
+span > i {
+    font-size: 1.4rem;
+    padding: 0px 6px 0px 6px;
+}
+
+.table > tbody > tr > td > span {
+    vertical-align: middle;
+}
+
+#status {
+    padding-top: 3px;
+}
+
+#info {
+    color: darkgray;
+}
+
+    #info:hover {
+        color: blue;
+    }
+
+#delete {
+    color: darkgrey;
+}
+
+    #delete:hover {
+        color: red;
+    }
+
+span > i.deleteButton {
+    color: darkgrey;
+}
+
+   span > i.deleteButton:hover {
+        color: red;
+    }

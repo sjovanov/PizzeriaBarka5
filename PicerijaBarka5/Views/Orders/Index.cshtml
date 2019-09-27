@@ -1,57 +1,103 @@
 ﻿@model IEnumerable<PicerijaBarka5.Models.Dtos.PizzaOrderDto>
+@using PicerijaBarka5.Helpers
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Order</h2>
+<section style="margin-top: 80px">
+    <h1>Orders</h1>
 
-<table class="table">
-    <tr>
-        <th>
-            Client
-        </th>
-        <th>
-            Address
-        </th>
-        <th>
-            Price
-        </th>
-        <th>
-            Products
-        </th>
-        <th></th>
-    </tr>
+    <table class="table table-hover table-striped mt-3" id="ordersTable">
+        <thead class="bg-dark text-white p-0 m-0">
+            <tr class="row">
+                <th class="col-1">
+                    #
+                </th>
+                <th class="col-3">
+                    Address
+                </th>
 
-    @foreach (var order in Model)
-    {
-        <tr>
-            <td>
-                @order.User.UserName
-            </td>
-            <td>
-                @order.Address
-            </td>
-            <td>
-                @order.Items.Sum(x => x.Pizza.Price * x.Quantity)
-            </td>
-            <td>
-                @{
-                    foreach (var cartItem in order.Items)
-                    {
-                        <span>@cartItem.Pizza.Name</span> <br />
-                        <span>@cartItem.Quantity</span>
+                <th class="col-3">
+                    Date and time of order
+                </th>
+                <th class="col-2">
+                    Price
+                </th>
+                <th class="col-2">
+                    Status of order
+                </th>
+                <th class="col-1">
 
-                    }
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                var j = 1;
+                foreach (var order in Model)
+                {
+                    <tr class="row">
+                        <td class="col-1">
+                            @j
+                        </td>
+                        <td class="col-3">
+                            <span> @order.Address </span>
+                        </td>
+
+                        <td class="col-3">
+                            <span>@order.TimeOfOrder</span>
+                        </td>
+                        <td class="col-2">
+                            <span>@order.Items.Select(x => x.Pizza.Price * x.Quantity).Sum()</span>
+                        </td>
+                        <td class="col-2">
+
+                            <span class="@Html.SetOrderStatusClass(order.Status)">
+                                <i class="fa fa-circle align-middle" style="font-size: 7px"></i>
+                                @order.Status
+                            </span>
+                        </td>
+                        <td class="col-1 text-center align-content-around">
+                            <span>
+                                <a href="@Url.Action("Details", "Orders", new { id = order.OrderId })" class="text-decoration-none text-center" title="View details">
+                                    <i class="fas fa-clipboard-list" id="info"></i>
+                                </a>
+                                <span class="text-decoration-none text-center deleteOrder" title="Delete order" order-id="@order.OrderId">
+                                    <i class="fa fa-times" id="delete"></i>
+                                </span>
+                            </span>
+                        </td>
+                    </tr>
+                    j++;
                 }
-            </td>
-            <td>
-                <a href="@Url.Action("Details", "Orders", new { id = order.OrderId })">View order details</a>
-            </td>
-        </tr>
-    }
+            }
+        </tbody>
+        <tfoot>
 
-</table>
+        </tfoot>
+    </table>
 
+</section>
+@section scripts{
 
+    <script>
+        $(document).ready(function () {
+            var table = $("#ordersTable");
+            $(".deleteOrder").click(function () {
+                var button = $(this);
+                console.log(button);
 
+                $.ajax({
+                    method: "POST",
+                    url: "/Orders/Delete",
+                    data: {id: button.attr("order-id")},
+                    success: function () {
+                        button.parents("tr").remove().draw();
+                    },
+                    type: "application/json"
+                });
+            });
 
+        });
+    </script>
+}

@@ -3,7 +3,7 @@ namespace PicerijaBarka5.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Models : DbMigration
+    public partial class CreateDatabase : DbMigration
     {
         public override void Up()
         {
@@ -66,7 +66,8 @@ namespace PicerijaBarka5.Migrations
                     {
                         OrderId = c.Guid(nullable: false),
                         Address = c.String(nullable: false),
-                        OrderStatus = c.Int(nullable: false),
+                        Status = c.String(nullable: false),
+                        TimeOfOrder = c.DateTime(nullable: false),
                         User_Id = c.String(maxLength: 128),
                         Pizza_PizzaId = c.Guid(),
                     })
