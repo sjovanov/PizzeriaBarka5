@@ -115,8 +115,10 @@ namespace PicerijaBarka5.Services
             dbPizza.Name = viewModel.Name;
             dbPizza.IncomeCoeficient = viewModel.IncomeCoef;
             
-            var dbIngredients = db.Ingredients.Where(ingredient => viewModel.selectedIngredients.Any(x => x == ingredient.IngredientId.ToString())).ToList();
-            dbPizza.Ingredients = dbIngredients;
+            db.Entry(dbPizza).Collection(p => p.Ingredients).Load();
+
+            var newIngredients = db.Ingredients.Where(ing => viewModel.selectedIngredients.Contains(ing.IngredientId.ToString())).ToList();
+            dbPizza.Ingredients = newIngredients;
 
             db.SaveChanges();
         }
@@ -275,7 +277,7 @@ namespace PicerijaBarka5.Services
         {
             PizzaOrder dbPizzaOrder = db.PizzaOrders.Where(x => x.OrderId == id).FirstOrDefault();
 
-            db.OrderedPizzas.RemoveRange(db.OrderedPizzas.Where(x => dbPizzaOrder.OrderId == x.PizzaOrder.OrderId));
+            db.Entry(dbPizzaOrder).Collection(x => x.Items).Load();
 
             if (dbPizzaOrder != null)
             {

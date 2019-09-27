@@ -151,3 +151,11 @@ span > i {
     #delete:hover {
         color: red;
     }
+
+span > i.deleteButton {
+    color: darkgrey;
+}
+
+   span > i.deleteButton:hover {
+        color: red;
+    }
