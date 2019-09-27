@@ -105,6 +105,7 @@ namespace PicerijaBarka5.Services
                 IncomeCoeficient = pizza.IncomeCoef,
                 Ingredients = db.Ingredients.Where(x => pizza.selectedIngredients.Contains(x.IngredientId.ToString())).ToList(),
                 Orders = new List<PizzaOrder>(),
+                ImgUrl = pizza.ImgUrl,
                 User = db.Users.Find(userFk)
             };
             db.Pizzas.Add(dbPizza);

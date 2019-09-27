@@ -200,9 +200,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\HtmlHelpers.cs" />
-    <Compile Include="Migrations\201909242121331_Initial.cs" />
-    <Compile Include="Migrations\201909242121331_Initial.Designer.cs">
-      <DependentUpon>201909242121331_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\201909261817012_Initial.cs" />
+    <Compile Include="Migrations\201909261817012_Initial.Designer.cs">
+      <DependentUpon>201909261817012_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -234,11 +234,21 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\custom.css" />
+    <Content Include="Content\Images\Capricciosa.png" />
+    <Content Include="Content\Images\Extra Meaty.png" />
+    <Content Include="Content\Images\Half and half.png" />
+    <Content Include="Content\Images\Margarita.png" />
+    <Content Include="Content\Images\Neapolitan.png" />
+    <Content Include="Content\Images\New York Pizza.png" />
+    <Content Include="Content\Images\Pepperoni pizza.png" />
     <Content Include="Content\Images\pizza-making-event.jpg" />
     <Content Include="Content\Images\pizza-wallpaper-full-hd-1080p-390199.jpg" />
     <Content Include="Content\fontawesome\font-awesome.css" />
     <Content Include="Content\fontawesome\font-awesome.min.css" />
     <Content Include="Content\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\Images\Quattro formaggi.png" />
+    <Content Include="Content\Images\Sicilian.png" />
+    <Content Include="Content\Images\Vegan.png" />
     <Content Include="Content\PagedList.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -374,8 +384,8 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201909242121331_Initial.resx">
-      <DependentUpon>201909242121331_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201909261817012_Initial.resx">
+      <DependentUpon>201909261817012_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

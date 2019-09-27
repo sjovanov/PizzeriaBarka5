@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -22,39 +23,11 @@ namespace PicerijaBarka5.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
         public string search = null;
         // GET: Pizzas
-        public ActionResult Index(string order)
+        public ActionResult Index()
         {
-            /*ViewBag.SortingName = string.IsNullOrEmpty(sortBy) ? "Name desc" : "";
-            var pizzasSort = repository.GetPizzas().AsQueryable();*/
-            if (!string.IsNullOrEmpty(order))
-            {
-                return View(repository.getSortedPizzas());
-            }
             ICollection<PizzaDto> pizzas = new List<PizzaDto>();
             pizzas = repository.GetPizzasFromUsersWithRole(UserRoles.Owner);   
-           /* if (!String.IsNullOrEmpty(sortBy))
-            {
-                System.Diagnostics.Debug.WriteLine(sortBy);
-                switch (sortBy)
-                {
-                    case "Name desc":
-                        pizzasSort = pizzasSort.OrderByDescending(s => s.Name);
-                        break;
-                    case "Name":
-                        pizzasSort = pizzasSort.OrderBy(s => s.Name);
-                        break;
-                    case "Price desc":
-                        pizzasSort = pizzasSort.OrderByDescending(s => s.Price);
-                        break;
-                    case "Price":
-                        pizzasSort = pizzasSort.OrderBy(s => s.Price);
-                        break;
-                    default:
-                        pizzasSort = pizzasSort.OrderBy(s => s.Name);
-                        break;
-                }
-                return View(pizzasSort.ToList());
-            }*/
+          
             return View(pizzas);
             
         }
@@ -88,19 +61,49 @@ namespace PicerijaBarka5.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Name, IncomeCoef, selectedIngredients, Dough, availableIngredients, UserEmail")] CreatePizzaViewModel pizzaResponse)
+        public ActionResult Create([Bind(Include = "Name, IncomeCoef, selectedIngredients, Dough, availableIngredients, ImgUrl, UserEmail")] CreatePizzaViewModel pizzaResponse, HttpPostedFileBase file)
         {
+           
+            if (file != null)
+            {
+                System.Diagnostics.Debug.WriteLine("file");
+                string pic = System.IO.Path.GetFileName(file.FileName);
+                string path = System.IO.Path.Combine(
+                                       Server.MapPath("~/Content/Images"), pic);
+                // file is uploaded
+                file.SaveAs(path);
+                System.Diagnostics.Debug.WriteLine(path);
+
+                // save the image path path to the database or you can send image 
+                // directly to database
+                // in-case if you want to store byte[] ie. for DB
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    file.InputStream.CopyTo(ms);
+                    byte[] array = ms.GetBuffer();
+                }
+                
+                pizzaResponse.ImgUrl = "/Content/Images/" + pic;
+            }
             if (ModelState.IsValid)
             {
                 repository.CreatePizzaForUser(pizzaResponse, User.Identity.GetUserId());
                 return RedirectToAction("Index");
             }
+        
+            
             foreach (var TypeOfIngredient in Enum.GetValues(typeof(IngredientType)))
             {
                 pizzaResponse.TypeIngredientListPairs.Add(TypeOfIngredient.ToString(), repository.GetIngredientsByType((IngredientType)TypeOfIngredient));
             }
             return View(pizzaResponse);
         }
+     /*   public ActionResult FileUpload(HttpPostedFileBase file)
+        {
+           
+            // after successfully uploading redirect the user
+            return View();
+        }*/
 
         // GET: Pizzas/Edit/5
         public ActionResult Edit(Guid id)
@@ -207,6 +210,7 @@ namespace PicerijaBarka5.Controllers
 
                 viewModel.Name = pizzaToEdit.Name;
                 viewModel.IncomeCoef = pizzaToEdit.incomeCoeficient;
+                viewModel.ImgUrl = pizzaToEdit.ImgUrl;
             }
             else
             {
@@ -225,9 +229,11 @@ namespace PicerijaBarka5.Controllers
             switch (sortOrder)
             {
                 case "price_desc":
+                    ViewBag.Title = "The pizzas are displayed in descending order";
                     return View("Index", repository.getSortedPizzasDesc());
 
                 default:
+                    ViewBag.Title = "The pizzas are displayed in ascending order";
                     return View("Index", repository.getSortedPizzas());
                  
                 

@@ -13,7 +13,7 @@ namespace PicerijaBarka5.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201909242121331_Initial"; }
+            get { return "201909261817012_Initial"; }
         }
         
         string IMigrationMetadata.Source

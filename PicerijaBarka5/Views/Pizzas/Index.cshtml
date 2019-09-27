@@ -1,100 +1,104 @@
 ﻿@model IEnumerable<PicerijaBarka5.Models.Dtos.PizzaDto>
-    <section style="margin-top: 80px">
-        <h1 class="my-5 ml-5">@ViewBag.Title</h1>
-        @{
-            var firstRow = true;
-            var end = 0;
-        }
+<section style="margin-top: 80px">
+    <h1 class="my-5 ml-5">@ViewBag.Title</h1>
+    @{
+        var firstRow = true;
+        var end = 0;
+    }
 
-        @{
-            if (Model.Count() == 0)
-            {
-                <div class="card text-white bg-dark mb-3 col-3 hoverable" title="Add new">
-                    <a href="@Url.Action("Create")" class="custom-card-link">
-                        <div class="card-body" style="width: inherit; height: inherit">
-                            <h5 class="card-title">Create new</h5>
-                            <hr class="red ml-0 mx-0" />
-                            <div class="text-center" style="min-height: 100px">
-                                <i class="fa fa-plus mt-4 fa-3x"></i>
+    @{
+        if (Model.Count() == 0)
+        {
+            <div class="card text-white bg-dark mb-3 col-3 hoverable" title="Add new">
+                <a href="@Url.Action("Create")" class="custom-card-link">
+                    <div class="card-body" style="width: inherit; height: inherit">
+                        <h5 class="card-title">Create new</h5>
+                        <hr class="red ml-0 mx-0" />
+                        <div class="text-center" style="min-height: 100px">
+                            <i class="fa fa-plus mt-4 fa-3x"></i>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        }
+        else
+        {
+            <div class="row">
+                <div class="col-2">
+                    @using (Html.BeginForm("Index", "Pizzas", FormMethod.Get))
+                    {
+                        <p>
+                            @Html.TextBox("SearchString", null, new { id = "searchPizza", @class = "form-control d-inline ml-2", placeholder = "Search by name" })
+                        </p>
+
+                    }
+                </div>
+                <div class="col-2">
+                    <button type="submit" class="btn btn-outline-secondary d-inline" onclick="@("window.location.href='" + @Url.Action("OrderBy", "Pizzas", new { sortOrder = ViewBag.NameSortParm }) + "'")">Sort by price <i class="ml-2 fa fa-sort"></i></button>
+                </div>
+            </div>
+        }
+        <hr />
+        for (int j = 0; j < Model.Count();)
+        {
+            <div class="card-deck">
+                @{ if (firstRow)
+                    {
+                        <div class="card text-white bg-dark mb-3 hoverable firstCard" title="Add new">
+                            <a href="@Url.Action("Create")" class="custom-card-link">
+                                <div class="card-body" style="min-height:200px">
+                                    <h5 class="card-title">Create new</h5>
+                                    <hr class="red ml-0 mx-0" />
+                                    <div class="text-center" style="min-height: 100px">
+                                        <i class="fa fa-plus mt-5 pt-5 fa-3x"></i>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        end = 2;
+                        firstRow = false;
+                    }
+                    else
+                    {
+                        end = 3;
+                    }
+                }
+
+                @for (int i = 0; i < end; i++)
+                {
+                    if (j < Model.Count())
+                    {
+                        var item = Model.ElementAt(j);
+
+                        <div class="card text-white bg-dark mb-3 hoverable item" title="View details">
+                            <a href="@Url.Action("Details", new { id = item.PizzaId })" class="custom-card-link">
+                                <div class="Search card-body" style="min-height: 250px">
+                                    <h5 class="card-title mb-0 pb-0">@item.Name</h5>
+                                    <hr class="red ml-0 mt-1 mb-1 " />
+                                    <div class="text-center">
+                                        <img src="@item.ImgUrl" style="width:190px;height:190px;">
+                                    </div>
+                                    <p class="card-text mt-2" style="height: 40px;">
+                                        @string.Join(", ", item.Ingredients.Select(x => x.Name).ToList())
+                                    </p>
+                                </div>
+                            </a>
+                            <div class="card-footer">
+                                @Html.ActionLink("Edit", "Edit", new { id = item.PizzaId }, new { @class = "btn bg-orange text-white", title = "Edit" })
+                                @Html.ActionLink("Delete", "Delete", new { id = item.PizzaId }, new { @class = "btn bg-danger text-white", title = "Delete" })
+                                <button class="btn btn-success addToCart" title="Add to Cart" pizza-id="@item.PizzaId">Add to cart</button>
+                                <span class="float-right mt-2 data">@Math.Round(item.Price) den.</span>
                             </div>
                         </div>
-                    </a>
-                </div>
-            }
-    <div class="row">
-        <div class="col-4">
-            @using (Html.BeginForm("Index", "Pizzas", FormMethod.Get))
-            {
-                <p>
-                    Search by name: @Html.TextBox("SearchString", null, new { id = "searchPizza", @class = "form-control d-inline ml-2 w-50" })
-
-
-                </p>
-
-            }
-        </div>
-        <div class="col-2">
-        <button type="submit" class="btn btn-outline-secondary d-inline" onclick="@("window.location.href='" + @Url.Action("OrderBy", "Pizzas", new {sortOrder = ViewBag.NameSortParm } ) + "'")">Sort by price <i class="ml-2 fa fa-sort"></i></button>
-    </div>
-        </div>
-                <hr />
-            for (int j = 0; j < Model.Count();)
-            {
-                <div class="card-deck">
-                    @{ if (firstRow)
-                        {
-                            <div class="card text-white bg-dark mb-3 hoverable firstCard" title="Add new">
-                                <a href="@Url.Action("Create")" class="custom-card-link">
-                                    <div class="card-body" style="min-height:200px">
-                                        <h5 class="card-title">Create new</h5>
-                                        <hr class="red ml-0 mx-0" />
-                                        <div class="text-center" style="min-height: 100px">
-                                            <i class="fa fa-plus mt-5 fa-3x"></i>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                            end = 2;
-                            firstRow = false;
-                        }
-                        else
-                        {
-                            end = 3;
-                        }
                     }
+                    j++;
+                }
+            </div>
 
-                    @for (int i = 0; i < end; i++)
-                    {
-                        if (j < Model.Count())
-                        {
-                            var item = Model.ElementAt(j);
-
-                            <div class="card text-white bg-dark mb-3 hoverable item" title="View details">
-                                <a href="@Url.Action("Details", new { id = item.PizzaId })" class="custom-card-link">
-                                    <div class="card-body" style="min-height: 250px">
-                                        <h5 class="Search card-title pb-0">@item.Name</h5>
-                                        <hr class="red ml-0 mx-0" />
-                                        <p class="card-text">
-                                            @string.Join(", ", item.Ingredients.Select(x => x.Name).ToList())
-                                        </p>
-                                    </div>
-                                </a>
-                                <div class="card-footer">
-                                    @Html.ActionLink("Edit", "Edit", new { id = item.PizzaId }, new { @class = "btn bg-orange text-white" })
-                                    @Html.ActionLink("Delete", "Delete", new { id = item.PizzaId }, new { @class = "btn bg-danger text-white" })
-                                    <button class="btn btn-success addToCart" pizza-id="@item.PizzaId">Add to cart</button>
-                                    <span class="float-right mt-2 data">@Math.Round(item.Price) den.</span>
-                                </div>
-                            </div>
-                        }
-                        j++;
-                    }
-                </div>
-
-            }
         }
+    }
 
-    </section>
+</section>
 
 
 @section scripts {
@@ -103,13 +107,11 @@
             $("#sortBtn").on("click", function () {
                 $.ajax({
                     type: "GET",
-                    url: "/Pizzas/OrderBy",
-                    success: function () {
-                        alert("Pizzas sorted");
-                    }
+                    url: "/Pizzas/OrderBy"
+                   
                 })
             })
-          
+
             function Contains(text_one, text_two) {
                 if (text_one.indexOf(text_two) != -1)
                     return true;
@@ -125,7 +127,7 @@
                     }
                 })
             })
-            
+
             $('#searchPizza').keyup(function () {
                 if ($("#searchPizza").val().length == 0)
                     $(".firstCard").show();
@@ -135,15 +137,15 @@
                 var searchText = $("#searchPizza").val().toLowerCase();
                 $(".Search").each(function () {
                     if (!Contains($(this).text().toLowerCase(), searchText)) {
-                        $(this).parent().parent().parent().hide();
+                        $(this).parent().parent().hide();
                     }
                     else {
-                        $(this).parent().parent().parent().show();
+                        $(this).parent().parent().show();
 
                     }
                 });
             });
-          
+
         });
     </script>
 

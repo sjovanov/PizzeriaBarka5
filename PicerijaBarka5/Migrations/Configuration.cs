@@ -116,6 +116,7 @@ namespace PicerijaBarka5.Migrations
                             Peppers_vegetable
                     },
                 IncomeCoeficient = 0.8,
+                ImgUrl = "/Content/Images/Capricciosa.png",
                 User = OwnerUser
             };
             var pizza2 = new Pizza
@@ -129,6 +130,7 @@ namespace PicerijaBarka5.Migrations
                             Tomatillo_sauce
                     },
                 IncomeCoeficient = 0.8,
+                ImgUrl = "/Content/Images/Margarita.png",
                 User = OwnerUser
             };
             var pizza3 = new Pizza
@@ -146,6 +148,7 @@ namespace PicerijaBarka5.Migrations
                             Mushrooms_vegetable
                     },
                 IncomeCoeficient = 1,
+                ImgUrl = "/Content/Images/Extra Meaty.png",
                 User = OwnerUser
             };
             var pizza4 = new Pizza
@@ -161,6 +164,7 @@ namespace PicerijaBarka5.Migrations
                             Tomatoes_vegetable
                     },
                 IncomeCoeficient = 0.7,
+                ImgUrl = "/Content/Images/Vegan.png",
                 User = OwnerUser
             };
             var pizza5 = new Pizza
@@ -176,6 +180,7 @@ namespace PicerijaBarka5.Migrations
                             Tomatoes_vegetable
                     },
                 IncomeCoeficient = 0.8,
+                ImgUrl = "/Content/Images/Neapolitan.png",
                 User = OwnerUser
             };
             var pizza6 = new Pizza
@@ -191,6 +196,7 @@ namespace PicerijaBarka5.Migrations
                             Pickles_vegetable
                     },
                 IncomeCoeficient = 0.8,
+                ImgUrl = "/Content/Images/Quattro formaggi.png",
                 User = OwnerUser
             };
             var pizza7 = new Pizza
@@ -207,6 +213,7 @@ namespace PicerijaBarka5.Migrations
                             Mushrooms_vegetable
                     },
                 IncomeCoeficient = 0.8,
+                ImgUrl = "/Content/Images/Half and half.png",
                 User = OwnerUser
             };
             var pizza8 = new Pizza
@@ -221,6 +228,7 @@ namespace PicerijaBarka5.Migrations
                             Tomatoes_vegetable
                     },
                 IncomeCoeficient = 0.8,
+                ImgUrl = "/Content/Images/Pepperoni pizza.png",
                 User = OwnerUser
             };
             var pizza9 = new Pizza
@@ -235,6 +243,7 @@ namespace PicerijaBarka5.Migrations
                             Pickles_vegetable
                     },
                 IncomeCoeficient = 0.8,
+                ImgUrl = "/Content/Images/Sicilian.png",
                 User = OwnerUser
             };
             var pizza10 = new Pizza
@@ -249,6 +258,7 @@ namespace PicerijaBarka5.Migrations
                             Tomatoes_vegetable
                     },
                 IncomeCoeficient = 0.8,
+                ImgUrl = "/Content/Images/New York Pizza.png",
                 User = OwnerUser
             };
 
