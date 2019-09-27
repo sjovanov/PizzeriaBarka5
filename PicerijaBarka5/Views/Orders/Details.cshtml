@@ -18,43 +18,53 @@
 
                         <div class="col-6">
                             <h3>Details for user:</h3>
-                            <strong>Address:</strong>
-                            <span>
-                                @Model.Address
-                            </span><br />
-                            <br />
-                            <strong>Status:</strong>
-                            <div class="d-inline-block">
-                                @{
-                                    var isDisabled = Model.Status == OrderStatus.Delivered ? "disabled" : "";
-                                    <select class="form-control " id="status" order-id="@Model.OrderId" @isDisabled>
-                                        @foreach (var item in OrderStatus.GetOrderStatuses())
-                                        {
-                                            var selected = item == Model.Status ? "selected" : "";
-                                            <option class="dropdown-item" @selected>@item</option>
-                                        }
-                                    </select>
-                                }
-                            </div>
-                            <br />
-                            <br />
+                            <hr class="red ml-0" />
+                            <ul>
+                                <li><span class="font-weight-bold">Email:</span> @Model.User.Email</li>
+                                <li><span class="font-weight-bold">Delivery address:</span> @Model.Address</li>
+                                <li><span class="font-weight-bold">Time of order:</span> @Model.TimeOfOrder</li>
+                            </ul>
+                        </div>
 
-                            <strong>Total:</strong>
-                            <span>@Model.Items.Select(x => x.Pizza.Price * x.Quantity).Sum()</span>
-                        </div>
+
                         <div class="col-6">
-                            <h4>Ordered items:</h4>
-                            <p>
-                                @{
-                                    <ul>
-                                        @foreach (var item in Model.Items)
-                                        {
-                                            <li>@item.Pizza.Name: @item.Quantity</li>
+                            <h3>Details for order:</h3>
+                            <hr class="red ml-0" />
+                            <ul>
+                                <li>
+                                    <span class="font-weight-bold">
+                                        Status:
+                                    </span>
+                                    <div class="d-inline-block">
+                                        @{
+                                            var isDisabled = Model.Status == OrderStatus.Delivered ? "disabled" : "";
+                                            <select class="form-control " id="status" order-id="@Model.OrderId" @isDisabled>
+                                                @foreach (var item in OrderStatus.GetOrderStatuses())
+                                                {
+                                                    var selected = item == Model.Status ? "selected" : "";
+                                                    <option class="dropdown-item" @selected>@item</option>
+                                                }
+                                            </select>
                                         }
-                                    </ul>
-                                }
-                            </p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <span class="font-weight-bold">Ordered items: </span>
+                                    @{
+                                        <ul>
+                                            @foreach (var item in Model.Items)
+                                            {
+                                                <li>@item.Pizza.Name: @item.Quantity</li>
+                                            }
+                                        </ul>
+                                    }
+                                </li>
+                            </ul>
+
                         </div>
+                        <p class="pl-3">
+                            <h3>Total: @Model.Items.Select(x => x.Pizza.Price * x.Quantity).Sum()</h3>
+                        </p>
                     </div>
                 </div>
             </div>
