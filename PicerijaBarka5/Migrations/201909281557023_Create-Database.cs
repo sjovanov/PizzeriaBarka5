@@ -39,6 +39,7 @@ namespace PicerijaBarka5.Migrations
                         PizzaId = c.Guid(nullable: false),
                         Name = c.String(nullable: false),
                         IncomeCoeficient = c.Double(nullable: false),
+                        ImgUrl = c.String(),
                         User_Id = c.String(maxLength: 128),
                     })
                 .PrimaryKey(t => t.PizzaId)
