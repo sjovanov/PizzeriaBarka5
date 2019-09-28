@@ -88,7 +88,7 @@ namespace PicerijaBarka5.Controllers
                 if (User.IsInRole(UserRoles.User))
                 {
                     ViewBag.Title = "These are your custom pizzas";
-                    return View("Index", repository.GetPizzasFromUser(User.Identity.GetUserId()));
+                    return RedirectToAction("MyPizzas");
                 }
                 ViewBag.Title = "Barka 5's Menu";
                 return RedirectToAction("Index");
@@ -123,11 +123,14 @@ namespace PicerijaBarka5.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "PizzaId,Name,IncomeCoef,selectedIngredients,TypeIngredientListPairs")] CreatePizzaViewModel pizza)
+        public ActionResult Edit([Bind(Include = "PizzaId,Name,IncomeCoef,selectedIngredients,TypeIngredientListPairs")] CreatePizzaViewModel pizza, string Url)
         {
+            ViewBag.URL = Url;
             if (ModelState.IsValid)
             {
                 repository.UpdatePizza(pizza);
+                if (ViewBag.URL.ToString().Contains("MyPizzas"))
+                    return View("Index", repository.GetPizzasFromUser(User.Identity.GetUserId()));
                 return RedirectToAction("Index");
             }
 
@@ -154,8 +157,9 @@ namespace PicerijaBarka5.Controllers
         // POST: Pizzas/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(Guid id)
+        public ActionResult DeleteConfirmed(Guid id, string Url)
         {
+            ViewBag.URL = Url;
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -163,6 +167,8 @@ namespace PicerijaBarka5.Controllers
             try
             {
                 repository.DeletePizza(id);
+                if (ViewBag.URL.ToString().Contains("MyPizzas"))
+                    return View("Index", repository.GetPizzasFromUser(User.Identity.GetUserId()));
                 return RedirectToAction("Index");
             }
             catch (Exception)
@@ -231,14 +237,14 @@ namespace PicerijaBarka5.Controllers
             {
                 case "price_desc":
                     ViewBag.Title = "The pizzas are displayed in descending order";
-                    if (ViewBag.Url.ToString().Contains("MyPizzas"))
+                    if (ViewBag.URL.ToString().Contains("MyPizzas"))
                         return View("Index", repository.GetSortedPizzasFromUserDesc(User.Identity.GetUserId()));
                     else
                         return View("Index", repository.GetSortedPizzasFromUsersWithRoleDesc(UserRoles.Owner));
 
                 default:
                     ViewBag.Title = "The pizzas are displayed in ascending order";
-                    if (ViewBag.Url.ToString().Contains("MyPizzas"))
+                    if (ViewBag.URL.ToString().Contains("MyPizzas"))
                         return View("Index", repository.GetSortedPizzasFromUser(User.Identity.GetUserId()));
                     else
                         return View("Index", repository.GetSortedPizzasFromUsersWithRole(UserRoles.Owner));

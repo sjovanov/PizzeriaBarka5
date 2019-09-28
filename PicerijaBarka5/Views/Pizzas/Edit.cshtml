@@ -56,7 +56,14 @@
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Save" class="btn btn-warning" />
+                @if (User.IsInRole("User"))
+                {
+                    @Html.ActionLink("Back to List", "MyPizzas", routeValues: null, htmlAttributes: new { @class = "btn btn-primary" })
+                }
+                else
+                {
                 @Html.ActionLink("Back to List", "Index", routeValues: null, htmlAttributes: new { @class = "btn btn-primary" })
+                }
             </div>
         </div>
 
