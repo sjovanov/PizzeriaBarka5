@@ -17,6 +17,8 @@ namespace PicerijaBarka5.Models
         [Display(Name = "Income coeficient")]
         public double IncomeCoef { set; get; }
 
+        public string ImgUrl { set; get; }
+
         [Required(ErrorMessage = "You have to select at least one ingredient")]
         public ICollection<string> selectedIngredients { set; get; }
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -19,11 +20,14 @@ namespace PicerijaBarka5.Controllers
     {
         private Repository repository = Repository.GetInstance();
 
+        private ApplicationDbContext db = new ApplicationDbContext();
+        public string search = null;
         // GET: Pizzas
         public ActionResult Index()
         {
-            ViewBag.Title = "Barka 5's Menu";
-            return View(repository.GetPizzasFromUsersWithRole(UserRoles.Owner));
+            ICollection<PizzaDto> pizzas = new List<PizzaDto>();
+            pizzas = repository.GetPizzasFromUsersWithRole(UserRoles.Owner);   
+            return View(pizzas);
         }
 
         // GET: Pizzas/Details/5
@@ -54,19 +58,52 @@ namespace PicerijaBarka5.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Name, IncomeCoef, selectedIngredients, Dough, availableIngredients, UserEmail")] CreatePizzaViewModel pizzaResponse)
-        {
+        public ActionResult Create([Bind(Include = "Name, IncomeCoef, selectedIngredients, Dough, availableIngredients, ImgUrl, UserEmail")] CreatePizzaViewModel pizzaResponse, HttpPostedFileBase file)
+        {  
+            if (file != null)
+            {
+                string pic = System.IO.Path.GetFileName(file.FileName);
+                string path = System.IO.Path.Combine(
+                                       Server.MapPath("~/Content/Images"), pic);
+                // file is uploaded
+                file.SaveAs(path);
+
+                // save the image path path to the database or you can send image 
+                // directly to database
+                // in-case if you want to store byte[] ie. for DB
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    file.InputStream.CopyTo(ms);
+                    byte[] array = ms.GetBuffer();
+                }
+                
+                pizzaResponse.ImgUrl = "/Content/Images/" + pic;
+            } else
+            {
+                pizzaResponse.ImgUrl = "/Content/Images/CustomPizza.png";
+            }
             if (ModelState.IsValid)
             {
                 repository.CreatePizzaForUser(pizzaResponse, User.Identity.GetUserId());
+                if (User.IsInRole("User"))
+                {
+                    return View("Index", repository.GetPizzasFromUser(User.Identity.GetUserId()));
+                }
                 return RedirectToAction("Index");
-            }
+            } 
+
             foreach (var TypeOfIngredient in Enum.GetValues(typeof(IngredientType)))
             {
                 pizzaResponse.TypeIngredientListPairs.Add(TypeOfIngredient.ToString(), repository.GetIngredientsByType((IngredientType)TypeOfIngredient));
             }
             return View(pizzaResponse);
         }
+     /*   public ActionResult FileUpload(HttpPostedFileBase file)
+        {
+           
+            // after successfully uploading redirect the user
+            return View();
+        }*/
 
         // GET: Pizzas/Edit/5
         public ActionResult Edit(Guid id)
@@ -177,6 +214,7 @@ namespace PicerijaBarka5.Controllers
 
                 viewModel.Name = pizzaToEdit.Name;
                 viewModel.IncomeCoef = pizzaToEdit.incomeCoeficient;
+                viewModel.ImgUrl = pizzaToEdit.ImgUrl;
             }
             else
             {
@@ -188,5 +226,29 @@ namespace PicerijaBarka5.Controllers
 
             return viewModel;
         }
+    
+        public ActionResult OrderBy(string sortOrder, string Url)
+        {
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "price_desc" : "";
+            ViewBag.URL = Url;
+            switch (sortOrder)
+            {
+                case "price_desc":
+                    ViewBag.Title = "The pizzas are displayed in descending order";
+                    if (ViewBag.Url.ToString().Contains("MyPizzas"))
+                        return View("Index", repository.GetSortedPizzasFromUserDesc(User.Identity.GetUserId()));
+                    else
+                        return View("Index", repository.GetSortedPizzasFromUsersWithRoleDesc(UserRoles.Owner));
+
+                default:
+                    ViewBag.Title = "The pizzas are displayed in ascending order";
+                    if (ViewBag.Url.ToString().Contains("MyPizzas"))
+                        return View("Index", repository.GetSortedPizzasFromUser(User.Identity.GetUserId()));
+                    else
+                        return View("Index", repository.GetSortedPizzasFromUsersWithRole(UserRoles.Owner));             
+            }
+            
+        }
+      
     }
 }

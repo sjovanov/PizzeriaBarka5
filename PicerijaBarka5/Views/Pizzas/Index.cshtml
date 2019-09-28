@@ -21,65 +21,95 @@
                 </a>
             </div>
         }
-    }
+        else
+        {
+            <div class="row">
+                <div class="col-2">
+                    @using (Html.BeginForm("Index", "Pizzas", FormMethod.Get))
+                    {
+                        <p>
+                            @Html.TextBox("SearchString", null, new { id = "searchPizza", @class = "form-control d-inline ml-2", placeholder = "Search by name" })
+                        </p>
 
-    @for (int j = 0; j < Model.Count();)
-    {
-        <div class="card-deck">
-            @{ if (firstRow)
-                {
-                    <div class="card text-white bg-dark mb-3 hoverable" title="Add new">
-                        <a href="@Url.Action("Create")" class="custom-card-link">
-                            <div class="card-body" style="min-height:200px">
-                                <h5 class="card-title">Create new</h5>
-                                <hr class="red ml-0 mx-0" />
-                                <div class="text-center" style="min-height: 100px">
-                                    <i class="fa fa-plus mt-5 fa-3x"></i>
+                    }
+                </div>
+                <div class="col-2">
+                    @{ var prevUrl = Request.Url.ToString(); }
+                    <button type="submit" class="btn btn-outline-secondary d-inline" onclick="@("window.location.href='" + @Url.Action("OrderBy", "Pizzas", new { sortOrder = ViewBag.NameSortParm, Url = prevUrl }) + "'")">Sort by price <i class="ml-2 fa fa-sort"></i></button>
+                </div>
+            </div>
+        }
+        <hr />
+        for (int j = 0; j < Model.Count();)
+        {
+            <div class="card-deck">
+                @{ if (firstRow)
+                    {
+                        <div class="card text-white bg-dark mb-3 hoverable firstCard" title="Add new">
+                            <a href="@Url.Action("Create")" class="custom-card-link">
+                                <div class="card-body" style="min-height:200px">
+                                    <h5 class="card-title">Create new</h5>
+                                    <hr class="red ml-0 mx-0" />
+                                    <div class="text-center" style="min-height: 100px">
+                                        <i class="fa fa-plus mt-5 pt-5 fa-3x"></i>
+                                    </div>
                                 </div>
-                            </div>
-                        </a>
-                    </div>
-                    end = 2;
-                    firstRow = false;
-                }
-                else
-                {
-                    end = 3;
-                }
-            }
-            @for (int i = 0; i < end; i++)
-            {
-                if (j < Model.Count())
-                {
-                    var item = Model.ElementAt(j);
-
-                    <div class="card text-white bg-dark mb-3 hoverable" title="View details">
-                        <a href="@Url.Action("Details", new { id = item.PizzaId })" class="custom-card-link">
-                            <div class="card-body" style="min-height: 250px">
-                                <h5 class="card-title pb-0">@item.Name</h5>
-                                <hr class="red ml-0 mx-0" />
-                                <p class="card-text">
-                                    @string.Join(", ", item.Ingredients.Select(x => x.Name).ToList())
-                                </p>
-                            </div>
-                        </a>
-                        <div class="card-footer">
-                            @Html.ActionLink("Edit", "Edit", new { id = item.PizzaId }, new { @class = "btn bg-orange text-white" })
-                            @Html.ActionLink("Delete", "Delete", new { id = item.PizzaId }, new { @class = "btn bg-danger text-white" })
-                            <button class="btn btn-success addToCart" pizza-id="@item.PizzaId">Add to cart</button>
-                            <span class="float-right mt-2">@Math.Round(item.Price) den.</span>
+                            </a>
                         </div>
-                    </div>
+                        end = 2;
+                        firstRow = false;
+                    }
+                    else
+                    {
+                        end = 3;
+                    }
                 }
-                j++;
-            }
-        </div>
+
+                @for (int i = 0; i < end; i++)
+                {
+                    if (j < Model.Count())
+                    {
+                        var item = Model.ElementAt(j);
+
+                        <div class="card text-white bg-dark mb-3 hoverable item" title="View details">
+                            <a href="@Url.Action("Details", new { id = item.PizzaId })" class="custom-card-link">
+                                <div class="Search card-body" style="min-height: 250px">
+                                    <h5 class="card-title mb-0 pb-0">@item.Name</h5>
+                                    <hr class="red ml-0 mt-1 mb-1 " />
+                                    <div class="text-center">
+                                        <img src="@item.ImgUrl" style="width:190px;height:190px;">
+                                    </div>
+                                    <p class="card-text mt-2" style="height: 40px;">
+                                        @string.Join(", ", item.Ingredients.Select(x => x.Name).ToList())
+                                    </p>
+                                </div>
+                            </a>
+                            <div class="card-footer">
+                                @Html.ActionLink("Edit", "Edit", new { id = item.PizzaId }, new { @class = "btn bg-orange text-white", title = "Edit" })
+                                @Html.ActionLink("Delete", "Delete", new { id = item.PizzaId }, new { @class = "btn bg-danger text-white", title = "Delete" })
+                                <button class="btn btn-success addToCart" title="Add to Cart" pizza-id="@item.PizzaId">Add to cart</button>
+                                <span class="float-right mt-2 data">@Math.Round(item.Price) den.</span>
+                            </div>
+                        </div>
+                    }
+                    j++;
+                }
+            </div>
+
+        }
     }
+
 </section>
 
-@section scripts{
-    <script>
+
+@section scripts {
+    <script type="text/javascript">
         $(document).ready(function () {
+           
+            function Contains(text_one, text_two) {
+                if (text_one.indexOf(text_two) != -1)
+                    return true;
+            }
             $(".addToCart").on('click', function () {
                 let id = $(this).attr('pizza-id');
                 console.log(id)
@@ -91,6 +121,27 @@
                     }
                 })
             })
-        })
+
+            $('#searchPizza').keyup(function () {
+                if ($("#searchPizza").val().length == 0)
+                    $(".firstCard").show();
+                else
+                    $(".firstCard").hide();
+
+                var searchText = $("#searchPizza").val().toLowerCase();
+                $(".Search").each(function () {
+                    if (!Contains($(this).text().toLowerCase(), searchText)) {
+                        $(this).parent().parent().hide();
+                    }
+                    else {
+                        $(this).parent().parent().show();
+
+                    }
+                });
+            });
+
+        });
     </script>
+
+
 }

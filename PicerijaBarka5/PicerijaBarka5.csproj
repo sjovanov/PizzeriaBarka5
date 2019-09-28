@@ -194,9 +194,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\HtmlHelpers.cs" />
-    <Compile Include="Migrations\201909261712005_Create-Database.cs" />
-    <Compile Include="Migrations\201909261712005_Create-Database.Designer.cs">
-      <DependentUpon>201909261712005_Create-Database.cs</DependentUpon>
+    <Compile Include="Migrations\201909261817012_Initial.cs" />
+    <Compile Include="Migrations\201909261817012_Initial.Designer.cs">
+      <DependentUpon>201909261817012_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -228,8 +228,22 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\custom.css" />
+    <Content Include="Content\Images\Capricciosa.png" />
+    <Content Include="Content\Images\CustomPizza.png" />
+    <Content Include="Content\Images\Extra Meaty.png" />
+    <Content Include="Content\Images\Half and half.png" />
+    <Content Include="Content\Images\Margarita.png" />
+    <Content Include="Content\Images\Neapolitan.png" />
+    <Content Include="Content\Images\New York Pizza.png" />
+    <Content Include="Content\Images\Pepperoni pizza.png" />
     <Content Include="Content\Images\pizza-making-event.jpg" />
     <Content Include="Content\Images\pizza-wallpaper-full-hd-1080p-390199.jpg" />
+    <Content Include="Content\fontawesome\font-awesome.css" />
+    <Content Include="Content\fontawesome\font-awesome.min.css" />
+    <Content Include="Content\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\Images\Quattro formaggi.png" />
+    <Content Include="Content\Images\Sicilian.png" />
+    <Content Include="Content\Images\Vegan.png" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\bootstrap.bundle.js" />
@@ -254,6 +268,10 @@
     <Content Include="Content\bootstrap-reboot.css.map" />
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
+    <Content Include="Content\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\fonts\FontAwesome.otf" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -347,8 +365,8 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201909261712005_Create-Database.resx">
-      <DependentUpon>201909261712005_Create-Database.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201909261817012_Initial.resx">
+      <DependentUpon>201909261817012_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

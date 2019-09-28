@@ -44,7 +44,9 @@ namespace PicerijaBarka5.Extentions
                                         .ToList(),
                 Price = dbPizza.getPrice(),
                 User = dbPizza.User.toUserDto(),
-                incomeCoeficient = dbPizza.IncomeCoeficient
+                incomeCoeficient = dbPizza.IncomeCoeficient,
+                ImgUrl = dbPizza.ImgUrl
+
             };
         }
 
