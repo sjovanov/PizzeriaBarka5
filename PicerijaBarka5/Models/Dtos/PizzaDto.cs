@@ -37,6 +37,8 @@ namespace PicerijaBarka5.Models.Dtos
         /// <returns></returns>
         public double Price { get; set; }
 
+        public string ImgUrl { get; set; }
+
         public PizzaDto()
         {
             Ingredients = new List<IngredientDto>();

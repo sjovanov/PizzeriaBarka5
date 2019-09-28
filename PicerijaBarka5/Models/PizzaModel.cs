@@ -44,6 +44,8 @@ namespace PicerijaBarka5.Models
         /// </summary>
         public double IncomeCoeficient { get; set; }
 
+        public string ImgUrl { get; set; }
+
         /// <summary>
         /// Returns the price for making a small pizza based on the price of its ingredients and the IncomeCoeficient of the pizzeria
         /// </summary>
@@ -66,13 +68,14 @@ namespace PicerijaBarka5.Models
             Orders = new List<PizzaOrder>();
         }
 
-        public Pizza(Guid id, string name, ICollection<Ingredient> ingredients, double incomeCoef = 0)
+        public Pizza(Guid id, string name, ICollection<Ingredient> ingredients, string imgUrl, double incomeCoef = 0)
         {
             PizzaId = id;
             Name = name;
             Ingredients = ingredients;
             IncomeCoeficient = incomeCoef;
             Orders = new List<PizzaOrder>();
+            ImgUrl = imgUrl;
         }
 
     }
