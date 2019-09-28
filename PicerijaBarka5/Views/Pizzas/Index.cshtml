@@ -85,8 +85,9 @@
                                 </div>
                             </a>
                             <div class="card-footer">
-                                @Html.ActionLink("Edit", "Edit", new { id = item.PizzaId }, new { @class = "btn bg-orange text-white", title = "Edit" })
-                                @Html.ActionLink("Delete", "Delete", new { id = item.PizzaId }, new { @class = "btn bg-danger text-white", title = "Delete" })
+                                @{ var prevUrl = Request.Url.ToString(); }
+                                @Html.ActionLink("Edit", "Edit", new { id = item.PizzaId, Url = prevUrl }, new { @class = "btn bg-orange text-white", title = "Edit" })
+                                @Html.ActionLink("Delete", "Delete", new { id = item.PizzaId, Url = prevUrl }, new { @class = "btn bg-danger text-white", title = "Delete" })
                                 <button class="btn btn-success addToCart" title="Add to Cart" pizza-id="@item.PizzaId">Add to cart</button>
                                 <span class="float-right mt-2 data">@Math.Round(item.Price) den.</span>
                             </div>
