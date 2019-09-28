@@ -20,13 +20,12 @@ namespace PicerijaBarka5.Controllers
     {
         private Repository repository = Repository.GetInstance();
 
-        private ApplicationDbContext db = new ApplicationDbContext();
-        public string search = null;
         // GET: Pizzas
         public ActionResult Index()
         {
+            ViewBag.Title = "Barka 5's Menu";
             ICollection<PizzaDto> pizzas = new List<PizzaDto>();
-            pizzas = repository.GetPizzasFromUsersWithRole(UserRoles.Owner);   
+            pizzas = repository.GetPizzasFromUsersWithRole(UserRoles.Owner);
             return View(pizzas);
         }
 
@@ -59,12 +58,12 @@ namespace PicerijaBarka5.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Name, IncomeCoef, selectedIngredients, Dough, availableIngredients, ImgUrl, UserEmail")] CreatePizzaViewModel pizzaResponse, HttpPostedFileBase file)
-        {  
+        {
             if (file != null)
             {
-                string pic = System.IO.Path.GetFileName(file.FileName);
-                string path = System.IO.Path.Combine(
-                                       Server.MapPath("~/Content/Images"), pic);
+                string pic = Path.GetFileName(file.FileName);
+                string path = Path.Combine(
+                Server.MapPath("~/Content/Images"), pic);
                 // file is uploaded
                 file.SaveAs(path);
 
@@ -76,21 +75,24 @@ namespace PicerijaBarka5.Controllers
                     file.InputStream.CopyTo(ms);
                     byte[] array = ms.GetBuffer();
                 }
-                
+
                 pizzaResponse.ImgUrl = "/Content/Images/" + pic;
-            } else
+            }
+            else
             {
                 pizzaResponse.ImgUrl = "/Content/Images/CustomPizza.png";
             }
             if (ModelState.IsValid)
             {
                 repository.CreatePizzaForUser(pizzaResponse, User.Identity.GetUserId());
-                if (User.IsInRole("User"))
+                if (User.IsInRole(UserRoles.User))
                 {
+                    ViewBag.Title = "These are your custom pizzas";
                     return View("Index", repository.GetPizzasFromUser(User.Identity.GetUserId()));
                 }
+                ViewBag.Title = "Barka 5's Menu";
                 return RedirectToAction("Index");
-            } 
+            }
 
             foreach (var TypeOfIngredient in Enum.GetValues(typeof(IngredientType)))
             {
@@ -98,12 +100,6 @@ namespace PicerijaBarka5.Controllers
             }
             return View(pizzaResponse);
         }
-     /*   public ActionResult FileUpload(HttpPostedFileBase file)
-        {
-           
-            // after successfully uploading redirect the user
-            return View();
-        }*/
 
         // GET: Pizzas/Edit/5
         public ActionResult Edit(Guid id)
@@ -226,7 +222,7 @@ namespace PicerijaBarka5.Controllers
 
             return viewModel;
         }
-    
+
         public ActionResult OrderBy(string sortOrder, string Url)
         {
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "price_desc" : "";
@@ -245,10 +241,10 @@ namespace PicerijaBarka5.Controllers
                     if (ViewBag.Url.ToString().Contains("MyPizzas"))
                         return View("Index", repository.GetSortedPizzasFromUser(User.Identity.GetUserId()));
                     else
-                        return View("Index", repository.GetSortedPizzasFromUsersWithRole(UserRoles.Owner));             
+                        return View("Index", repository.GetSortedPizzasFromUsersWithRole(UserRoles.Owner));
             }
-            
+
         }
-      
+
     }
 }

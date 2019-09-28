@@ -44,6 +44,9 @@ namespace PicerijaBarka5.Models
         /// </summary>
         public double IncomeCoeficient { get; set; }
 
+        /// <summary>
+        /// Url to the pizza image
+        /// </summary>
         public string ImgUrl { get; set; }
 
         /// <summary>

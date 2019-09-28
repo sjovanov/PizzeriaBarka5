@@ -61,6 +61,7 @@ section {
     padding: 1.6em 1.7em;
     margin-bottom: 7px;
     font-size: 2em;
+    color: black;
 }
 
 .bg-transparent-black {
@@ -118,44 +119,38 @@ tr.row {
     margin-right: 0px;
 }
 
-a > i {
-    font-size: 1.4rem;
-    padding: 0px 6px 0px 6px;
-}
-
-span > i {
-    font-size: 1.4rem;
-    padding: 0px 6px 0px 6px;
-}
-
-.table > tbody > tr > td > span {
-    vertical-align: middle;
-}
-
 #status {
     padding-top: 3px;
 }
 
-#info {
-    color: darkgray;
+.form-control:focus {
+    border-color: rgba(255, 140, 0, 0.75);
+    box-shadow: inset 0px 0px 5px 0px rgba(255, 140, 0, 0.75), 0px 4px 10px 0px rgba(255, 140, 0, 0.75);
 }
 
-    #info:hover {
-        color: blue;
+i {
+    color: gray;
+    font-size: 1.3rem;
+    padding-right: 5px;
+    vertical-align: central;
+}
+
+    i.details {
+        font-size: 1.2rem
     }
 
-#delete {
-    color: darkgrey;
-}
+    i.edit {
+        font-size: 1.1rem
+    }
 
-    #delete:hover {
+    i.delete:hover {
         color: red;
     }
 
-span > i.deleteButton {
-    color: darkgrey;
-}
+    i.edit:hover {
+        color: darkorange
+    }
 
-   span > i.deleteButton:hover {
-        color: red;
+    i.details:hover {
+        color: cornflowerblue
     }
