@@ -49,17 +49,15 @@
                         <span>@item.QuantityInStock</span>
                     </td>
                     <td>
-                        <a href="#"><i class="fas fa-pen"></i></a>
-                        <span>
-                            <i class="fas fa-clipboard-list" id="info"></i>
+                        <a href="@Url.Action("Edit", new { id = item.IngredientId })" title="Edit ingredient" class="text-decoration-none" >
+                            <i class="fas fa-pen edit"></i>
+                        </a>
+                        <a href="@Url.Action("Details", new { id = item.IngredientId })" title="View ingredient details" class="text-decoration-none">
+                            <i class="fas fa-clipboard-list details"></i>
+                        </a>
+                        <span class="deleteIngredient" ingredient-id="@item.IngredientId" title="Remove ingredient">
+                            <i class="fa fa-times delete"></i>
                         </span>
-                        <span class="deleteIngredient" ingredient-id ="@item.IngredientId">
-                            <i class="fa fa-times" id="delete"></i>
-                        </span>
-
-                        @Html.ActionLink("Edit", "Edit", new { id = item.IngredientId }) |
-                        @Html.ActionLink("Details", "Details", new { id = item.IngredientId }) |
-                        @Html.ActionLink("Delete", "Delete", new { id = item.IngredientId })
                     </td>
                 </tr>
                 j++;
@@ -73,15 +71,12 @@
 @section scripts{
     <script>
         $(document).ready(function () {
-            var table = $("#ordersTable");
             $(".deleteIngredient").click(function () {
                 var button = $(this);
-                console.log(button);
-
                 $.ajax({
                     method: "POST",
                     url: "Ingredients/Delete",
-                    data: {id: button.attr("ingredient-id")},
+                    data: { id: button.attr("ingredient-id") },
                     success: function () {
                         button.parents("tr").remove().draw();
                     },

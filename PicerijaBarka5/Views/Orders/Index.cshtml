@@ -51,19 +51,21 @@
                             <span>@order.Items.Select(x => x.Pizza.Price * x.Quantity).Sum()</span>
                         </td>
                         <td class="col-2">
-
-                            <span class="@Html.SetOrderStatusClass(order.Status)">
-                                <i class="fa fa-circle align-middle" style="font-size: 7px"></i>
+                            @{ 
+                                var orderColorClass = Html.SetOrderStatusClass(order.Status);
+                            }
+                            <span class="@orderColorClass">
+                                <i class="fa fa-circle align-middle @orderColorClass" style="font-size: 7px"></i>
                                 @order.Status
                             </span>
                         </td>
                         <td class="col-1 text-center align-content-around">
                             <span>
                                 <a href="@Url.Action("Details", "Orders", new { id = order.OrderId })" class="text-decoration-none text-center" title="View details">
-                                    <i class="fas fa-clipboard-list" id="info"></i>
+                                    <i class="fas fa-clipboard-list details"></i>
                                 </a>
                                 <span class="text-decoration-none text-center deleteOrder" title="Delete order" order-id="@order.OrderId">
-                                    <i class="fa fa-times" id="delete"></i>
+                                    <i class="fa fa-times delete"></i>
                                 </span>
                             </span>
                         </td>
@@ -82,11 +84,8 @@
 
     <script>
         $(document).ready(function () {
-            var table = $("#ordersTable");
             $(".deleteOrder").click(function () {
                 var button = $(this);
-                console.log(button);
-
                 $.ajax({
                     method: "POST",
                     url: "/Orders/Delete",

@@ -93,27 +93,9 @@ namespace PicerijaBarka5.Controllers
             return View(ingredient);
         }
 
-        // GET: Ingredients/Delete/5
-        public ActionResult Delete(Guid id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            try
-            {
-                return View(repository.GetIngredient(id));
-            }
-            catch (Exception)
-            {
-                return HttpNotFound();
-            }
-        }
-
         // POST: Ingredients/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(Guid id)
+        [HttpPost]
+        public ActionResult Delete(Guid id)
         {
             repository.DeleteIngredient(id);
             return RedirectToAction("Index");
