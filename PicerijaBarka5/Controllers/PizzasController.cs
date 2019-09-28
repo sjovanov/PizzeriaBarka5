@@ -27,11 +27,8 @@ namespace PicerijaBarka5.Controllers
         {
             ICollection<PizzaDto> pizzas = new List<PizzaDto>();
             pizzas = repository.GetPizzasFromUsersWithRole(UserRoles.Owner);   
-          
             return View(pizzas);
-            
         }
-       
 
         // GET: Pizzas/Details/5
         public ActionResult Details(Guid id)
@@ -65,13 +62,11 @@ namespace PicerijaBarka5.Controllers
         {  
             if (file != null)
             {
-                System.Diagnostics.Debug.WriteLine("file");
                 string pic = System.IO.Path.GetFileName(file.FileName);
                 string path = System.IO.Path.Combine(
                                        Server.MapPath("~/Content/Images"), pic);
                 // file is uploaded
                 file.SaveAs(path);
-                System.Diagnostics.Debug.WriteLine(path);
 
                 // save the image path path to the database or you can send image 
                 // directly to database
@@ -95,9 +90,8 @@ namespace PicerijaBarka5.Controllers
                     return View("Index", repository.GetPizzasFromUser(User.Identity.GetUserId()));
                 }
                 return RedirectToAction("Index");
-            }
-        
-            
+            } 
+
             foreach (var TypeOfIngredient in Enum.GetValues(typeof(IngredientType)))
             {
                 pizzaResponse.TypeIngredientListPairs.Add(TypeOfIngredient.ToString(), repository.GetIngredientsByType((IngredientType)TypeOfIngredient));
