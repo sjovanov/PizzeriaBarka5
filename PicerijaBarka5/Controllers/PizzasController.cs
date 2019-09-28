@@ -62,8 +62,7 @@ namespace PicerijaBarka5.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Name, IncomeCoef, selectedIngredients, Dough, availableIngredients, ImgUrl, UserEmail")] CreatePizzaViewModel pizzaResponse, HttpPostedFileBase file)
-        {
-           
+        {  
             if (file != null)
             {
                 System.Diagnostics.Debug.WriteLine("file");
@@ -84,10 +83,17 @@ namespace PicerijaBarka5.Controllers
                 }
                 
                 pizzaResponse.ImgUrl = "/Content/Images/" + pic;
+            } else
+            {
+                pizzaResponse.ImgUrl = "/Content/Images/CustomPizza.png";
             }
             if (ModelState.IsValid)
             {
                 repository.CreatePizzaForUser(pizzaResponse, User.Identity.GetUserId());
+                if (User.IsInRole("User"))
+                {
+                    return View("Index", repository.GetPizzasFromUser(User.Identity.GetUserId()));
+                }
                 return RedirectToAction("Index");
             }
         
@@ -223,21 +229,25 @@ namespace PicerijaBarka5.Controllers
             return viewModel;
         }
     
-        public ActionResult OrderBy(string sortOrder)
+        public ActionResult OrderBy(string sortOrder, string Url)
         {
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "price_desc" : "";
+            ViewBag.URL = Url;
             switch (sortOrder)
             {
                 case "price_desc":
                     ViewBag.Title = "The pizzas are displayed in descending order";
-                    return View("Index", repository.getSortedPizzasDesc());
+                    if (ViewBag.Url.ToString().Contains("MyPizzas"))
+                        return View("Index", repository.GetSortedPizzasFromUserDesc(User.Identity.GetUserId()));
+                    else
+                        return View("Index", repository.GetSortedPizzasFromUsersWithRoleDesc(UserRoles.Owner));
 
                 default:
                     ViewBag.Title = "The pizzas are displayed in ascending order";
-                    return View("Index", repository.getSortedPizzas());
-                 
-                
-                    
+                    if (ViewBag.Url.ToString().Contains("MyPizzas"))
+                        return View("Index", repository.GetSortedPizzasFromUser(User.Identity.GetUserId()));
+                    else
+                        return View("Index", repository.GetSortedPizzasFromUsersWithRole(UserRoles.Owner));             
             }
             
         }

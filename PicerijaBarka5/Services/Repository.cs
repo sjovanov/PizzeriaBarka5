@@ -70,24 +70,6 @@ namespace PicerijaBarka5.Services
             return pizzas;
         }
 
-        public ICollection<PizzaDto> getSortedPizzas()
-        {
-            var pizzas = db.Pizzas.ToList().OrderBy(x => x.getPrice())
-                                  .ToList()
-                                  .Select(x => x.toPizzaDto())
-                                  .ToList();
-            return pizzas;
-        }
-
-        public ICollection<PizzaDto> getSortedPizzasDesc()
-        {
-            var pizzas = db.Pizzas.ToList().OrderByDescending(x => x.getPrice())
-                                  .ToList()
-                                  .Select(x => x.toPizzaDto())
-                                  .ToList();
-            return pizzas;
-        }
-
         public ICollection<PizzaDto> GetPizzasFromUser (string userFk)
         {
             return db.Users.Find(userFk)
@@ -95,6 +77,55 @@ namespace PicerijaBarka5.Services
                             .Select(x => x.toPizzaDto())
                             .ToList();
         }
+
+        public ICollection<PizzaDto> GetSortedPizzasFromUsersWithRole(string role)
+        {
+            var pizzas = new List<PizzaDto>();
+
+            using (var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext())))
+            {
+                pizzas = db.Pizzas.ToList()
+                        .Where(pizza => userManager.IsInRole(pizza.User.Id, role))
+                        .ToList().OrderBy(x=>x.getPrice())
+                        .Select(x => x.toPizzaDto())
+                        .ToList();
+            }
+            return pizzas;
+        }
+
+        public ICollection<PizzaDto> GetSortedPizzasFromUsersWithRoleDesc(string role)
+        {
+            var pizzas = new List<PizzaDto>();
+
+            using (var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext())))
+            {
+                pizzas = db.Pizzas.ToList()
+                        .Where(pizza => userManager.IsInRole(pizza.User.Id, role))
+                        .ToList().OrderByDescending(x => x.getPrice())
+                        .Select(x => x.toPizzaDto())
+                        .ToList();
+            }
+            return pizzas;
+        }
+
+        public ICollection<PizzaDto> GetSortedPizzasFromUser(string userFk)
+        {
+            return db.Users.Find(userFk)
+                            .Pizzas.ToList().OrderBy(x=>x.getPrice())
+                            .ToList()
+                            .Select(x => x.toPizzaDto())
+                            .ToList();
+        }
+
+        public ICollection<PizzaDto> GetSortedPizzasFromUserDesc(string userFk)
+        {
+            return db.Users.Find(userFk)
+                            .Pizzas.ToList().OrderByDescending(x => x.getPrice())
+                            .ToList()
+                            .Select(x => x.toPizzaDto())
+                            .ToList();
+        }
+
 
         public void CreatePizzaForUser(CreatePizzaViewModel pizza, string userFk)
         {

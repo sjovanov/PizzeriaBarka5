@@ -34,7 +34,8 @@
                     }
                 </div>
                 <div class="col-2">
-                    <button type="submit" class="btn btn-outline-secondary d-inline" onclick="@("window.location.href='" + @Url.Action("OrderBy", "Pizzas", new { sortOrder = ViewBag.NameSortParm }) + "'")">Sort by price <i class="ml-2 fa fa-sort"></i></button>
+                    @{ var prevUrl = Request.Url.ToString(); }
+                    <button type="submit" class="btn btn-outline-secondary d-inline" onclick="@("window.location.href='" + @Url.Action("OrderBy", "Pizzas", new { sortOrder = ViewBag.NameSortParm, Url = prevUrl }) + "'")">Sort by price <i class="ml-2 fa fa-sort"></i></button>
                 </div>
             </div>
         }
@@ -104,14 +105,7 @@
 @section scripts {
     <script type="text/javascript">
         $(document).ready(function () {
-            $("#sortBtn").on("click", function () {
-                $.ajax({
-                    type: "GET",
-                    url: "/Pizzas/OrderBy"
-                   
-                })
-            })
-
+           
             function Contains(text_one, text_two) {
                 if (text_one.indexOf(text_two) != -1)
                     return true;
