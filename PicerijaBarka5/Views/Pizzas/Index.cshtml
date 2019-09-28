@@ -1,6 +1,7 @@
 ﻿@model IEnumerable<PicerijaBarka5.Models.Dtos.PizzaDto>
 <section style="margin-top: 80px">
-    <h1 class="my-5 ml-5">@ViewBag.Title</h1>
+    <h1>@ViewBag.Title</h1>
+    <hr />
     @{
         var firstRow = true;
         var end = 0;
@@ -23,12 +24,12 @@
         }
         else
         {
-            <div class="row">
-                <div class="col-2">
+            <div class="row pt-3">
+                <div class="col-4">
                     @using (Html.BeginForm("Index", "Pizzas", FormMethod.Get))
                     {
                         <p>
-                            @Html.TextBox("SearchString", null, new { id = "searchPizza", @class = "form-control d-inline ml-2", placeholder = "Search by name" })
+                            @Html.TextBox("SearchString", null, new { id = "searchPizza", @class = "form-control d-inline ml-2", placeholder = "Search by name or ingredient" })
                         </p>
 
                     }

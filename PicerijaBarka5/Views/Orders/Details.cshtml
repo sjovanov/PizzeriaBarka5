@@ -92,7 +92,7 @@
                         alert(JSON.parse(response.responseText).message)
                     },
                     complete: function () {
-                        if (dropdown.val() == "Delivered") {
+                        if (dropdown.val() == "Delivered" || dropdown.val() == "Order canceled") {
                             dropdown.attr("disabled", "disabled")
                         }
                     },

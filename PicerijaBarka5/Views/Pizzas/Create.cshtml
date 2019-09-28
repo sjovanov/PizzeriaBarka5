@@ -54,7 +54,7 @@
                             @foreach (var item in list.Value)
                             {
                                 <div class="m-1 d-inline-block">
-                                    <input type=@boxType value="@item.IngredientId" name="selectedIngredients" id="@item.IngredientId" class="form-check-input toggle" hidden />
+                                    <input type="@boxType" value="@item.IngredientId" name="selectedIngredients" id="@item.IngredientId" class="form-check-input toggle" hidden />
                                     @Html.Label(item.Name, htmlAttributes: new { @for = item.IngredientId, @class = "form-check-label btn toggle-label" })
                                 </div>
                             }
