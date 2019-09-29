@@ -25,6 +25,9 @@
                 <div class="col-md-2">
                     @Html.EditorFor(model => model.QuantityPerSmallPizza, new { htmlAttributes = new { @class = "form-control" } })
                 </div>
+                <div class="col-md-2 text-left pl-0">
+                    <span class="align-middle">grams</span>
+                </div>
                 @Html.ValidationMessageFor(model => model.QuantityPerSmallPizza, "", new { @class = "text-danger" })
             </div>
 
@@ -33,6 +36,9 @@
                 <div class="col-md-2">
                     @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
                 </div>
+                <div class="col-md-2 text-left pl-0">
+                    <span class="align-middle">per kilogram</span>
+                </div>
                 @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
 
             </div>
@@ -40,6 +46,9 @@
                 @Html.LabelFor(model => model.QuantityInStock, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-2">
                     @Html.EditorFor(model => model.QuantityInStock, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+                <div class="col-md-2 text-left pl-0">
+                    <span class="align-middle">grams</span>
                 </div>
                 @Html.ValidationMessageFor(model => model.QuantityInStock, "", new { @class = "text-danger" })
 
