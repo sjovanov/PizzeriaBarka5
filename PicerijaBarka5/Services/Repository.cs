@@ -1,13 +1,11 @@
-﻿using PicerijaBarka5.Models;
-using PicerijaBarka5.Models.Dtos;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using PicerijaBarka5.Extentions;
+using PicerijaBarka5.Models;
+using PicerijaBarka5.Models.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
-using System.Web.Security;
 
 namespace PicerijaBarka5.Services
 {
@@ -19,10 +17,6 @@ namespace PicerijaBarka5.Services
 
         private Repository() { }
 
-        /// <summary>
-        /// Returns an instance from Repository used to get data from the database
-        /// </summary>
-        /// <returns></returns>
         public static Repository GetInstance ()
         {
             if (repository == null)
@@ -47,6 +41,14 @@ namespace PicerijaBarka5.Services
             {
                 throw new Exception();
             }
+        }
+
+        public List<PizzaDto> GetPizzasForIngredient(Guid id)
+        {
+            return db.Pizzas.Where(x => x.Ingredients.Any(y => y.IngredientId == id))
+                            .ToList()
+                            .Select(x => x.toPizzaDto())
+                            .ToList();
         }
 
         public ICollection<PizzaDto> GetPizzas ()
@@ -86,7 +88,7 @@ namespace PicerijaBarka5.Services
             {
                 pizzas = db.Pizzas.ToList()
                         .Where(pizza => userManager.IsInRole(pizza.User.Id, role))
-                        .ToList().OrderBy(x=>x.getPrice())
+                        .ToList().OrderBy(x=>x.Price)
                         .Select(x => x.toPizzaDto())
                         .ToList();
             }
@@ -101,7 +103,7 @@ namespace PicerijaBarka5.Services
             {
                 pizzas = db.Pizzas.ToList()
                         .Where(pizza => userManager.IsInRole(pizza.User.Id, role))
-                        .ToList().OrderByDescending(x => x.getPrice())
+                        .ToList().OrderByDescending(x => x.Price)
                         .Select(x => x.toPizzaDto())
                         .ToList();
             }
@@ -111,7 +113,7 @@ namespace PicerijaBarka5.Services
         public ICollection<PizzaDto> GetSortedPizzasFromUser(string userFk)
         {
             return db.Users.Find(userFk)
-                            .Pizzas.ToList().OrderBy(x=>x.getPrice())
+                            .Pizzas.ToList().OrderBy(x=>x.Price)
                             .ToList()
                             .Select(x => x.toPizzaDto())
                             .ToList();
@@ -120,7 +122,7 @@ namespace PicerijaBarka5.Services
         public ICollection<PizzaDto> GetSortedPizzasFromUserDesc(string userFk)
         {
             return db.Users.Find(userFk)
-                            .Pizzas.ToList().OrderByDescending(x => x.getPrice())
+                            .Pizzas.ToList().OrderByDescending(x => x.Price)
                             .ToList()
                             .Select(x => x.toPizzaDto())
                             .ToList();
@@ -129,12 +131,14 @@ namespace PicerijaBarka5.Services
 
         public void CreatePizzaForUser(CreatePizzaViewModel pizza, string userFk)
         {
+            var ing = db.Ingredients.Where(x => pizza.selectedIngredients.Contains(x.IngredientId.ToString())).ToList();
             Pizza dbPizza = new Pizza
             {
                 PizzaId = Guid.NewGuid(),
                 Name = pizza.Name,
                 IncomeCoeficient = pizza.IncomeCoef,
-                Ingredients = db.Ingredients.Where(x => pizza.selectedIngredients.Contains(x.IngredientId.ToString())).ToList(),
+                Ingredients = ing,
+                Price = ing.Select(x => x.toIngredientDto()).Sum(x => x.getPriceForIngredientInSmallPizza()),
                 Orders = new List<PizzaOrder>(),
                 ImgUrl = pizza.ImgUrl,
                 User = db.Users.Find(userFk)
@@ -371,16 +375,5 @@ namespace PicerijaBarka5.Services
         {
             return db.Users.ToList();
         }
-
-
- 
-        public void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-        }
-
     }
 }

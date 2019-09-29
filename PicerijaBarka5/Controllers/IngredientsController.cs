@@ -31,7 +31,9 @@ namespace PicerijaBarka5.Controllers
             }
             try
             {
-                return View(repository.GetIngredient(id));
+                var ing = repository.GetIngredient(id);
+                ing.Pizzas = repository.GetPizzasForIngredient(id);
+                return View(ing);
             }
             catch (Exception)
             {
@@ -50,7 +52,7 @@ namespace PicerijaBarka5.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Name,QuantityPerSmallPizza,Price,IngredientType")] IngredientDto ingredient)
+        public ActionResult Create([Bind(Include = "IngredientId,Name,QuantityPerSmallPizza,Price,IngredientType,QuantityInStock")] IngredientDto ingredient)
         {
             if (ModelState.IsValid)
             {
@@ -83,7 +85,7 @@ namespace PicerijaBarka5.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "IngredientId,Name,QuantityPerSmallPizza,Price")] IngredientDto ingredient)
+        public ActionResult Edit([Bind(Include = "IngredientId,Name,QuantityPerSmallPizza,Price,IngredientType,QuantityInStock")] IngredientDto ingredient)
         {
             if (ModelState.IsValid)
             {
@@ -103,10 +105,6 @@ namespace PicerijaBarka5.Controllers
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
-            {
-                repository.Dispose(disposing);
-            }
             base.Dispose(disposing);
         }
     }

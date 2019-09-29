@@ -31,6 +31,11 @@ namespace PicerijaBarka5.Models.Dtos
         public IngredientType IngredientType { get; set; }
 
         /// <summary>
+        /// List of pizzas where the ingredient
+        /// </summary>
+        public List<PizzaDto> Pizzas { get; set; }
+
+        /// <summary>
         /// The price per kilogram of the ingredient in the menu item
         /// </summary>
         [Required]
@@ -39,11 +44,21 @@ namespace PicerijaBarka5.Models.Dtos
         /// <summary>
         /// Quantity of the ingredient in stock
         /// </summary>
+        [Display(Name = "Quantity of ingredient in stock")]
         public double QuantityInStock { get; set; }
+
+        /// <summary>
+        /// Returns the price for the ingredient to make a single small pizza
+        /// </summary>
+        /// <returns></returns>
+        public double getPriceForIngredientInSmallPizza()
+        {
+            return QuantityPerSmallPizza * Price / 1000;
+        }
 
         public IngredientDto()
         {
-
+            Pizzas = new List<PizzaDto>();
         }
     }
 }

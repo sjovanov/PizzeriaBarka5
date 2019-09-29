@@ -128,9 +128,15 @@ tr.row {
     box-shadow: inset 0px 0px 5px 0px rgba(255, 140, 0, 0.75), 0px 4px 10px 0px rgba(255, 140, 0, 0.75);
 }
 
-i {
+td > span > i {
     color: gray;
-    font-size: 1.3rem;
+    padding-right: 5px;
+    vertical-align: central;
+    font-size: 1.5rem;
+}
+
+td > a > i {
+    color: gray;
     padding-right: 5px;
     vertical-align: central;
 }
@@ -140,7 +146,11 @@ i {
     }
 
     i.edit {
-        font-size: 1.1rem
+        font-size: 1rem
+    }
+
+    i.delete{
+        font-size: 1.2rem;
     }
 
     i.delete:hover {
@@ -154,3 +164,19 @@ i {
     i.details:hover {
         color: cornflowerblue
     }
+
+#addIngredient {
+    position: fixed;
+    right: 5%;
+    bottom: 5%;
+    background-color: #343a40;
+    padding: 1.4em 1.7em;
+    border-radius: 50%;
+}
+    #addIngredient > a > i {
+        color: darkorange;
+    }
+
+.table > tr > td{
+    vertical-align: central;
+}

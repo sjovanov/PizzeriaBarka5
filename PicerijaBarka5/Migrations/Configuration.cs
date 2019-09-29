@@ -119,6 +119,8 @@ namespace PicerijaBarka5.Migrations
                 ImgUrl = "/Content/Images/Capricciosa.png",
                 User = OwnerUser
             };
+
+
             var pizza2 = new Pizza
             {
                 PizzaId = new Guid("8fdbb930-0c88-4479-8eed-ab7609dda101"),
@@ -261,6 +263,16 @@ namespace PicerijaBarka5.Migrations
                 ImgUrl = "/Content/Images/New York Pizza.png",
                 User = OwnerUser
             };
+            pizza1.Price = pizza1.Ingredients.Sum(x => x.Price * x.QuantityPerSmallPizza / 1000);
+            pizza2.Price = pizza2.Ingredients.Sum(x => x.Price * x.QuantityPerSmallPizza / 1000);
+            pizza3.Price = pizza3.Ingredients.Sum(x => x.Price * x.QuantityPerSmallPizza / 1000);
+            pizza4.Price = pizza4.Ingredients.Sum(x => x.Price * x.QuantityPerSmallPizza / 1000);
+            pizza5.Price = pizza5.Ingredients.Sum(x => x.Price * x.QuantityPerSmallPizza / 1000);
+            pizza6.Price = pizza6.Ingredients.Sum(x => x.Price * x.QuantityPerSmallPizza / 1000);
+            pizza7.Price = pizza7.Ingredients.Sum(x => x.Price * x.QuantityPerSmallPizza / 1000);
+            pizza8.Price = pizza8.Ingredients.Sum(x => x.Price * x.QuantityPerSmallPizza / 1000);
+            pizza9.Price = pizza9.Ingredients.Sum(x => x.Price * x.QuantityPerSmallPizza / 1000);
+            pizza10.Price = pizza10.Ingredients.Sum(x => x.Price * x.QuantityPerSmallPizza / 1000);
 
 
             context.Pizzas.AddOrUpdate(
