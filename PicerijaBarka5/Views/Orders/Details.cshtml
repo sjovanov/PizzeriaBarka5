@@ -42,7 +42,14 @@
                                                 @foreach (var item in OrderStatus.GetOrderStatuses())
                                                 {
                                                     var selected = item == Model.Status ? "selected" : "";
-                                                    <option class="dropdown-item" @selected>@item</option>
+                                                     if (User.IsInRole("User") && !item.ToString().Equals("Delivered"))
+                                                    {
+                                                        <option class="dropdown-item" disabled="disabled" @selected>@item</option>
+                                                    }
+                                                    else
+                                                    {
+                                                        <option class="dropdown-item" @selected>@item</option>
+                                                    }
                                                 }
                                             </select>
                                         }

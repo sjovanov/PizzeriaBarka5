@@ -107,5 +107,19 @@ namespace PicerijaBarka5.Controllers
         {
             base.Dispose(disposing);
         }
+        public ActionResult OrderBy(string sortOrder)
+        {
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "price_desc" : "";
+            switch (sortOrder)
+            {
+                case "price_desc":
+                    ViewBag.Title = "The ingredients are displayed in descending order";
+                    return View("Index", repository.GetSortedIngredientsDesc());
+                 
+                default:
+                    ViewBag.Title = "The ingredients are displayed in ascending order";
+                    return View("Index", repository.GetSortedIngredients());
+            }
+        }
     }
 }
