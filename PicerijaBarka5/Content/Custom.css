@@ -125,7 +125,7 @@ tr.row {
 
 .form-control:focus {
     border-color: rgba(255, 140, 0, 0.75);
-    box-shadow: inset 0px 0px 5px 0px rgba(255, 140, 0, 0.75), 0px 4px 10px 0px rgba(255, 140, 0, 0.75);
+    box-shadow: 0 0 0 0.2rem rgba(255,140,0,.25);
 }
 
 td > span > i {
@@ -179,4 +179,14 @@ td > a > i {
 
 .table > tr > td{
     vertical-align: central;
+}
+
+.body-content {
+    position: relative;
+    min-height: 90vh;
+    padding-bottom: 3rem;
+}
+
+#footer {
+    height: 5rem;
 }
