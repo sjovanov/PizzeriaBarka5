@@ -40,6 +40,7 @@ namespace PicerijaBarka5.Migrations
                         Name = c.String(nullable: false),
                         IncomeCoeficient = c.Double(nullable: false),
                         ImgUrl = c.String(),
+                        Price = c.Double(nullable: false),
                         User_Id = c.String(maxLength: 128),
                     })
                 .PrimaryKey(t => t.PizzaId)

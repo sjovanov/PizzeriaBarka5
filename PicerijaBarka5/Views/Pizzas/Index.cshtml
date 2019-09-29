@@ -12,10 +12,10 @@
         {
             <div class="card text-white bg-dark mb-3 col-3 hoverable" title="Add new">
                 <a href="@Url.Action("Create")" class="custom-card-link">
-                    <div class="card-body" style="width: inherit; height: inherit">
+                    <div class="card-body">
                         <h5 class="card-title">Create new</h5>
                         <hr class="red ml-0 mx-0" />
-                        <div class="text-center" style="min-height: 100px">
+                        <div class="text-center" style="min-height: 100px; color: inherit">
                             <i class="fa fa-plus mt-4 fa-3x"></i>
                         </div>
                     </div>
@@ -90,7 +90,7 @@
                                 @Html.ActionLink("Edit", "Edit", new { id = item.PizzaId, Url = prevUrl }, new { @class = "btn bg-orange text-white", title = "Edit" })
                                 @Html.ActionLink("Delete", "Delete", new { id = item.PizzaId, Url = prevUrl }, new { @class = "btn bg-danger text-white", title = "Delete" })
                                 <button class="btn btn-success addToCart" title="Add to Cart" pizza-id="@item.PizzaId">Add to cart</button>
-                                <span class="float-right mt-2 data">@Math.Round(item.Price) den.</span>
+                                <span class="float-right mt-2 data">@item.Price den.</span>
                             </div>
                         </div>
                     }

@@ -50,15 +50,5 @@ namespace PicerijaBarka5.Models
         {
             Pizzas = new List<Pizza>();
         }
-
-        /// <summary>
-        /// Returns the price for the ingredient to make a single small pizza
-        /// </summary>
-        /// <returns></returns>
-        public double getPriceForIngredientInSmallPizza()
-        {
-            return QuantityPerSmallPizza * Price / 1000; 
-        }
-
     }
 }

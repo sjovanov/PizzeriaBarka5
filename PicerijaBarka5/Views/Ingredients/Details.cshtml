@@ -6,37 +6,40 @@
 
 <h2>Details</h2>
 
-<div>
-    <h4>Ingredient</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
+<section id="details" style="margin-top: 80px">
+    <div class="card bg-dark">
+        <div class="card-header">
+            <span class="text-orange text-uppercase">Details</span>
+        </div>
+        <div class="card-body pr-5">
+            <div class="row">
+                <div class="col text-white">
+                    <h1 class="text-orange">@Model.Name <span class="float-right">@Model.Price den/kg</span></h1>
+                    <hr class="red ml-0" />
+                </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
+            </div>
+            <div class="row text-white">
+                <div class="col-6">
+                    <p><strong>Type of ingredient: </strong> @Model.IngredientType.ToString()</p>
+                    <p><strong>Quantity of ingredient used in small pizza: </strong>@Model.QuantityPerSmallPizza grams</p>
+                    <p><strong>Quantity of ingredient in stock: </strong>@Model.QuantityInStock grams</p>
+                </div>
+                <div class="col-4">
+                    <h4>Used in:</h4>
+                    <ul>
+                        @foreach (var pizza in Model.Pizzas)
+                        {
+                            <li>@pizza.Name</li>
+                        }
+                    </ul>
+                </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.QuantityPerSmallPizza)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.QuantityPerSmallPizza)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Price)
-        </dd>
-
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.IngredientId }, htmlAttributes: new { @class = "btn btn-warning"}) 
-    @Html.ActionLink("Back to List", "Index", routeValues: null, htmlAttributes: new { @class = "btn btn-primary"})
-</p>
+            </div>
+        </div>
+        <div class="card-footer">
+            @Html.ActionLink("Edit", "Edit", new { id = Model.IngredientId }, htmlAttributes: new { @class = "btn btn-warning" })
+            @Html.ActionLink("Back to List", "Index", routeValues: null, htmlAttributes: new { @class = "btn btn-primary" })
+        </div>
+    </div>
+</section>

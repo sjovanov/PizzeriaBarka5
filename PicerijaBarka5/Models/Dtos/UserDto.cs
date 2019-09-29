@@ -10,5 +10,7 @@ namespace PicerijaBarka5.Models.Dtos
         public string UserName { get; set; }
 
         public string Email { get; set; }
+
+        public List<PizzaDto> Pizzas { get; internal set; }
     }
 }

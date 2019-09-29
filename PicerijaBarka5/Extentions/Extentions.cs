@@ -18,7 +18,7 @@ namespace PicerijaBarka5.Extentions
                 IngredientId = dbIngredient.IngredientId,
                 Name = dbIngredient.Name,
                 IngredientType = dbIngredient.IngredientType,
-                Price = dbIngredient.getPriceForIngredientInSmallPizza(),
+                Price = dbIngredient.Price,
                 QuantityPerSmallPizza = dbIngredient.QuantityPerSmallPizza,
                 QuantityInStock = dbIngredient.QuantityInStock
             };
@@ -29,7 +29,8 @@ namespace PicerijaBarka5.Extentions
             return new UserDto
             {
                 UserName = dbUser.UserName,
-                Email = dbUser.Email
+                Email = dbUser.Email,
+                Pizzas = dbUser.Pizzas.Select(x => x.toPizzaDto()).ToList(),
             };
         } 
 
@@ -42,8 +43,7 @@ namespace PicerijaBarka5.Extentions
                 Ingredients = dbPizza.Ingredients
                                         .Select(ingredient => ingredient.toIngredientDto())
                                         .ToList(),
-                Price = dbPizza.getPrice(),
-                User = dbPizza.User.toUserDto(),
+                Price = dbPizza.Price,
                 incomeCoeficient = dbPizza.IncomeCoeficient,
                 ImgUrl = dbPizza.ImgUrl
             };

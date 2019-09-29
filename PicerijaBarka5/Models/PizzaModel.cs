@@ -50,20 +50,10 @@ namespace PicerijaBarka5.Models
         public string ImgUrl { get; set; }
 
         /// <summary>
-        /// Returns the price for making a small pizza based on the price of its ingredients and the IncomeCoeficient of the pizzeria
+        /// Returns the price of the pizza
         /// </summary>
         /// <returns></returns>
-        public double getPrice()
-        {
-            if (Ingredients.Count > 0)
-            {
-                return Ingredients.Sum(it => it.getPriceForIngredientInSmallPizza()) * (1 + IncomeCoeficient);
-            }
-            else
-            {
-                return 0;
-            }
-        }
+        public double Price { get; set; }
 
         public Pizza()
         {
