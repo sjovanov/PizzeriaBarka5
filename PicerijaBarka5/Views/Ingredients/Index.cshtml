@@ -5,6 +5,22 @@
 }
 <section style="margin-top: 80px"></section>
 <h1 class="mx-0">Ingredients</h1>
+<hr />
+<div class="row pt-3">
+    <div class="col-4">
+        @using (Html.BeginForm("Index", "Pizzas", FormMethod.Get))
+        {
+            <p>
+                @Html.TextBox("SearchString", null, new { id = "searchIngredient", @class = "form-control d-inline ml-2", placeholder = "Search by name of ingredient" })
+            </p>
+
+        }
+    </div>
+    <div class="col-2">
+        @{ var prevUrl = Request.Url.ToString(); }
+        <button type="submit" class="btn btn-outline-secondary d-inline" onclick="@("window.location.href='" + @Url.Action("OrderBy", "Ingredients", new { sortOrder = ViewBag.NameSortParm }) + "'")">Sort by price <i class="ml-2 fa fa-sort"></i></button>
+    </div>
+</div>
 
 <table class="table table-striped table-hover mt-3">
     <thead class="bg-dark text-white font-weight-bold">
@@ -32,7 +48,7 @@
             int j = 1;
             foreach (var item in Model)
             {
-                <tr>
+                <tr class="Search">
                     <td>
                         @j
                     </td>
@@ -49,7 +65,7 @@
                         <span>@item.QuantityInStock</span>
                     </td>
                     <td>
-                        <a href="@Url.Action("Edit", new { id = item.IngredientId })" title="Edit ingredient" class="text-decoration-none" >
+                        <a href="@Url.Action("Edit", new { id = item.IngredientId })" title="Edit ingredient" class="text-decoration-none">
                             <i class="fas fa-pen edit"></i>
                         </a>
                         <a href="@Url.Action("Details", new { id = item.IngredientId })" title="View ingredient details" class="text-decoration-none">
@@ -71,6 +87,21 @@
 @section scripts{
     <script>
         $(document).ready(function () {
+             function Contains(text_one, text_two) {
+                if (text_one.indexOf(text_two) != -1)
+                    return true;
+            }
+            $('#searchIngredient').keyup(function () {
+                var searchText = $("#searchIngredient").val().toLowerCase();
+                $(".Search").each(function () {
+                    if (!Contains($(this).text().toLowerCase(), searchText)) {
+                        $(this).hide();
+                    }
+                    else {
+                        $(this).show();
+                    }
+                });
+            });
             $(".deleteIngredient").click(function () {
                 var button = $(this);
                 $.ajax({
