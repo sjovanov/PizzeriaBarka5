@@ -198,7 +198,7 @@ namespace PicerijaBarka5.Services
         public ICollection<IngredientDto> GetSortedIngredients()
         {
             return db.Ingredients.ToList()
-                                .OrderBy(x => x.getPriceForIngredientInSmallPizza()).ToList()
+                                .OrderBy(x => x.Price).ToList()
                                 .Select(ingredient => ingredient.toIngredientDto())
                                 .ToList();
         }
