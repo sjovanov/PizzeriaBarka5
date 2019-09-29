@@ -191,6 +191,21 @@ namespace PicerijaBarka5.Services
                                 .ToList();
         }
 
+        public ICollection<IngredientDto> GetSortedIngredients()
+        {
+            return db.Ingredients.ToList()
+                                .OrderBy(x => x.getPriceForIngredientInSmallPizza()).ToList()
+                                .Select(ingredient => ingredient.toIngredientDto())
+                                .ToList();
+        }
+        public ICollection<IngredientDto> GetSortedIngredientsDesc()
+        {
+            return db.Ingredients.ToList()
+                                .OrderByDescending(x => x.Price).ToList()
+                                .Select(ingredient => ingredient.toIngredientDto())
+                                .ToList();
+        }
+
         public IngredientDto GetIngredient(Guid id)
         {
             IngredientDto ingredient = db.Ingredients.Find(id).toIngredientDto();
