@@ -4,60 +4,46 @@
     ViewBag.Title = "Log in";
 }
 
-<h2>@ViewBag.Title.</h2>
-<div class="row">
-    <div class="col-md-8">
-        <section id="loginForm">
-            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-            {
-                @Html.AntiForgeryToken()
-                <h4>Use a local account to log in.</h4>
-                <hr />
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+<section id="loginForm" style="margin-top: 80px">
+    @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="card w-50 bg-dark mx-auto" style="margin-top: 100px;">
+            <div class="card-footer text-orange font-weight-bold text-uppercase text-center">
+                <h3>Log in</h3>
+            </div>
+
+            <div class="card-body text-white font-weight-bold bg-dark w-75 mx-auto p-0 pt-4">
                 <div class="form-group">
-                    @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-10">
-                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                    @Html.LabelFor(m => m.Email, new { @class = "control-label" })
+                    <div class="row w-100 mx-auto">
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "Please enter your email" })
                     </div>
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-10">
-                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                    @Html.LabelFor(m => m.Password, new { @class = "control-label" })
+                    <div class="row w-100 mx-auto">
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control col-md-12", @placeholder = "Please enter your password" })
                     </div>
                 </div>
                 <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
+                    <div class="col-md-offset-2 col-md-10 pl-0">
                         <div class="checkbox">
                             @Html.CheckBoxFor(m => m.RememberMe)
                             @Html.LabelFor(m => m.RememberMe)
                         </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Log in" class="btn btn-default" />
-                    </div>
-                </div>
-                <p>
-                    @Html.ActionLink("Register as a new user", "Register")
-                </p>
-                @* Enable this once you have account confirmation enabled for password reset functionality
-                    <p>
-                        @Html.ActionLink("Forgot your password?", "ForgotPassword")
-                    </p>*@
-            }
-        </section>
-    </div>
-    <div class="col-md-4">
-        <section id="socialLoginForm">
-            @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
-        </section>
-    </div>
-</div>
+                @Html.ValidationSummary("", new { @class = "text-danger" })
+            </div>
+            <div class="card-footer">
+                <input type="submit" class="btn btn-block col-md-2 bg-orange text-white font-weight-bold ml-auto mr-5" value="Log in" />
+            </div>
+        </div>
 
+
+    }
+</section>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
