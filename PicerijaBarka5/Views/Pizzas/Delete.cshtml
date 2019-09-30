@@ -56,10 +56,17 @@
             {
                 @Html.AntiForgeryToken()
 
-                <div class="form-actions no-color">
-                    <input type="submit" value="Delete" class="btn btn-danger" />
-                    @Html.ActionLink("Back to List", "Index", routeValues: null, htmlAttributes: new { @class = "btn btn-primary" })
-                </div>
+            <div class="form-actions no-color">
+                <input type="submit" value="Delete" class="btn btn-danger" />
+                @if(User.IsInRole("User"))
+                {
+                @Html.ActionLink("Back to List", "MyPizzas", routeValues: null, htmlAttributes: new { @class = "btn btn-primary" })
+                }
+                else
+                {
+                @Html.ActionLink("Back to List", "Index", routeValues: null, htmlAttributes: new { @class = "btn btn-primary" })
+                }
+            </div>
             }
         </div>
     </div>

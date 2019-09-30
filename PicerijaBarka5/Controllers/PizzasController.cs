@@ -130,7 +130,7 @@ namespace PicerijaBarka5.Controllers
             {
                 repository.UpdatePizza(pizza);
                 if (ViewBag.URL.ToString().Contains("MyPizzas"))
-                    return View("Index", repository.GetPizzasFromUser(User.Identity.GetUserId()));
+                    return RedirectToAction("MyPizzas");
                 return RedirectToAction("Index");
             }
 
@@ -168,7 +168,7 @@ namespace PicerijaBarka5.Controllers
             {
                 repository.DeletePizza(id);
                 if (ViewBag.URL.ToString().Contains("MyPizzas"))
-                    return View("Index", repository.GetPizzasFromUser(User.Identity.GetUserId()));
+                    return RedirectToAction("MyPizzas");
                 return RedirectToAction("Index");
             }
             catch (Exception)
