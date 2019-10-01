@@ -55,6 +55,14 @@ namespace PicerijaBarka5.Models.Dtos
         {
             return QuantityPerSmallPizza * Price / 1000;
         }
+        /// <summary>
+        /// Returns if the quantity of the ingredient in stock is more than 500 grams
+        /// </summary>
+        /// <returns></returns>
+        public bool isInStock()
+        {
+            return QuantityInStock > 500;
+        }
 
         public IngredientDto()
         {

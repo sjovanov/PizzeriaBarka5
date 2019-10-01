@@ -61,5 +61,16 @@ namespace PicerijaBarka5.Helpers
                 return "text-success";
             }
         }
+
+        public static string SetIngredientStatusClass(this HtmlHelper helper, IngredientDto ingredient)
+        {
+            if(ingredient.isInStock())
+            {
+                return "text-success";
+            } else
+            {
+                return "text-danger";
+            }
+        }
     }
 }

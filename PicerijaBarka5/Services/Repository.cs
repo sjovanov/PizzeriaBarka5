@@ -17,7 +17,7 @@ namespace PicerijaBarka5.Services
 
         private Repository() { }
 
-        public static Repository GetInstance ()
+        public static Repository GetInstance()
         {
             if (repository == null)
             {
@@ -29,7 +29,7 @@ namespace PicerijaBarka5.Services
 
         #region PizzaRepository
 
-        public PizzaDto GetPizza (Guid? id)
+        public PizzaDto GetPizza(Guid? id)
         {
             PizzaDto pizza = db.Pizzas.Find(id).toPizzaDto();
 
@@ -51,17 +51,17 @@ namespace PicerijaBarka5.Services
                             .ToList();
         }
 
-        public ICollection<PizzaDto> GetPizzas ()
+        public ICollection<PizzaDto> GetPizzas()
         {
             return db.Pizzas.ToList()
                             .Select(pizza => pizza.toPizzaDto())
                             .ToList();
         }
 
-        public ICollection<PizzaDto> GetPizzasFromUsersWithRole (string role)
+        public ICollection<PizzaDto> GetPizzasFromUsersWithRole(string role)
         {
             var pizzas = new List<PizzaDto>();
-                
+
             using (var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext())))
             {
                 pizzas = db.Pizzas.ToList()
@@ -72,7 +72,7 @@ namespace PicerijaBarka5.Services
             return pizzas;
         }
 
-        public ICollection<PizzaDto> GetPizzasFromUser (string userFk)
+        public ICollection<PizzaDto> GetPizzasFromUser(string userFk)
         {
             return db.Users.Find(userFk)
                             .Pizzas.ToList()
@@ -88,7 +88,7 @@ namespace PicerijaBarka5.Services
             {
                 pizzas = db.Pizzas.ToList()
                         .Where(pizza => userManager.IsInRole(pizza.User.Id, role))
-                        .ToList().OrderBy(x=>x.Price)
+                        .ToList().OrderBy(x => x.Price)
                         .Select(x => x.toPizzaDto())
                         .ToList();
             }
@@ -113,7 +113,7 @@ namespace PicerijaBarka5.Services
         public ICollection<PizzaDto> GetSortedPizzasFromUser(string userFk)
         {
             return db.Users.Find(userFk)
-                            .Pizzas.ToList().OrderBy(x=>x.Price)
+                            .Pizzas.ToList().OrderBy(x => x.Price)
                             .ToList()
                             .Select(x => x.toPizzaDto())
                             .ToList();
@@ -144,7 +144,7 @@ namespace PicerijaBarka5.Services
                 Size = pizza.Size,
                 User = db.Users.Find(userFk)
             };
-          
+
             db.Pizzas.Add(dbPizza);
             db.SaveChanges();
         }
@@ -164,7 +164,7 @@ namespace PicerijaBarka5.Services
             }
         }
 
-        public void UpdatePizza (CreatePizzaViewModel viewModel)
+        public void UpdatePizza(CreatePizzaViewModel viewModel)
         {
             var dbPizza = db.Pizzas.Find(viewModel.PizzaId);
 
@@ -190,7 +190,7 @@ namespace PicerijaBarka5.Services
 
         #region IngredientRepository
 
-        public ICollection<IngredientDto> GetIngredients ()
+        public ICollection<IngredientDto> GetIngredients()
         {
             return db.Ingredients.ToList()
                                 .Select(ingredient => ingredient.toIngredientDto())
@@ -226,7 +226,7 @@ namespace PicerijaBarka5.Services
             }
         }
 
-        public ICollection<IngredientDto> GetIngredientsForPizza (Guid? pizzaId)
+        public ICollection<IngredientDto> GetIngredientsForPizza(Guid? pizzaId)
         {
             return db.Ingredients.Where(ingredient => ingredient.Pizzas.Any(pizza => pizza.PizzaId == pizzaId))
                                 .ToList()
@@ -234,7 +234,7 @@ namespace PicerijaBarka5.Services
                                 .ToList();
         }
 
-        public ICollection<IngredientDto> GetIngredientsByType (IngredientType type)
+        public ICollection<IngredientDto> GetIngredientsByType(IngredientType type)
         {
             return db.Ingredients.Where(x => x.IngredientType == type)
                                     .ToList()
@@ -242,7 +242,7 @@ namespace PicerijaBarka5.Services
                                     .ToList();
         }
 
-        public void CreateIngredient (IngredientDto ingredient)
+        public void CreateIngredient(IngredientDto ingredient)
         {
             Ingredient dbIngredient = new Ingredient
             {
@@ -257,7 +257,7 @@ namespace PicerijaBarka5.Services
             db.SaveChanges();
         }
 
-        public void DeleteIngredient (Guid id)
+        public void DeleteIngredient(Guid id)
         {
             Ingredient ingredient = db.Ingredients.Find(id);
 
@@ -272,7 +272,7 @@ namespace PicerijaBarka5.Services
             }
         }
 
-        public void UpdateIngredient (IngredientDto ingredient)
+        public void UpdateIngredient(IngredientDto ingredient)
         {
             var dbIngredient = db.Ingredients.Find(ingredient.IngredientId);
 
@@ -369,8 +369,14 @@ namespace PicerijaBarka5.Services
 
             dbPizzaOrder.Status = newStatus;
 
+            if (dbPizzaOrder.Status == OrderStatus.Accepted)
+            {
+                updateOrderIngredients(dbPizzaOrder);
+            }
+
             db.SaveChanges();
         }
+
         #endregion
 
         public void AddContactEntry(ContactForm contactForm)
@@ -393,6 +399,28 @@ namespace PicerijaBarka5.Services
         public IEnumerable<ApplicationUser> GetUsers()
         {
             return db.Users.ToList();
+        }
+        private void updateOrderIngredients(PizzaOrder dbPizzaOrder)
+        {
+            foreach (var dbItem in dbPizzaOrder.Items)
+            {
+                foreach (var dbIngredient in dbItem.Pizza.Ingredients)
+                {
+                    switch (dbItem.PizzaSize)
+                    {
+                        case PizzaSize.Large:
+                            dbIngredient.QuantityInStock -= dbIngredient.QuantityPerSmallPizza * 2.5 * dbItem.Quantity;
+                            continue;
+                        case PizzaSize.Medium:
+                            dbIngredient.QuantityInStock -= dbIngredient.QuantityPerSmallPizza * 1.7 * dbItem.Quantity;
+                            continue;
+                        case PizzaSize.Small:
+                            dbIngredient.QuantityInStock -= dbIngredient.QuantityPerSmallPizza * dbItem.Quantity;
+                            continue;
+
+                    }
+                }
+            }
         }
     }
 }

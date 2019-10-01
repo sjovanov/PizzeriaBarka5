@@ -16,9 +16,9 @@ namespace PicerijaBarka5.Models
 
     public static class UserRoles
     {
-        public static readonly string Admin = "Admin";
-        public static readonly string Owner = "Owner";
-        public static readonly string User = "User";
+        public const string Admin = "Admin";
+        public const string Owner = "Owner";
+        public const string User = "User";
 
         public static string[] GetRoles()
         {
@@ -33,11 +33,11 @@ namespace PicerijaBarka5.Models
 
     public static class OrderStatus
     {
-        public static readonly string InProgress = "In Progress";
-        public static readonly string Accepted = "Accepted";
-        public static readonly string InDelivery = "Is being delivered";
-        public static readonly string Delivered = "Delivered";
-        public static readonly string Declined = "Order declined";
+        public const string InProgress = "In Progress";
+        public const string Accepted = "Accepted";
+        public const string InDelivery = "Is being delivered";
+        public const string Delivered = "Delivered";
+        public const string Declined = "Order declined";
 
         public static string[] GetOrderStatuses()
         {
@@ -54,9 +54,9 @@ namespace PicerijaBarka5.Models
 
     public static class PizzaSize
     {
-        public static readonly string Small = "Small";
-        public static readonly string Medium = "Medium";
-        public static readonly string Large = "Large";
+        public const string Small = "Small";
+        public const string Medium = "Medium";
+        public const string Large = "Large";
 
         public static string[] getPizzaSizes()
         {

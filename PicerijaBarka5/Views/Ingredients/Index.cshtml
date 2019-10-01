@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<PicerijaBarka5.Models.Dtos.IngredientDto>
-
+@using PicerijaBarka5.Helpers
 @{
     ViewBag.Title = "Index";
 }
@@ -43,8 +43,8 @@
             <th class="text-center">
                 Price per kilogram
             </th>
-            <th class="text-center">
-                Quantity in stock (grams)
+            <th>
+                Quantity
             </th>
             <th></th>
         </tr>
@@ -67,8 +67,16 @@
                     <td class="text-center">
                         <span>@item.Price</span>
                     </td>
-                    <td class="text-center">
-                        <span>@item.QuantityInStock</span>
+                    <td>
+                        @{
+                            var stockClass = Html.SetIngredientStatusClass(item);
+                            var text = item.isInStock() ? "In stock" : "Out of stock";
+                            
+                        }
+                        <span class="@stockClass align-middle">
+                            <i class="fa fa-circle align-middle @stockClass" style="font-size: 7px"></i>
+                            @text
+                        </span>
                     </td>
                     <td>
                         <a href="@Url.Action("Edit", new { id = item.IngredientId })" title="Edit ingredient" class="text-decoration-none">
@@ -113,7 +121,7 @@
                 $.ajax({
                     method: "POST",
                     url: "http://localhost:62459/Ingredients/Delete",
-                    
+
                     data: { id: button.attr("ingredient-id") },
                     success: function () {
                         button.parents("tr").remove().draw();

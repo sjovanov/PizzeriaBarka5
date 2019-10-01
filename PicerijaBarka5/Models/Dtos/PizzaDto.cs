@@ -48,11 +48,11 @@ namespace PicerijaBarka5.Models.Dtos
 
         public double getPizzaForMedium()
         {
-            return 1.8 * Price;
+            return 1.8 * Price * (1 + incomeCoeficient);
         }
         public double getPizzaForLarge()
         {
-            return 2.5 * Price;
+            return 2.5 * Price * (1 + incomeCoeficient);
         }
 
         public double getPrice()
@@ -67,7 +67,7 @@ namespace PicerijaBarka5.Models.Dtos
             }
             else
             {
-                return Price;
+                return Price * (1 + incomeCoeficient);
             }
         }
     }
