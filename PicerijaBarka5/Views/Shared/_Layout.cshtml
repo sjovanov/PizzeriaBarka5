@@ -47,11 +47,12 @@
     </nav>
     <div class="container body-content">
         @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - Pizzeria Barka 5</p>
-        </footer>
     </div>
+    <footer id="footer" class="bg-dark text-white">
+        <div class="container text-center">
+            <p class="pt-4">&copy; @DateTime.Now.Year - Pizzeria Barka 5</p>
+        </div>
+    </footer>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")

@@ -1,11 +1,12 @@
 ﻿@model PicerijaBarka5.Models.CreatePizzaViewModel
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    @Html.HiddenFor(x => x.PizzaId);
+<section style="margin-top: 80px">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(x => x.PizzaId);
 
-        <h4>Pizza</h4>
+        <h4>Edit pizza</h4>
         <hr />
         <div class="row container">
             <div class="col-md-5">
@@ -38,7 +39,7 @@
                         {
                             var shouldCheck = Model.selectedIngredients.Any(x => x == item.IngredientId.ToString()) ? "checked" : "";
                             <div class="m-1 d-inline-block">
-                                <input type=@boxType value="@item.IngredientId" name="selectedIngredients" id="@item.IngredientId" class="form-check-input toggle" hidden @shouldCheck/>
+                                <input type=@boxType value="@item.IngredientId" name="selectedIngredients" id="@item.IngredientId" class="form-check-input toggle" hidden @shouldCheck />
                                 @Html.Label(item.Name, htmlAttributes: new { @for = item.IngredientId, @class = "form-check-label btn toggle-label" })
                             </div>
                         }
@@ -62,12 +63,13 @@
                 }
                 else
                 {
-                @Html.ActionLink("Back to List", "Index", routeValues: null, htmlAttributes: new { @class = "btn btn-primary" })
+                    @Html.ActionLink("Back to List", "Index", routeValues: null, htmlAttributes: new { @class = "btn btn-primary" })
                 }
             </div>
         </div>
 
-}
+    }
+</section>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
