@@ -47,7 +47,7 @@
             <div class="card-deck">
                 @{ if (firstRow)
                     {
-                        <div class="card text-white bg-dark mb-3 hoverable firstCard" title="Add new">
+                        <div class="card text-white bg-dark mb-3 hoverable firstCard" title="Add new"  style="background: linear-gradient( rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4) )">
                             <a href="@Url.Action("Create")" class="custom-card-link">
                                 <div class="card-body" style="min-height:200px">
                                     <h5 class="card-title">Create new</h5>
@@ -73,17 +73,23 @@
                     {
                         var item = Model.ElementAt(j);
 
-                        <div class="card text-white bg-dark mb-3 hoverable item" title="View details">
-                            <a href="@Url.Action("Details", new { id = item.PizzaId })" class="custom-card-link">
+                        <div class="card text-white bg-dark mb-3 hoverable item" title="View details" style="background: linear-gradient( rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4) ), url(@item.ImgUrl); background-repeat:no-repeat; background-position: center; background-size:contain;">
+                            <a href="@Url.Action("Details", new { id = item.PizzaId, Url = Request.Url.ToString() })" class="custom-card-link">
                                 <div class="Search card-body" style="min-height: 250px">
                                     <h5 class="card-title mb-0 pb-0">@item.Name</h5>
                                     <hr class="red ml-0 mt-1 mb-1 " />
-                                    <div class="text-center">
-                                        <img src="@item.ImgUrl" style="width:190px;height:190px;">
-                                    </div>
-                                    <p class="card-text mt-2" style="height: 40px;">
+                                    @if (item.ImgUrl.Contains("CustomPizza"))
+                                    {
+                                        <p class="card-text mt-2 font-italic pl-2 pt-2" style="height: 100px; background: linear-gradient( rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7) )">
+                                            @string.Join(", ", item.Ingredients.Select(x => x.Name).ToList())
+                                        </p>
+                                    }
+                                    else
+                                    {
+                                    <p class="card-text mt-2 font-italic" style="height: 90px;">
                                         @string.Join(", ", item.Ingredients.Select(x => x.Name).ToList())
                                     </p>
+                                    }
                                 </div>
                             </a>
                             <div class="card-footer pb-4">
