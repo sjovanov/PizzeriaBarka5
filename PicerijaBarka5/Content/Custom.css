@@ -13,6 +13,10 @@
     padding: 10px;
 }
 
+.card-text {
+    font-size: 15px;
+}
+
 .text-large {
     font-size: 4.5rem;
 }
@@ -113,7 +117,6 @@ label.toggle-label {
         box-shadow: 0px 0px 0px 6px rgba(255, 140, 0, 0.5)
     }
 
-
 tr.row {
     margin-left: 0px;
     margin-right: 0px;
@@ -198,6 +201,11 @@ td > a > i {
 
 #footer {
     height: 5rem;
+}
+
+.editImg {
+    width: 400px;
+    height: 250px;
 }
 
 .card-footer > *.btn{

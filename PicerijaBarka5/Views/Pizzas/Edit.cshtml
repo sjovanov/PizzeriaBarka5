@@ -24,6 +24,7 @@
                         @Html.ValidationMessageFor(model => model.IncomeCoef, "", new { @class = "text-danger" })
                     </div>
                 </div>
+                <img src="@Model.ImgUrl" class="editImg" />
             </div>
             <div class="col-md-7">
                 @Html.ValidationSummary(true, "", new { @class = "text-danger ml-0" })
@@ -34,7 +35,7 @@
                 @foreach (var list in Model.TypeIngredientListPairs)
                 {
                     <div class="form-group">
-                        <label class="row font-weight-bold">Choose your @list.Key: </label>
+                        <label class="row font-weight-bold ml-2">Choose your @list.Key: </label>
                         @foreach (var item in list.Value)
                         {
                             var shouldCheck = Model.selectedIngredients.Any(x => x == item.IngredientId.ToString()) ? "checked" : "";
