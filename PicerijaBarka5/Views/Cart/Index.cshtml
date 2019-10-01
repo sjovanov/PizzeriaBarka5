@@ -23,6 +23,9 @@
                             Quantity in cart
                         </th>
                         <th>
+                            Size of item
+                        </th>
+                        <th>
                             Price per item
                         </th>
                         <th>
@@ -47,11 +50,14 @@
                                     <span>@item.Quantity</span>
                                 </td>
                                 <td>
-                                    <span>@item.Pizza.Price</span>
+                                    <span>@item.Pizza.Size</span>
+                                </td>
+                                <td>
+                                    <span>@item.Pizza.getPrice()</span>
                                 </td>
                                 <td>
                                     <span>
-                                        @(item.Pizza.Price * item.Quantity)
+                                        @(item.Pizza.getPrice() * item.Quantity)
                                     </span>
                                 </td>
                                 <td>
@@ -67,7 +73,8 @@
                 <tfoot class="bg-dark text-white p-0 m-0 font-weight-bold">
                     <tr>
                         <td colspan="4">Total:</td>
-                        <td>@Model.Items.Select(x => x.Pizza.Price * x.Quantity).Sum() den.</td>
+                        <td>@Model.Items.Select(x => x.Pizza.getPrice() * x.Quantity).Sum() den.</td>
+                        <td></td>
                         <td></td>
                     </tr>
                 </tfoot>
@@ -93,6 +100,8 @@
             <h3>Are you full or just haven't chosen a pizza yet?</h3>
         }
 
+    
+
     }
 </section>
 
@@ -101,7 +110,7 @@
         var data = (CartOrderDto)Session["cart"];
     }
     <script>
-
+        $(document).ready(function () {
             $("#makeOrderButton").on('click', function () {
                 let address = $("#address").val();
                 if (!address) {
@@ -128,6 +137,7 @@
             var table = $("#cartTable");
             $(".removeFromCart").click(function () {
                 var button = $(this);
+                $("#dialog").dialog("open");
                 $.ajax({
                     method: "POST",
                     url: "/Cart/RemoveFromCart",
@@ -140,6 +150,8 @@
                     type: "application/json"
                 });
             });
+
+            })
 
 
 

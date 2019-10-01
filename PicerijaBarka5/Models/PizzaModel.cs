@@ -4,7 +4,6 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
-
 namespace PicerijaBarka5.Models
 {
 
@@ -55,21 +54,23 @@ namespace PicerijaBarka5.Models
         /// <returns></returns>
         public double Price { get; set; }
 
+        public string Size { get; set; }
+
         public Pizza()
         {
             Ingredients = new List<Ingredient>();
             Orders = new List<PizzaOrder>();
         }
 
-        public Pizza(Guid id, string name, ICollection<Ingredient> ingredients, string imgUrl, double incomeCoef = 0)
+        public Pizza(Guid id, string name, ICollection<Ingredient> ingredients, string imgUrl, string size, double incomeCoef = 0)
         {
             PizzaId = id;
             Name = name;
             Ingredients = ingredients;
             IncomeCoeficient = incomeCoef;
             Orders = new List<PizzaOrder>();
+            Size = size;
             ImgUrl = imgUrl;
         }
-
     }
 }

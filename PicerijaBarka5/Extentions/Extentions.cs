@@ -45,7 +45,8 @@ namespace PicerijaBarka5.Extentions
                                         .ToList(),
                 Price = dbPizza.Price,
                 incomeCoeficient = dbPizza.IncomeCoeficient,
-                ImgUrl = dbPizza.ImgUrl
+                ImgUrl = dbPizza.ImgUrl,
+                Size = dbPizza.Size
             };
         }
 
@@ -54,7 +55,8 @@ namespace PicerijaBarka5.Extentions
             return new CartItemDto
             {
                 Pizza = cartItem.Pizza.toPizzaDto(),
-                Quantity = cartItem.Quantity
+                Quantity = cartItem.Quantity,
+                PizzaSize = cartItem.PizzaSize
             };
         }
 

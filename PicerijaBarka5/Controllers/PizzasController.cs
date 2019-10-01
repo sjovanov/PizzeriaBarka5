@@ -57,7 +57,7 @@ namespace PicerijaBarka5.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Name, IncomeCoef, selectedIngredients, Dough, availableIngredients, ImgUrl, UserEmail")] CreatePizzaViewModel pizzaResponse, HttpPostedFileBase file)
+        public ActionResult Create([Bind(Include = "Name, IncomeCoef, selectedIngredients, Dough, availableIngredients, ImgUrl, Size, UserEmail")] CreatePizzaViewModel pizzaResponse, HttpPostedFileBase file)
         {
             if (file != null)
             {
@@ -203,7 +203,7 @@ namespace PicerijaBarka5.Controllers
 
                 foreach (var TypeOfIngredient in Enum.GetValues(typeof(IngredientType)))
                 {
-                    viewModel.TypeIngredientListPairs.Add(TypeOfIngredient.ToString(), repository.GetIngredientsByType((IngredientType)TypeOfIngredient));
+                    viewModel.TypeIngredientListPairs.Add(TypeOfIngredient.ToString(), repository.GetIngredientsByType((IngredientType)TypeOfIngredient));   
                 }
 
                 viewModel.selectedIngredients = repository.GetIngredientsForPizza(id)
@@ -212,6 +212,7 @@ namespace PicerijaBarka5.Controllers
 
                 viewModel.Name = pizzaToEdit.Name;
                 viewModel.IncomeCoef = pizzaToEdit.incomeCoeficient;
+                viewModel.Size = pizzaToEdit.Size;
                 viewModel.ImgUrl = pizzaToEdit.ImgUrl;
             }
             else

@@ -141,8 +141,10 @@ namespace PicerijaBarka5.Services
                 Price = ing.Select(x => x.toIngredientDto()).Sum(x => x.getPriceForIngredientInSmallPizza()),
                 Orders = new List<PizzaOrder>(),
                 ImgUrl = pizza.ImgUrl,
+                Size = pizza.Size,
                 User = db.Users.Find(userFk)
             };
+          
             db.Pizzas.Add(dbPizza);
             db.SaveChanges();
         }
@@ -168,7 +170,7 @@ namespace PicerijaBarka5.Services
 
             dbPizza.Name = viewModel.Name;
             dbPizza.IncomeCoeficient = viewModel.IncomeCoef;
-            
+            dbPizza.Size = viewModel.Size;
             db.Entry(dbPizza).Collection(p => p.Ingredients).Load();
 
             var newIngredients = db.Ingredients.Where(ing => viewModel.selectedIngredients.Contains(ing.IngredientId.ToString())).ToList();
@@ -334,9 +336,11 @@ namespace PicerijaBarka5.Services
                 {
                     CartItemId = Guid.NewGuid(),
                     Pizza = db.Pizzas.Find(item.Pizza.PizzaId),
+                    PizzaSize = item.Pizza.Size,
                     Quantity = item.Quantity
                 });
             }
+
             user.PizzaOrders.Add(dbOrder);
             db.PizzaOrders.Add(dbOrder);
             db.SaveChanges();

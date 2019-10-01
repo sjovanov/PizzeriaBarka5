@@ -52,4 +52,20 @@ namespace PicerijaBarka5.Models
         }
     }
 
+    public static class PizzaSize
+    {
+        public static readonly string Small = "Small";
+        public static readonly string Medium = "Medium";
+        public static readonly string Large = "Large";
+
+        public static string[] getPizzaSizes()
+        {
+            return new string[]
+            {
+                Small,
+                Medium,
+                Large
+            };
+        }
+    }
 }

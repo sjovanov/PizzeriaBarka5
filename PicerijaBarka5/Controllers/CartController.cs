@@ -34,19 +34,21 @@ namespace PicerijaBarka5.Controllers
 
         // POST: Cart/AddToCart
         [HttpPost]
-        public void AddToCart(Guid id)
+        public void AddToCart(Guid id, string size)
         {
             CartOrderDto cart;
             object sessionCart = Session["cart"];
 
             PizzaDto pizzaToAdd = repository.GetPizza(id);
+            pizzaToAdd.Size = size;
 
             if (sessionCart != null)
             {
                 cart = (CartOrderDto)sessionCart;
-                if (cart.Items.Any(item => item.Pizza.PizzaId == id))
+                if(cart.Items.Any(item => item.Pizza.PizzaId == id && item.Pizza.Size == size))
                 {
-                    cart.Items.First(x => x.Pizza.PizzaId == id).Quantity++;
+       
+                    cart.Items.Find(x => x.Pizza.PizzaId == id && x.Pizza.Size == size).Quantity++;
                 }
                 else
                 {
