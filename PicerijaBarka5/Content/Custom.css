@@ -108,11 +108,13 @@ label.toggle-label {
 }
 
 .hoverable {
-    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.3)
+    margin-top: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.3)
 }
 
     .hoverable:hover {
-        box-shadow: 0px 0px 30px 0px darkorange;
+        box-shadow: 0px 0px 0px 6px rgba(255, 140, 0, 0.5)
     }
 
 tr.row {
@@ -204,4 +206,9 @@ td > a > i {
 .editImg {
     width: 400px;
     height: 250px;
+}
+}
+
+.card-footer > *.btn{
+    margin-right: 10px
 }
