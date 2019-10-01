@@ -44,26 +44,20 @@
                     <div class="card text-white bg-dark mb-3 hoverable item" title="View details" style="background: linear-gradient( rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4) ), url(@item.ImgUrl); background-repeat:no-repeat; background-position: center; background-size:contain;">
                         <a href="@Url.Action("Details", new { id = item.PizzaId, Url = Request.Url.ToString() })" class="custom-card-link">
                             <div class="Search card-body" style="min-height: 250px">
-                                <h5 class="card-title">@item.Name <span price-for="@item.PizzaId"class="d-inline-block float-right">@item.Price den.</span></h5>
+                                <h5 class="card-title">@item.Name <span price-for="@item.PizzaId" class="d-inline-block float-right">@item.Price den.</span></h5>
                                 <hr class="red ml-0 mt-1 mb-1 " />
                                 @if (item.ImgUrl.Contains("CustomPizza"))
-                                    {
-                                        <p class="card-text mt-2 font-italic pl-2 pt-2" style="height: 100px; background: linear-gradient( rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7) )">
-                                            @string.Join(", ", item.Ingredients.Select(x => x.Name).ToList())
-                                        </p>
-                                    }
-                                    else
-                                    {
+                                {
+                                    <p class="card-text mt-2 font-italic pl-2 pt-2" style="height: 100px; background: linear-gradient( rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7) )">
+                                        @string.Join(", ", item.Ingredients.Select(x => x.Name).ToList())
+                                    </p>
+                                }
+                                else
+                                {
                                     <p class="card-text mt-2 font-italic" style="height: 90px;">
                                         @string.Join(", ", item.Ingredients.Select(x => x.Name).ToList())
                                     </p>
-                                    }
-                                <div class="text-center">
-                                    <img src="@item.ImgUrl" class="img-fluid">
-                                </div>
-                                <p class="card-text mt-2">
-                                    @string.Join(", ", item.Ingredients.Select(x => x.Name).ToList())
-                                </p>
+                                }
                             </div>
                         </a>
                         <div class="card-footer">
