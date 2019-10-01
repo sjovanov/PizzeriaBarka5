@@ -17,6 +17,8 @@ namespace PicerijaBarka5.Models.Dtos
         /// </summary>
         public int Quantity { get; set; }
 
+        public string PizzaSize { get; set; }
+
         public CartItemDto()
         {
 

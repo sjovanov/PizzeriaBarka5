@@ -39,9 +39,36 @@ namespace PicerijaBarka5.Models.Dtos
 
         public string ImgUrl { get; set; }
 
+        public string Size { get; set; }
+
         public PizzaDto()
         {
             Ingredients = new List<IngredientDto>();
+        }
+
+        public double getPizzaForMedium()
+        {
+            return 1.8 * Price;
+        }
+        public double getPizzaForLarge()
+        {
+            return 2.5 * Price;
+        }
+
+        public double getPrice()
+        {
+            if (Size.Equals(PizzaSize.Large))
+            {
+                return getPizzaForLarge();
+            }
+            else if (Size.Equals(PizzaSize.Medium))
+            {
+                return getPizzaForMedium();
+            }
+            else
+            {
+                return Price;
+            }
         }
     }
 }

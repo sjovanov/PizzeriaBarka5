@@ -48,7 +48,24 @@
                             <span>@order.TimeOfOrder</span>
                         </td>
                         <td class="col-2">
-                            <span>@order.Items.Select(x => x.Pizza.Price * x.Quantity).Sum()</span>
+                            @{ double totalPrice = 0.0; }
+                            @foreach (var item in order.Items)
+                            {
+                                if (item.PizzaSize.Equals("Large"))
+                                {
+                                    totalPrice = totalPrice + item.Pizza.getPizzaForLarge() * item.Quantity;
+
+                                }
+                                else if (item.PizzaSize.Equals("Medium"))
+                                {
+                                    totalPrice = totalPrice + item.Pizza.getPizzaForMedium() * item.Quantity;
+                                }
+                                else
+                                {
+                                    totalPrice = totalPrice + item.Pizza.Price * item.Quantity;
+                                }
+                            }
+                            <span>@totalPrice</span>
                         </td>
                         <td class="col-2">
                             @{ 

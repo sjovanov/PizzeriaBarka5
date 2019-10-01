@@ -3,7 +3,7 @@ namespace PicerijaBarka5.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class CreateDatabase : DbMigration
+    public partial class Initial : DbMigration
     {
         public override void Up()
         {
@@ -41,6 +41,7 @@ namespace PicerijaBarka5.Migrations
                         IncomeCoeficient = c.Double(nullable: false),
                         ImgUrl = c.String(),
                         Price = c.Double(nullable: false),
+                        Size = c.String(),
                         User_Id = c.String(maxLength: 128),
                     })
                 .PrimaryKey(t => t.PizzaId)
@@ -52,6 +53,7 @@ namespace PicerijaBarka5.Migrations
                 c => new
                     {
                         CartItemId = c.Guid(nullable: false),
+                        PizzaSize = c.String(),
                         Quantity = c.Int(nullable: false),
                         Pizza_PizzaId = c.Guid(),
                         PizzaOrder_OrderId = c.Guid(),

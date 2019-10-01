@@ -20,6 +20,8 @@ namespace PicerijaBarka5.Models
         /// </summary>
         public virtual PizzaOrder PizzaOrder { get; set; }
 
+        public string PizzaSize { get; set; }
+
         /// <summary>
         /// Quantity of item to order
         /// </summary>

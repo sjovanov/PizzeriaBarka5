@@ -24,6 +24,8 @@ namespace PicerijaBarka5.Models
 
         public Dictionary<string, ICollection<IngredientDto>> TypeIngredientListPairs { set; get; }
 
+        public string Size { set; get; }
+
         public CreatePizzaViewModel()
         {
             selectedIngredients = new List<string>();

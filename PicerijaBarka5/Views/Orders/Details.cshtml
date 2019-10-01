@@ -42,7 +42,7 @@
                                                 @foreach (var item in OrderStatus.GetOrderStatuses())
                                                 {
                                                     var selected = item == Model.Status ? "selected" : "";
-                                                     if (User.IsInRole("User") && !item.ToString().Equals("Delivered"))
+                                                    if (User.IsInRole("User") && !item.ToString().Equals("Delivered"))
                                                     {
                                                         <option class="dropdown-item" disabled="disabled" @selected>@item</option>
                                                     }
@@ -61,7 +61,7 @@
                                         <ul>
                                             @foreach (var item in Model.Items)
                                             {
-                                                <li>@item.Pizza.Name: @item.Quantity</li>
+                                                <li>@item.Pizza.Name: @item.Quantity @item.PizzaSize</li>
                                             }
                                         </ul>
                                     }
@@ -70,7 +70,26 @@
 
                         </div>
                         <p class="pl-3">
-                            <h3>Total: @Model.Items.Select(x => x.Pizza.Price * x.Quantity).Sum() den.</h3>
+                            @{
+                            double totalPrice = 0.0; }
+                            @foreach (var item in Model.Items)
+                            {
+                                if(item.PizzaSize.Equals("Large"))
+                                {
+                                    totalPrice = totalPrice + item.Pizza.getPizzaForLarge() * item.Quantity;
+                                   
+                                }
+                                else if(item.PizzaSize.Equals("Medium"))
+                                {
+                                    totalPrice = totalPrice + item.Pizza.getPizzaForMedium() * item.Quantity; 
+                                }
+                                else
+                                {
+                                    totalPrice = totalPrice + item.Pizza.Price * item.Quantity; 
+                                }
+                            }
+                            
+                            <h3>Total: @totalPrice den.</h3>
                         </p>
                     </div>
                 </div>
