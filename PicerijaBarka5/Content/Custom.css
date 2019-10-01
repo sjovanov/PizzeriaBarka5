@@ -1,6 +1,3 @@
-body {
-}
-
 #landImage {
     background: url("Images/pizza-wallpaper-full-hd-1080p-390199.jpg");
     background-size: cover;
@@ -188,6 +185,7 @@ td > a > i {
 .sizeDrop {
     width: 120px;
     height: 50px;
+}
 
 .body-content {
     position: relative;
