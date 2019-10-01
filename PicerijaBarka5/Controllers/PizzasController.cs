@@ -167,11 +167,11 @@ namespace PicerijaBarka5.Controllers
             try
             {
                 repository.DeletePizza(id);
-                if (ViewBag.URL.ToString().Contains("MyPizzas"))
+                if (Url.Contains("MyPizzas"))
                     return RedirectToAction("MyPizzas");
                 return RedirectToAction("Index");
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return HttpNotFound();
             }
@@ -234,14 +234,14 @@ namespace PicerijaBarka5.Controllers
             {
                 case "price_desc":
                     ViewBag.Title = "The pizzas are displayed in descending order";
-                    if (ViewBag.URL.ToString().Contains("MyPizzas"))
+                    if (Url.Contains("MyPizzas"))
                         return View("Index", repository.GetSortedPizzasFromUserDesc(User.Identity.GetUserId()));
                     else
                         return View("Index", repository.GetSortedPizzasFromUsersWithRoleDesc(UserRoles.Owner));
 
                 default:
                     ViewBag.Title = "The pizzas are displayed in ascending order";
-                    if (ViewBag.URL.ToString().Contains("MyPizzas"))
+                    if (Url.Contains("MyPizzas"))
                         return View("Index", repository.GetSortedPizzasFromUser(User.Identity.GetUserId()));
                     else
                         return View("Index", repository.GetSortedPizzasFromUsersWithRole(UserRoles.Owner));
