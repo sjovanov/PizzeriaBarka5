@@ -22,18 +22,22 @@ namespace PicerijaBarka5.Controllers
         [Authorize(Roles = UserRoles.Owner + "," + UserRoles.User)]
         public ActionResult Index()
         {
-            return View(repository.GetOrders());
+            if (User.IsInRole(UserRoles.Owner))
+            {
+                return View(repository.GetOrders());
+            }
+            return View(repository.GetUserOrders(User.Identity.GetUserId()));
         }
 
         // GET: Orders/Details/5
         [Authorize(Roles = UserRoles.Owner + "," + UserRoles.User)]
         public ActionResult Details(Guid id)
         {
-            //if (User.Identity.GetUserId() == repository.GetOrder(id).User.Id || User.IsInRole(UserRoles.Owner))
-            //{
-            return View(repository.GetOrder(id));
-            //}
-            //return RedirectToAction("Index");
+            if(repository.GetUserOrders(User.Identity.GetUserId()).Any(x => x.OrderId == id) || User.IsInRole(UserRoles.Owner))
+            {
+                return View(repository.GetOrder(id));
+            }
+            return RedirectToAction("Index");
         }
 
         // POST: Orders/Create
@@ -56,13 +60,6 @@ namespace PicerijaBarka5.Controllers
             }
         }
 
-        // GET: Orders/Edit/5
-        [Authorize(Roles = UserRoles.User)]
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
         // POST: Orders/Edit/5
         [HttpPost]
         [Authorize(Roles = UserRoles.User)]
@@ -80,13 +77,6 @@ namespace PicerijaBarka5.Controllers
             }
         }
 
-        // GET: Orders/Delete/5
-        [Authorize(Roles = UserRoles.Owner + "," + UserRoles.User)]
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
         // POST: Orders/Delete/5
         [HttpPost]
         [Authorize(Roles = UserRoles.Owner + "," + UserRoles.User)]
@@ -94,8 +84,11 @@ namespace PicerijaBarka5.Controllers
         {
             try
             {
-                repository.DeleteOrder(id);
-                Response.StatusCode = (int)HttpStatusCode.OK;
+                if (repository.GetUserOrders(User.Identity.GetUserId()).Any(x => x.OrderId == id) || User.IsInRole(UserRoles.Owner))
+                {
+                    repository.DeleteOrder(id);
+                    Response.StatusCode = (int)HttpStatusCode.OK;
+                }
                 return RedirectToAction("Index");
             }
             catch (Exception e)

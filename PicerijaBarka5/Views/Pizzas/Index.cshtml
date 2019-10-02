@@ -91,13 +91,13 @@
                         <span class="float-right mt-2 data priceLarge" hidden>@item.getPriceInt(item.getPizzaForLarge()) den.</span>
                     </div>
                 }
-                else
-                {
+                else if (User.IsInRole(UserRoles.Owner))
+                    {
                     <div class="mt-2 btn-group-toggle divButtons">
                         <button type="submit" class="btn btn-outline-light d-inline btnfas" name="edit" title="Edit" style="border-radius:50%; margin-top:-8px;" onclick="@("window.location.href='" + @Url.Action("Edit", "Pizzas", new { id = @item.PizzaId, Url = prevUrl }) + "'")"><i class="fas fa-pen"></i></button>
                         <button type="submit" class="btn btn-outline-light float-right d-inline btnfas" name="delete" title="Delete" style="border-radius:50%; margin-top:-8px;" onclick="@("window.location.href='" + @Url.Action("Delete", "Pizzas", new { id = @item.PizzaId, Url = prevUrl }) + "'")"> <i class="pt-2 pl-1 pr-1 pb-2 fa fa-close"></i></button>
                     </div>
-                }
+                    }
             </div>
         </div>
                 }

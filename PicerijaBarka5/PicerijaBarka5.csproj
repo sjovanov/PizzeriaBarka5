@@ -194,9 +194,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\HtmlHelpers.cs" />
-    <Compile Include="Migrations\201910021907118_Create-Database.cs" />
-    <Compile Include="Migrations\201910021907118_Create-Database.Designer.cs">
-      <DependentUpon>201910021907118_Create-Database.cs</DependentUpon>
+    <Compile Include="Migrations\201910021917513_CreateDatabase.cs" />
+    <Compile Include="Migrations\201910021917513_CreateDatabase.Designer.cs">
+      <DependentUpon>201910021917513_CreateDatabase.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -370,8 +370,8 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201910021907118_Create-Database.resx">
-      <DependentUpon>201910021907118_Create-Database.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201910021917513_CreateDatabase.resx">
+      <DependentUpon>201910021917513_CreateDatabase.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

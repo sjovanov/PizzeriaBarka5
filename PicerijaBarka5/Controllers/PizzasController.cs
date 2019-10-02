@@ -35,18 +35,22 @@ namespace PicerijaBarka5.Controllers
         [AllowAnonymous]
         public ActionResult Details(Guid id)
         {
-            if (id == null)
+            if (repository.GetPizzasFromUsersWithRole(UserRoles.Owner).Any(x => x.PizzaId == id) || repository.GetPizzasFromUser(User.Identity.GetUserId()).Any(x => x.PizzaId == id))
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                try
+                {
+                    return View(repository.GetPizza(id));
+                }
+                catch (Exception)
+                {
+                    return HttpNotFound();
+                }
             }
-            try
-            {
-                return View(repository.GetPizza(id, User.Identity.GetUserId()));
-            }
-            catch (Exception)
-            {
-                return HttpNotFound();
-            }
+            return RedirectToAction("Index");
         }
 
         // GET: Pizzas/Create
@@ -115,14 +119,18 @@ namespace PicerijaBarka5.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            try
+            if (repository.GetPizzasFromUser(User.Identity.GetUserId()).Any(x => x.PizzaId == id))
             {
-                return View(setupCreateOrEditViewModel(id));
+                try
+                {
+                    return View(setupCreateOrEditViewModel(id));
+                }
+                catch (Exception)
+                {
+                    return HttpNotFound();
+                }
             }
-            catch (Exception)
-            {
-                return HttpNotFound();
-            }
+            return RedirectToAction("Index");
         }
 
         // POST: Pizzas/Edit/5
@@ -153,14 +161,18 @@ namespace PicerijaBarka5.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            try
+            if (repository.GetPizzasFromUser(User.Identity.GetUserId()).Any(x => x.PizzaId == id))
             {
-                return View(repository.GetPizza(id, User.Identity.GetUserId()));
+                try
+                {
+                    return View(repository.GetPizza(id));
+                }
+                catch (Exception)
+                {
+                    return HttpNotFound();
+                }
             }
-            catch (Exception)
-            {
-                return HttpNotFound();
-            }
+            return RedirectToAction("Index");
         }
 
         // POST: Pizzas/Delete/5
@@ -174,17 +186,21 @@ namespace PicerijaBarka5.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            try
+            if (repository.GetPizzasFromUser(User.Identity.GetUserId()).Any(x => x.PizzaId == id))
             {
-                repository.DeletePizza(id);
-                if (ViewBag.URL.Contains("MyPizzas"))
-                    return RedirectToAction("MyPizzas");
-                return RedirectToAction("Index");
+                try
+                {
+                    repository.DeletePizza(id);
+                    if (ViewBag.URL.Contains("MyPizzas"))
+                        return RedirectToAction("MyPizzas");
+                    return RedirectToAction("Index");
+                }
+                catch (Exception e)
+                {
+                    return HttpNotFound();
+                }
             }
-            catch (Exception e)
-            {
-                return HttpNotFound();
-            }
+            return RedirectToAction("Index");
         }
 
         // Get: Pizzas/MyPizzas
@@ -208,7 +224,7 @@ namespace PicerijaBarka5.Controllers
             {
                 var a = id;
 
-                var pizzaToEdit = repository.GetPizza(id, User.Identity.GetUserId());
+                var pizzaToEdit = repository.GetPizza(id);
 
                 viewModel.PizzaId = id;
 

@@ -29,25 +29,39 @@ namespace PicerijaBarka5.Services
 
         #region PizzaRepository
 
-        public PizzaDto GetPizza(Guid? id, string userFk)
-        {
+        //public PizzaDto GetPizza(Guid? id, string userFk)
+        //{
 
-            using (var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext())))
+        //    using (var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext())))
+        //    {
+        //        PizzaDto pizza = db.Users.FirstOrDefault(x => x.Id == userFk)
+        //                    .Pizzas.ToList().Where(x => x.PizzaId == id).Select(p => p.toPizzaDto()).FirstOrDefault();
+        //        if(pizza == null)
+        //        {
+        //            pizza = GetPizzasFromUsersWithRole(UserRoles.Owner).Where(x => x.PizzaId == id).FirstOrDefault();
+        //        }
+        //        if (pizza != null)
+        //        {
+        //            return pizza;
+        //        }
+        //        else
+        //        {
+        //            throw new Exception();
+        //        }
+        //    }
+        //}
+
+        public PizzaDto GetPizza(Guid? id)
+        {
+            PizzaDto pizza = db.Pizzas.Find(id).toPizzaDto();
+
+            if (pizza != null)
             {
-                PizzaDto pizza = db.Users.FirstOrDefault(x => x.Id == userFk)
-                            .Pizzas.ToList().Where(x => x.PizzaId == id).Select(p => p.toPizzaDto()).FirstOrDefault();
-                if(pizza == null)
-                {
-                    pizza = GetPizzasFromUsersWithRole(UserRoles.Owner).Where(x => x.PizzaId == id).FirstOrDefault();
-                }
-                if (pizza != null)
-                {
-                    return pizza;
-                }
-                else
-                {
-                    throw new Exception();
-                }
+                return pizza;
+            }
+            else
+            {
+                throw new Exception();
             }
         }
 
@@ -91,6 +105,10 @@ namespace PicerijaBarka5.Services
 
         public ICollection<PizzaDto> GetPizzasFromUser(string userFk)
         {
+            if(userFk == null)
+            {
+                return new List<PizzaDto>();
+            }
             return db.Users.Find(userFk)
                             .Pizzas.ToList()
                             .Select(x => x.toPizzaDto())
@@ -343,6 +361,12 @@ namespace PicerijaBarka5.Services
                     .ToList()
                     .Select(order => order.toOrderDto())
                     .ToList();
+        }
+
+        public ICollection<PizzaOrderDto> GetUserOrders(string userFk)
+        {
+            return db.Users.FirstOrDefault(x => x.Id == userFk)
+                .PizzaOrders.ToList().Select(x => x.toOrderDto()).ToList();
         }
 
         public void CreateOrder(List<CartItemDto> cartItems, string userFk, string address)
