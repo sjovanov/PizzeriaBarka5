@@ -62,33 +62,34 @@ namespace PicerijaBarka5.Controllers
         [HttpPost]
         [Authorize(Roles = UserRoles.Owner + "," + UserRoles.User)]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Name, IncomeCoef, selectedIngredients, Dough, availableIngredients, ImgUrl, Size, UserEmail")] CreatePizzaViewModel pizzaResponse, HttpPostedFileBase file)
+        public ActionResult Create(CreatePizzaViewModel pizzaResponse, HttpPostedFileBase file)
         {
-            if (file != null)
-            {
-                string pic = Path.GetFileName(file.FileName);
-                string path = Path.Combine(
-                Server.MapPath("~/Content/Images"), pic);
-                // file is uploaded
-                file.SaveAs(path);
-
-                // save the image path path to the database or you can send image 
-                // directly to database
-                // in-case if you want to store byte[] ie. for DB
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    file.InputStream.CopyTo(ms);
-                    byte[] array = ms.GetBuffer();
-                }
-
-                pizzaResponse.ImgUrl = "/Content/Images/" + pic;
-            }
-            else
-            {
-                pizzaResponse.ImgUrl = "/Content/Images/CustomPizza.png";
-            }
             if (ModelState.IsValid)
             {
+                if (file != null)
+                {
+                    string pic = Path.GetFileName(file.FileName);
+                    string path = Path.Combine(
+                    Server.MapPath("~/Content/Images"), pic);
+                    // file is uploaded
+                    file.SaveAs(path);
+
+                    // save the image path path to the database or you can send image 
+                    // directly to database
+                    // in-case if you want to store byte[] ie. for DB
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        file.InputStream.CopyTo(ms);
+                        byte[] array = ms.GetBuffer();
+                    }
+
+                    pizzaResponse.ImgUrl = "/Content/Images/" + pic;
+                }
+                else
+                {
+                    pizzaResponse.ImgUrl = "/Content/Images/CustomPizza.png";
+                }
+
                 repository.CreatePizzaForUser(pizzaResponse, User.Identity.GetUserId());
                 if (User.IsInRole(UserRoles.User))
                 {
@@ -130,7 +131,7 @@ namespace PicerijaBarka5.Controllers
         [HttpPost]
         [Authorize(Roles = UserRoles.Owner + "," + UserRoles.User)]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "PizzaId,Name,IncomeCoef,selectedIngredients,TypeIngredientListPairs")] CreatePizzaViewModel pizza, string Url)
+        public ActionResult Edit(CreatePizzaViewModel pizza, string Url)
         {
             ViewBag.URL = Url;
             if (ModelState.IsValid)
@@ -213,7 +214,7 @@ namespace PicerijaBarka5.Controllers
 
                 foreach (var TypeOfIngredient in Enum.GetValues(typeof(IngredientType)))
                 {
-                    viewModel.TypeIngredientListPairs.Add(TypeOfIngredient.ToString(), repository.GetIngredientsByType((IngredientType)TypeOfIngredient));   
+                    viewModel.TypeIngredientListPairs.Add(TypeOfIngredient.ToString(), repository.GetIngredientsByType((IngredientType)TypeOfIngredient));
                 }
 
                 viewModel.selectedIngredients = repository.GetIngredientsForPizza(id)
