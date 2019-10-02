@@ -400,11 +400,15 @@ namespace PicerijaBarka5.Services
             db.SaveChanges();
         }
 
-        public double TotalRating()
+        public int TotalRating()
         {
-            int sum = db.PizzaOrders.Sum(x => x.Rating);
-            int number = db.PizzaOrders.Where(x => x.Rating != 0).Count();
-            return (double) sum / number;
+            if (db.PizzaOrders.Count() != 0)
+            {
+                int sum = db.PizzaOrders.Sum(x => x.Rating);
+                int number = db.PizzaOrders.Where(x => x.Rating != 0).Count();
+                return sum / number;
+            }
+            return 0;
         }
 
         #endregion

@@ -73,6 +73,7 @@ namespace PicerijaBarka5.Migrations
                         Address = c.String(nullable: false),
                         Status = c.String(nullable: false),
                         TimeOfOrder = c.DateTime(nullable: false),
+                        Rating = c.Int(nullable: false),
                         User_Id = c.String(maxLength: 128),
                         Pizza_PizzaId = c.Guid(),
                     })
