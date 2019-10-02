@@ -101,18 +101,25 @@
             </div>
             <div class="col-7">
                 <div class="divc float-right mt-2 d-none">
-                    <div class="d-inline">
-                       
-                    <p class="text-white d-inline">Rate us here!</p>
-                        </div>
-                    <span id="orderRating" class="d-none">@Model.Rating</span>
-                    <div class="d-inline">
-                        <i class="fa-lg fa fa-star-o ratingStar" rating="1" order-id="@Model.OrderId" style="color:orange;cursor:pointer;"></i>
-                        <i class="fa-lg fa fa-star-o ratingStar" rating="2" order-id="@Model.OrderId" style="color:orange;cursor:pointer;"></i>
-                        <i class="fa-lg fa fa-star-o ratingStar" rating="3" order-id="@Model.OrderId" style="color:orange;cursor:pointer;"></i>
-                        <i class="fa-lg fa fa-star-o ratingStar" rating="4" order-id="@Model.OrderId" style="color:orange;cursor:pointer;"></i>
-                        <i class="fa-lg fa fa-star-o ratingStar" rating="5" order-id="@Model.OrderId" style="color:orange;cursor:pointer;"></i>
-                    </div>
+                    @{ if (User.IsInRole(UserRoles.User))
+                        {
+                            <div class="d-inline">
+                                <p class="text-white d-inline rateHere">Rate us here!</p>
+                            </div>
+                        }
+                    }
+                    @{ if ((Model.Rating != 0) || (User.IsInRole(UserRoles.User)))
+                        {
+                            <span id="orderRating" class="d-none">@Model.Rating</span>
+                            <div class="d-inline">
+                                <i class="fa-lg fa fa-star-o ratingStar" rating="1" order-id="@Model.OrderId" style="color:orange;cursor:pointer;"></i>
+                                <i class="fa-lg fa fa-star-o ratingStar" rating="2" order-id="@Model.OrderId" style="color:orange;cursor:pointer;"></i>
+                                <i class="fa-lg fa fa-star-o ratingStar" rating="3" order-id="@Model.OrderId" style="color:orange;cursor:pointer;"></i>
+                                <i class="fa-lg fa fa-star-o ratingStar" rating="4" order-id="@Model.OrderId" style="color:orange;cursor:pointer;"></i>
+                                <i class="fa-lg fa fa-star-o ratingStar" rating="5" order-id="@Model.OrderId" style="color:orange;cursor:pointer;"></i>
+                            </div>
+                        }
+                    }
                 </div>
             </div>
         </div>
@@ -122,6 +129,8 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
         $(document).ready(function () {
+            var allStars = $(".ratingStar");
+            var rateHere = $(".rateHere");
             if ($("#orderRating").text() != "0") {
                 var orderRating = parseInt($("#orderRating").html());
                 $(".ratingStar").each(function () {
@@ -129,6 +138,8 @@
                         $(this).removeClass("fa-star-o").addClass("fa-star");
                     }
                 })
+                allStars.addClass("not-active");
+                rateHere.removeClass("d-inline").addClass("d-none");
             }
             if ($("#status").val() == "Delivered") {
                 $(".divc").removeClass("d-none");
@@ -149,7 +160,8 @@
                         alert(JSON.parse(response.responseText).message)
                     },
                     complete: function () {
-                      
+                        allStars.addClass("not-active")
+                        rateHere.removeClass("d-inline").addClass("d-none");
                     },
                     dataType: "application/json"
                 })

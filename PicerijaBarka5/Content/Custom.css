@@ -292,3 +292,7 @@ i.ratingStar {
     font-size: 18px;
     font-style: italic;
 }
+.not-active {
+    pointer-events: none;
+    cursor: default;
+}
