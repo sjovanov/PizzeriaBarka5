@@ -19,9 +19,12 @@ namespace PicerijaBarka5.Models.Dtos
 
         public List<CartItemDto> Items { get; set; }
 
+        public int Rating { get; set; }
+
         public PizzaOrderDto()
         {
             Items = new List<CartItemDto>();
+            Rating = 0;
         }
     }
 }

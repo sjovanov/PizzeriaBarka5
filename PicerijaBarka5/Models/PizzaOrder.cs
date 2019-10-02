@@ -25,10 +25,13 @@ namespace PicerijaBarka5.Models
 
         public virtual ICollection<CartItem> Items { get; set; }
 
+        public int Rating { get; set; }
+
         public PizzaOrder()
         {
             Status = OrderStatus.InProgress;
             Items = new List<CartItem>();
+            Rating = 0;
         }
     }
 }

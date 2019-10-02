@@ -71,21 +71,21 @@
                         </div>
                         <p class="pl-3">
                             @{
-                            double totalPrice = 0.0; }
+                                double totalPrice = 0.0; }
                             @foreach (var item in Model.Items)
                             {
-                                if(item.PizzaSize.Equals("Large"))
+                                if (item.PizzaSize.Equals("Large"))
                                 {
                                     totalPrice = totalPrice + item.Pizza.getPizzaForLarge() * item.Quantity;
-                                   
+
                                 }
-                                else if(item.PizzaSize.Equals("Medium"))
+                                else if (item.PizzaSize.Equals("Medium"))
                                 {
-                                    totalPrice = totalPrice + item.Pizza.getPizzaForMedium() * item.Quantity; 
+                                    totalPrice = totalPrice + item.Pizza.getPizzaForMedium() * item.Quantity;
                                 }
                                 else
                                 {
-                                    totalPrice = totalPrice + item.Pizza.Price * item.Quantity; 
+                                    totalPrice = totalPrice + item.Pizza.Price * item.Quantity;
                                 }
                             }
                             
@@ -95,15 +95,66 @@
                 </div>
             </div>
         </div>
-        <div class="card-footer">
-            @Html.ActionLink("Back to List", "Index", routeValues: null, htmlAttributes: new { @class = "btn btn-primary" })
+        <div class="card-footer row">
+            <div class="col-5">
+                @Html.ActionLink("Back to List", "Index", routeValues: null, htmlAttributes: new { @class = "btn btn-primary" })
+            </div>
+            <div class="col-7">
+                <div class="divc float-right mt-2 d-none">
+                    <div class="d-inline">
+                       
+                    <p class="text-white d-inline">Rate us here!</p>
+                        </div>
+                    <span id="orderRating" class="d-none">@Model.Rating</span>
+                    <div class="d-inline">
+                        <i class="fa-lg fa fa-star-o ratingStar" rating="1" order-id="@Model.OrderId" style="color:orange;cursor:pointer;"></i>
+                        <i class="fa-lg fa fa-star-o ratingStar" rating="2" order-id="@Model.OrderId" style="color:orange;cursor:pointer;"></i>
+                        <i class="fa-lg fa fa-star-o ratingStar" rating="3" order-id="@Model.OrderId" style="color:orange;cursor:pointer;"></i>
+                        <i class="fa-lg fa fa-star-o ratingStar" rating="4" order-id="@Model.OrderId" style="color:orange;cursor:pointer;"></i>
+                        <i class="fa-lg fa fa-star-o ratingStar" rating="5" order-id="@Model.OrderId" style="color:orange;cursor:pointer;"></i>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>
-
 @section scripts{
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
         $(document).ready(function () {
+            if ($("#orderRating").text() != "0") {
+                var orderRating = parseInt($("#orderRating").html());
+                $(".ratingStar").each(function () {
+                    if (parseInt($(this).attr("rating")) <= orderRating) {
+                        $(this).removeClass("fa-star-o").addClass("fa-star");
+                    }
+                })
+            }
+            if ($("#status").val() == "Delivered") {
+                $(".divc").removeClass("d-none");
+            }
+            var iconStar;
+            $(".ratingStar").on("click", function () {
+                iconStar = $(this);
+                iconStar.removeClass("fa-star-o").addClass("fa-star");
+                iconStar.prevAll(".ratingStar").removeClass("fa-star-o").addClass("fa-star");
+                $.ajax({
+                    type: "POST",
+                    url: "http://localhost:62459/Orders/GiveRating",
+                    data: { id: iconStar.attr('order-id'), rating: iconStar.attr("rating") },
+                    success: function (response) {
+                        confirm(JSON.parse(response.responseText).message)
+                    },
+                    error: function (response) {
+                        alert(JSON.parse(response.responseText).message)
+                    },
+                    complete: function () {
+                      
+                    },
+                    dataType: "application/json"
+                })
+            });  
+            
             $("#status").change(function () {
                 var dropdown = $(this);
                 console.log(dropdown)
@@ -120,11 +171,13 @@
                     complete: function () {
                         if (dropdown.val() == "Delivered" || dropdown.val() == "Order canceled") {
                             dropdown.attr("disabled", "disabled")
+                            $(".divc").removeClass("d-none")
                         }
                     },
                     dataType: "application/json"
                 })
             });
+
         })
 
     </script>

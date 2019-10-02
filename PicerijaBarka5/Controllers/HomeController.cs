@@ -15,6 +15,7 @@ namespace PicerijaBarka5.Controllers
         Repository repository = Repository.GetInstance();
         public ActionResult Index()
         {
+            ViewData["Message"]=getRating().ToString();
             return View(repository.GetMostSold());
         }
 
@@ -27,6 +28,11 @@ namespace PicerijaBarka5.Controllers
         public ActionResult Contact()
         {
             return View(repository.GetContactFormEntires());
+        }
+
+        public double getRating()
+        {
+            return repository.TotalRating();
         }
 
         [HttpPost]

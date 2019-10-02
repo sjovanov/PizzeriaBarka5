@@ -113,6 +113,14 @@ namespace PicerijaBarka5.Controllers
             return Json(new { message = $"Order status has been successfully changed to '{newStatus}'" });
         }
 
+        [HttpPost]
+        public ActionResult GiveRating(Guid id, int rating)
+        {
+            repository.RatedOrder(id, rating);
+            Response.StatusCode = (int)HttpStatusCode.OK;
+            return Json(new { message = $"Your rating has been successfully posted" });
+        }
+
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);

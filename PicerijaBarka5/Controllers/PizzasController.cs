@@ -41,7 +41,7 @@ namespace PicerijaBarka5.Controllers
             }
             try
             {
-                return View(repository.GetPizza(id));
+                return View(repository.GetPizza(id, User.Identity.GetUserId()));
             }
             catch (Exception)
             {
@@ -154,7 +154,7 @@ namespace PicerijaBarka5.Controllers
             }
             try
             {
-                return View(repository.GetPizza(id));
+                return View(repository.GetPizza(id, User.Identity.GetUserId()));
             }
             catch (Exception)
             {
@@ -207,7 +207,7 @@ namespace PicerijaBarka5.Controllers
             {
                 var a = id;
 
-                var pizzaToEdit = repository.GetPizza(id);
+                var pizzaToEdit = repository.GetPizza(id, User.Identity.GetUserId());
 
                 viewModel.PizzaId = id;
 

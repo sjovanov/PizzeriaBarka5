@@ -1,4 +1,5 @@
 ﻿@model ICollection<PicerijaBarka5.Models.Dtos.PizzaDto>
+@using PicerijaBarka5.Models
 @{
     ViewBag.Title = "Home Page";
 }
@@ -36,7 +37,7 @@
             <p class="text-justify">
                 We've gained a reputation for never cutting corners and working with the finest quality ingredients no matter what.
                 For those ones that are lazy while their stomach is aching from hunger, don't think you're going to wait for us whole day, you're getting your wood oven pizza on your doorstep immediately!
-                The best thing is that you can follow your order by checking the current state on your website! 
+                The best thing is that you can follow your order by checking the current state on your website!
             </p>
         </div>
         <div class="col-5">
@@ -74,12 +75,31 @@
             <i class="fas fa-lightbulb circle-icon"></i>
             <h4>Customize your taste</h4>
             <p class="text-justify">
-                Tired of the classic pizza menu? Wanna mix some ingredients and make your own delicious pizza? 
-                Try that pleasure by using our online menu! 
+                Tired of the classic pizza menu? Wanna mix some ingredients and make your own delicious pizza?
+                Try that pleasure by using our online menu!
             </p>
         </div>
     </div>
 </section>
+<div class="row text-center pb-4 mb-2">
+    <div class="col">
+        <div class="text-center">
+            @{
+                var data = ViewData["Message"];
+            }
+            <p id="paraRate">This is how they rated us:</p>
+            <p id="totalRat" class="d-none">@data.ToString()</p>
+            <div class="d-inline pb-4">
+                <i class="fa-lg fa fa-star-o ratingStar" rating="1" style="color:orange;cursor:pointer;"></i>
+                <i class="fa-lg fa fa-star-o ratingStar" rating="2" style="color:orange;cursor:pointer;"></i>
+                <i class="fa-lg fa fa-star-o ratingStar" rating="3" style="color:orange;cursor:pointer;"></i>
+                <i class="fa-lg fa fa-star-o ratingStar" rating="4" style="color:orange;cursor:pointer;"></i>
+                <i class="fa-lg fa fa-star-o ratingStar" rating="5" style="color:orange;cursor:pointer;"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <section id="menu" class="full-row bg-dark py-4">
     <div class="container text-right">
@@ -139,7 +159,7 @@
                 </p>
                 <p class="text-justify text-white">
                     You're getting already hungry just by looking at out top sellers - pizzas, aren't you? We're sure this info helped if you haven't made your mind and will lead you to the perfect decision!
-                    
+
                 </p>
             </div>
         </div>
@@ -160,7 +180,7 @@
             <div class="row">
                 <div class="form-group col">
                     <label for="Name" class="col-form-label font-weight-bold">Name:</label>
-                    <input type="text" class="form-control" id="Name" name="Name" placeholder="First Name"/>
+                    <input type="text" class="form-control" id="Name" name="Name" placeholder="First Name" />
                 </div>
                 <div class="form-group col">
                     <label for="LastName" class="col-form-label font-weight-bold">Last name:</label>
@@ -182,7 +202,6 @@
             <p>
                 <button id="contact" class="btn bg-orange text-white">Post</button>
             </p>
-
         </div>
         <div class="mapouter col-6">
             <div class="gmap_canvas"><iframe width="500" height="500" id="gmap_canvas" src="https://maps.google.com/maps?q=Finki&t=&z=15&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe></div>
@@ -193,6 +212,15 @@
 
 @section scripts{
     <script>
+        $(document).ready(function () {
+             if ($("#totalRat").text() != "0") {
+                var totalRat = parseInt($("#totalRat").html());
+                $(".ratingStar").each(function () {
+                    if (parseInt($(this).attr("rating")) <= totalRat) {
+                        $(this).removeClass("fa-star-o").addClass("fa-star");
+                    }
+                })
+        }
         $("#contact").on('click', function () {
             var obj = {
                 Name: $("#Name").val(),
@@ -217,5 +245,6 @@
                 dataType: "application/json"
             })
         })
+      })
     </script>
 }

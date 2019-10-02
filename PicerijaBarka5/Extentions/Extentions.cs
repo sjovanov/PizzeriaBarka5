@@ -70,7 +70,8 @@ namespace PicerijaBarka5.Extentions
                 Items = dbPizzaOrder.Items.Select(item => item.toCartItemDto())
                                             .ToList(),
                 Status = dbPizzaOrder.Status,
-                TimeOfOrder = dbPizzaOrder.TimeOfOrder
+                TimeOfOrder = dbPizzaOrder.TimeOfOrder,
+                Rating = dbPizzaOrder.Rating
             };
         }
 

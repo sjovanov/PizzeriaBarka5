@@ -40,7 +40,7 @@ namespace PicerijaBarka5.Controllers
             CartOrderDto cart;
             object sessionCart = Session["cart"];
 
-            PizzaDto pizzaToAdd = repository.GetPizza(id);
+            PizzaDto pizzaToAdd = repository.GetPizza(id, User.Identity.GetUserId());
             pizzaToAdd.Size = size;
 
             if (sessionCart != null)

@@ -284,3 +284,11 @@ i.details:hover, i.orderDetails:hover {
 .btnfas > i {
     font-size: 1.4rem;
 }
+i.ratingStar {
+    font-size: 1.6em;
+    color: yellow;
+}
+#paraRate {
+    font-size: 18px;
+    font-style: italic;
+}

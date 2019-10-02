@@ -29,17 +29,22 @@ namespace PicerijaBarka5.Services
 
         #region PizzaRepository
 
-        public PizzaDto GetPizza(Guid? id)
+        public PizzaDto GetPizza(Guid? id, string userFk)
         {
-            PizzaDto pizza = db.Pizzas.Find(id).toPizzaDto();
 
-            if (pizza != null)
+            using (var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext())))
             {
-                return pizza;
-            }
-            else
-            {
-                throw new Exception();
+                PizzaDto pizza = db.Users.FirstOrDefault(x => x.Id == userFk)
+                            .Pizzas.ToList().Where(x => x.PizzaId == id).Select(p => p.toPizzaDto()).FirstOrDefault();
+                   
+                if (pizza != null)
+                {
+                    return pizza;
+                }
+                else
+                {
+                    throw new Exception();
+                }
             }
         }
 
@@ -337,7 +342,8 @@ namespace PicerijaBarka5.Services
                 Address = address,
                 Status = OrderStatus.InProgress,
                 User = user,
-                TimeOfOrder = DateTime.Now
+                TimeOfOrder = DateTime.Now,
+                Rating = 0
             };
             foreach (var item in cartItems)
             {
@@ -384,6 +390,21 @@ namespace PicerijaBarka5.Services
             }
 
             db.SaveChanges();
+        }
+
+        public void RatedOrder(Guid id, int rating)
+        {
+            PizzaOrder dbPizzaOrder = db.PizzaOrders.Find(id);
+
+            dbPizzaOrder.Rating = rating;
+            db.SaveChanges();
+        }
+
+        public double TotalRating()
+        {
+            int sum = db.PizzaOrders.Sum(x => x.Rating);
+            int number = db.PizzaOrders.Where(x => x.Rating != 0).Count();
+            return (double) sum / number;
         }
 
         #endregion
