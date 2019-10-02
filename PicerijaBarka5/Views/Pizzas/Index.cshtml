@@ -46,9 +46,9 @@
             @{ var prevUrl = Request.Url.ToString(); }
             @if (prevUrl.Contains("MyPizzas") && User.IsInRole("User"))
             {
-                <div class="card-header-tabs" style="display:none;margin-top:-10px;">
-                    <button type="submit" class="btn btn-sm btn-dark d-inline btnfas" name="edit" title="Edit" style="border-radius:50%; margin-top:-18px;" onclick="@("window.location.href='" + @Url.Action("Edit", "Pizzas", new { id = @item.PizzaId, Url = prevUrl }) + "'")"><i class="fas fa-pen editMyPizza"></i></button>
-                    <button type="submit" class="btn btn-sm btn-dark d-inline btnfas float-right" name="delete" title="Delete" style="border-radius:50%; margin-top:-13px;" onclick="@("window.location.href='" + @Url.Action("Delete", "Pizzas", new { id = @item.PizzaId, Url = prevUrl }) + "'")"> <i class="fa fa-close deleteMyPizza"></i></button>
+                <div class="card-header-tabs" style="display:none;margin-top:-7%;">
+                    <button type="submit" class="btn btn-sm btn-dark d-inline btnfas" name="edit" title="Edit" style="border-radius:50%; " onclick="@("window.location.href='" + @Url.Action("Edit", "Pizzas", new { id = @item.PizzaId, Url = prevUrl }) + "'")"><i class="fas fa-pen editMyPizza"></i></button>
+                    <button type="submit" class="btn btn-sm btn-dark d-inline btnfas float-right" name="delete" title="Delete" style="border-radius:50%; " onclick="@("window.location.href='" + @Url.Action("Delete", "Pizzas", new { id = @item.PizzaId, Url = prevUrl }) + "'")"> <i class="fa fa-close deleteMyPizza"></i></button>
                 </div>
 
             }
