@@ -415,7 +415,7 @@ namespace PicerijaBarka5.Services
             {
                 int sum = db.PizzaOrders.Sum(x => x.Rating);
                 int number = db.PizzaOrders.Where(x => x.Rating != 0).Count();
-                return sum / number;
+                return sum / (number == 0 ? 1 : number);
             }
             return 0;
         }
