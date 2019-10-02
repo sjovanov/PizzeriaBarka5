@@ -53,11 +53,11 @@
                                     <span>@item.Pizza.Size</span>
                                 </td>
                                 <td>
-                                    <span>@item.Pizza.getPrice()</span>
+                                    <span>@item.Pizza.getPriceInt(item.Pizza.getPrice())</span>
                                 </td>
                                 <td>
                                     <span>
-                                        @(item.Pizza.getPrice() * item.Quantity)
+                                        @((item.Pizza.getPriceInt(item.Pizza.getPrice()) * item.Quantity))
                                     </span>
                                 </td>
                                 <td>
@@ -73,7 +73,7 @@
                 <tfoot class="bg-dark text-white p-0 m-0 font-weight-bold">
                     <tr>
                         <td colspan="4">Total:</td>
-                        <td>@Model.Items.Select(x => x.Pizza.getPrice() * x.Quantity).Sum() den.</td>
+                        <td>@Model.Items.Select(x => x.Pizza.getPriceInt(x.Pizza.getPrice()) * x.Quantity).Sum() den.</td>
                         <td></td>
                         <td></td>
                     </tr>
