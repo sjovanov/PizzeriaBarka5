@@ -209,10 +209,10 @@
                 url: "/Home/Contact",
                 data: obj,
                 success: function (res) {
-                    alert(JSON.parse(res.responseText).responseText)
+                    bootbox.alert(JSON.parse(res.responseText).responseText)
                 },
                 error: function (res) {
-                    alert(JSON.parse(res.responseText).responseText)
+                    bootbox.alert(JSON.parse(res.responseText).responseText)
                 },
                 dataType: "application/json"
             })

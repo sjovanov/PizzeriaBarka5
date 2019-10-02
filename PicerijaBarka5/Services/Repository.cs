@@ -160,7 +160,7 @@ namespace PicerijaBarka5.Services
 
         public void DeletePizza(Guid id)
         {
-            Pizza pizza = db.Pizzas.Where(x=>x.PizzaId==id).FirstOrDefault();
+            Pizza pizza = db.Pizzas.FirstOrDefault(x => x.PizzaId == id);
 
             if (pizza != null)
             {

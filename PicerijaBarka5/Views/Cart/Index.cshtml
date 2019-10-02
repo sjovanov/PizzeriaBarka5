@@ -100,7 +100,7 @@
             <h3>Are you full or just haven't chosen a pizza yet?</h3>
         }
 
-    
+
 
     }
 </section>
@@ -111,6 +111,7 @@
     }
     <script>
         $(document).ready(function () {
+            var message = "";
             $("#makeOrderButton").on('click', function () {
                 let address = $("#address").val();
                 if (!address) {
@@ -122,13 +123,16 @@
                     url: "Orders/Create?Address=" + address,
                     data: @Html.Raw(Html.GetOrderRequestJson(data)),
                     success: function (response) {
-                        a=confirm(JSON.parse(response.responseText).message)
+                        message = JSON.parse(response.responseText).message
                     },
                     error: function (response) {
-                        alert(JSON.parse(response.responseText).message)
+                        message = JSON.parse(response.responseText).message
                     },
                     complete: function () {
-                        window.location.reload();
+                        bootbox.alert(message, function () {
+                            window.location.reload();
+                            }
+                        );
                     },
                     dataType: "application/json"
                 })
@@ -137,13 +141,13 @@
             var table = $("#cartTable");
             $(".removeFromCart").click(function () {
                 var button = $(this);
-                bootbox.confirm("Are you sure", function (result) {
+                bootbox.confirm("Are you sure you want to remove this item from the cart?", function (result) {
                     if (result) {
                         $.ajax({
                             method: "POST",
                             url: "/Cart/RemoveFromCart",
                             data: { id: button.attr("cart-id") },
-                            success: function () {
+                                success: function () {
                             },
                             complete: function () {
                                 window.location.reload();

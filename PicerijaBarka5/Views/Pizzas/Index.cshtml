@@ -137,7 +137,7 @@
                     type: "POST",
                     url: "/Cart/AddToCart?id=" + id + "&size=" + sizePizza,
                     success: function () {
-                        alert(sizePizza + " " + name + " added to cart");
+                        bootbox.alert(sizePizza + " " + name + " added to cart");
                     }
                 })
             })

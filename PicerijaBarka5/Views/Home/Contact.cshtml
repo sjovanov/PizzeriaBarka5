@@ -27,7 +27,7 @@
                         </h3>
                         <h5>@contactEntry.Email</h5>
                         @{
-            var lastChar = contactEntry.Message.Length >= 200 ? 200 : contactEntry.Message.Length;
+                            var lastChar = contactEntry.Message.Length >= 200 ? 200 : contactEntry.Message.Length;
                         }
                         <p>@contactEntry.Message.Substring(0, lastChar) ...</p>
                     </div>
@@ -44,13 +44,13 @@
                             </div>
                             <div class="modal-body text-justify">
                                 @{
-                                    var text = string.Join(" ", contactEntry.Message.Split('.'));
+                                    var text = string.Join(". ", contactEntry.Message.Split('.'));
 
                                 }
                                 @text
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn bg-orange font-weight-bold" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn bg-orange font-weight-bold text-white" data-dismiss="modal">Close</button>
                             </div>
                         </div>
                     </div>
@@ -65,20 +65,22 @@
         $(document).ready(function () {
             $(".deleteContactButton").click(function () {
                 var button = $(this);
-                $.ajax({
-                    type: "POST",
-                    url: "http://localhost:62459/Home/Delete",
-                    data: { id: button.attr('entry-id') },
-                    success: function (response) {
-                        confirm(JSON.parse(response.responseText).message)
-                    },
-                    error: function (response) {
-                        alert(JSON.parse(response.responseText).message)
-                    },
-                    complete: function () {
-                        button.parent().remove();
-                    },
-                    dataType: "application/json"
+                bootbox.confirm("Are you sure you would like to delete this entry?", function (respose) {
+                    if (respose) {
+                        $.ajax({
+                            type: "POST",
+                            url: "http://localhost:62459/Home/Delete",
+                            data: { id: button.attr('entry-id') },
+                            success: function (response) {
+                            },
+                            error: function (response) {
+                            },
+                            complete: function () {
+                                button.parent().remove();
+                            },
+                            dataType: "application/json"
+                        })
+                    }
                 })
             });
         })

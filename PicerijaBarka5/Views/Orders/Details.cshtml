@@ -89,7 +89,7 @@
                                 }
                             }
                             
-                            <h3>Total: @totalPrice den.</h3>
+                            <h3>Total: @Convert.ToInt32(totalPrice) den.</h3>
                         </p>
                     </div>
                 </div>
@@ -112,10 +112,10 @@
                     url: "http://localhost:62459/Orders/ChangeStatus",
                     data: { id: dropdown.attr('order-id'), newStatus: dropdown.val() },
                     success: function (response) {
-                        confirm(JSON.parse(response.responseText).message)
+                        bootbox.alert(JSON.parse(response.responseText).message)
                     },
                     error: function (response) {
-                        alert(JSON.parse(response.responseText).message)
+                        bootbox.alert(JSON.parse(response.responseText).message)
                     },
                     complete: function () {
                         if (dropdown.val() == "Delivered" || dropdown.val() == "Order canceled") {
