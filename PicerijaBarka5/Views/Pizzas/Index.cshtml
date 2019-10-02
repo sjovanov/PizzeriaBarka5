@@ -26,6 +26,8 @@
         }
         <div class="card-columns">
             @{
+                if (User.IsInRole(UserRoles.Owner) || (User.IsInRole(UserRoles.User) && Request.Url.ToString().Contains("MyPizzas")))
+                {
                 <div class="card text-white bg-dark mb-3 hoverable firstCard mt-4" title="Add new" style="background: linear-gradient( rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4) )">
                     <a href="@Url.Action("Create")" class="custom-card-link">
                         <div class="card-body" style="min-height: 325px">
@@ -37,6 +39,7 @@
                         </div>
                     </a>
                 </div>
+                }
 
                 for (int j = 0; j < Model.Count(); j++)
                 {

@@ -13,7 +13,7 @@ namespace PicerijaBarka5.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201910020102532_Create-Database"; }
+            get { return "201910021604479_CreateDatabase"; }
         }
         
         string IMigrationMetadata.Source

@@ -12,6 +12,7 @@ using PicerijaBarka5.Services;
 
 namespace PicerijaBarka5.Controllers
 {
+    [Authorize(Roles = UserRoles.Owner)]
     public class IngredientsController : Controller
     {
         private Repository repository = Repository.GetInstance();

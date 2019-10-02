@@ -16,11 +16,13 @@ using PicerijaBarka5.Services;
 
 namespace PicerijaBarka5.Controllers
 {
+    [Authorize]
     public class PizzasController : Controller
     {
         private Repository repository = Repository.GetInstance();
 
         // GET: Pizzas
+        [AllowAnonymous]
         public ActionResult Index()
         {
             ViewBag.Title = "Barka 5's Menu";
@@ -30,6 +32,7 @@ namespace PicerijaBarka5.Controllers
         }
 
         // GET: Pizzas/Details/5
+        [AllowAnonymous]
         public ActionResult Details(Guid id)
         {
             if (id == null)
@@ -47,6 +50,7 @@ namespace PicerijaBarka5.Controllers
         }
 
         // GET: Pizzas/Create
+        [Authorize(Roles = UserRoles.Owner + "," + UserRoles.User)]
         public ActionResult Create()
         {
             return View(setupCreateOrEditViewModel(null));
@@ -56,6 +60,7 @@ namespace PicerijaBarka5.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize(Roles = UserRoles.Owner + "," + UserRoles.User)]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Name, IncomeCoef, selectedIngredients, Dough, availableIngredients, ImgUrl, Size, UserEmail")] CreatePizzaViewModel pizzaResponse, HttpPostedFileBase file)
         {
@@ -102,6 +107,7 @@ namespace PicerijaBarka5.Controllers
         }
 
         // GET: Pizzas/Edit/5
+        [Authorize(Roles = UserRoles.Owner + "," + UserRoles.User)]
         public ActionResult Edit(Guid id)
         {
             if (id == null)
@@ -122,6 +128,7 @@ namespace PicerijaBarka5.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize(Roles = UserRoles.Owner + "," + UserRoles.User)]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "PizzaId,Name,IncomeCoef,selectedIngredients,TypeIngredientListPairs")] CreatePizzaViewModel pizza, string Url)
         {
@@ -138,6 +145,7 @@ namespace PicerijaBarka5.Controllers
         }
 
         // GET: Pizzas/Delete/5
+        [Authorize(Roles = UserRoles.Owner + "," + UserRoles.User)]
         public ActionResult Delete(Guid id)
         {
             if (id == null)
@@ -155,6 +163,7 @@ namespace PicerijaBarka5.Controllers
         }
 
         // POST: Pizzas/Delete/5
+        [Authorize(Roles = UserRoles.Owner + "," + UserRoles.User)]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(Guid id, string Url)
@@ -178,6 +187,7 @@ namespace PicerijaBarka5.Controllers
         }
 
         // Get: Pizzas/MyPizzas
+        [Authorize(Roles = UserRoles.User)]
         public ActionResult MyPizzas()
         {
             ViewBag.Title = "These are your custom pizzas";

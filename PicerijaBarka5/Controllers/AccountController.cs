@@ -61,6 +61,7 @@ namespace PicerijaBarka5.Controllers
             return View();
         }
 
+        [Authorize(Roles = UserRoles.Admin)]
         public ActionResult AddUserToRole()
         {
             UserToRoleModel model = new UserToRoleModel();
@@ -68,6 +69,7 @@ namespace PicerijaBarka5.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = UserRoles.Admin)]
         public ActionResult AddUserToRole(UserToRoleModel model)
         {
             var user = UserManager.FindByEmail(model.Email);

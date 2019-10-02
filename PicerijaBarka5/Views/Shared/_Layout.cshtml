@@ -8,6 +8,7 @@
     @Scripts.Render("~/bundles/modernizr")
     <script src="https://kit.fontawesome.com/89a00464a0.js" crossorigin="anonymous"></script>
 </head>
+@using PicerijaBarka5.Models
 @using PicerijaBarka5.Helpers
 @{
     var controller = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
@@ -25,24 +26,47 @@
                     <li class="nav-item @Html.SetActiveClass(controller, "Pizzas", action, "Index")">
                         <a class="nav-link" href="@Url.Action("Index", "Pizzas")">Menu</a>
                     </li>
+                    @{ if (User.IsInRole(UserRoles.Owner)) {
                     <li class="nav-item @Html.SetActiveClass(controller, "Ingredients")">
                         <a class="nav-link" href="@Url.Action("Index", "Ingredients")">Ingredients</a>
                     </li>
+                        }
+                        }
+                    @{ if (User.IsInRole(UserRoles.User))
+                        {
                     <li class="nav-item @Html.SetActiveClass(controller, "Pizzas", action, "MyPizzas")">
-                        <a class="nav-link" href="@Url.Action("MyPizzas","Pizzas")">My Pizzas</a>
+                        <a class="nav-link" href="@Url.Action("MyPizzas", "Pizzas")">My Pizzas</a>
                     </li>
+                        }
+                        }
+                     @{ if (User.IsInRole(UserRoles.User))
+                         {
                     <li class="nav-item @Html.SetActiveClass(controller, "Cart", action, "Index")">
-                        <a class="nav-link" href="@Url.Action("Index","Cart")">Cart</a>
+                        <a class="nav-link" href="@Url.Action("Index", "Cart")">Cart</a>
                     </li>
+                         }
+                         }
+                     @{ if (User.IsInRole(UserRoles.User) || User.IsInRole(UserRoles.Owner))
+                         {
                     <li class="nav-item @Html.SetActiveClass(controller, "Orders", action, "Index")">
-                        <a class="nav-link" href="@Url.Action("Index","Orders")">Orders</a>
+                        <a class="nav-link" href="@Url.Action("Index", "Orders")">Orders</a>
                     </li>
+                         }
+                         }
+                     @{ if (User.IsInRole(UserRoles.Admin))
+                         {
                     <li class="nav-item @Html.SetActiveClass(controller, "Account", action, "AddUserToRole")">
-                        <a class="nav-link" href="@Url.Action("AddUserToRole","Account")">Manage user roles</a>
+                        <a class="nav-link" href="@Url.Action("AddUserToRole", "Account")">Manage user roles</a>
                     </li>
+                         }
+                         }
+                     @{ if (User.IsInRole(UserRoles.Owner   ))
+                         {
                     <li class="nav-item @Html.SetActiveClass(controller, "Home", action, "Contact")">
-                        <a class="nav-link" href="@Url.Action("Contact","Home")">Contact form</a>
+                        <a class="nav-link" href="@Url.Action("Contact", "Home")">Contact form</a>
                     </li>
+                             }
+                         }
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>

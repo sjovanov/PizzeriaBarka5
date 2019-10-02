@@ -11,6 +11,7 @@ using System.Web.Mvc;
 
 namespace PicerijaBarka5.Controllers
 {
+    [Authorize(Roles = UserRoles.User)]
     public class CartController : Controller, IDisposable
     {
 

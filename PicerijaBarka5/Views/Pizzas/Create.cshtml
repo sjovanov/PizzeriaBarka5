@@ -26,19 +26,19 @@
                             @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                         </div>
                     </div>
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.IncomeCoef, htmlAttributes: new { @class = "control-label" })
-                        <div>
-                            @Html.EditorFor(model => model.IncomeCoef, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.IncomeCoef, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
                     @if (User.IsInRole("Owner"))
                     {
-                    <div class="mb-4 pb-4">
-                        <label for="file">Upload Image:</label>
-                        <input type="file" id="file" class="btn btn-outline-dark" name="file" style="width: 100%;" />
-                    </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.IncomeCoef, htmlAttributes: new { @class = "control-label" })
+                            <div>
+                                @Html.EditorFor(model => model.IncomeCoef, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.IncomeCoef, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="mb-4 pb-4">
+                            <label for="file">Upload Image:</label>
+                            <input type="file" id="file" class="btn btn-outline-dark" name="file" style="width: 100%;" />
+                        </div>
                     }
                 </div>
                 <div class="col-md-7">

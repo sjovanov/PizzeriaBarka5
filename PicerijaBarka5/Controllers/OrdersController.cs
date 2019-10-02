@@ -19,19 +19,26 @@ namespace PicerijaBarka5.Controllers
         private Repository repository = Repository.GetInstance();
 
         // GET: Orders
+        [Authorize(Roles = UserRoles.Owner + "," + UserRoles.User)]
         public ActionResult Index()
         {
             return View(repository.GetOrders());
         }
 
         // GET: Orders/Details/5
+        [Authorize(Roles = UserRoles.Owner + "," + UserRoles.User)]
         public ActionResult Details(Guid id)
         {
+            //if (User.Identity.GetUserId() == repository.GetOrder(id).User.Id || User.IsInRole(UserRoles.Owner))
+            //{
             return View(repository.GetOrder(id));
+            //}
+            //return RedirectToAction("Index");
         }
 
         // POST: Orders/Create
         [HttpPost]
+        [Authorize(Roles = UserRoles.User)]
         public ActionResult Create(List<CartItemDto> Items)
         {
             string Address = Request.QueryString["Address"];
@@ -50,6 +57,7 @@ namespace PicerijaBarka5.Controllers
         }
 
         // GET: Orders/Edit/5
+        [Authorize(Roles = UserRoles.User)]
         public ActionResult Edit(int id)
         {
             return View();
@@ -57,6 +65,7 @@ namespace PicerijaBarka5.Controllers
 
         // POST: Orders/Edit/5
         [HttpPost]
+        [Authorize(Roles = UserRoles.User)]
         public ActionResult Edit(int id, FormCollection collection)
         {
             try
@@ -72,6 +81,7 @@ namespace PicerijaBarka5.Controllers
         }
 
         // GET: Orders/Delete/5
+        [Authorize(Roles = UserRoles.Owner + "," + UserRoles.User)]
         public ActionResult Delete(int id)
         {
             return View();
@@ -79,6 +89,7 @@ namespace PicerijaBarka5.Controllers
 
         // POST: Orders/Delete/5
         [HttpPost]
+        [Authorize(Roles = UserRoles.Owner + "," + UserRoles.User)]
         public ActionResult Delete(Guid id)
         {
             try

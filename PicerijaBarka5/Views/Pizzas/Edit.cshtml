@@ -1,5 +1,5 @@
 ﻿@model PicerijaBarka5.Models.CreatePizzaViewModel
-
+@using PicerijaBarka5.Models
 <section style="margin-top: 80px">
     @using (Html.BeginForm())
     {
@@ -17,6 +17,8 @@
                         @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                     </div>
                 </div>
+                @if (User.IsInRole(UserRoles.Owner))
+                {
                 <div class="form-group">
                     @Html.LabelFor(model => model.IncomeCoef, htmlAttributes: new { @class = "control-label" })
                     <div>
@@ -24,6 +26,7 @@
                         @Html.ValidationMessageFor(model => model.IncomeCoef, "", new { @class = "text-danger" })
                     </div>
                 </div>
+                }
                 <img src="@Model.ImgUrl" class="editImg" />
             </div>
             <div class="col-md-7">

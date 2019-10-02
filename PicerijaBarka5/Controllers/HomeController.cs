@@ -23,6 +23,7 @@ namespace PicerijaBarka5.Controllers
             return View();
         }
 
+        [Authorize(Roles = UserRoles.Owner)]
         public ActionResult Contact()
         {
             return View(repository.GetContactFormEntires());
