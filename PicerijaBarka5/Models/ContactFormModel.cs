@@ -23,6 +23,9 @@ namespace PicerijaBarka5.Models
         [Required]
         public string Message { get; set; }
 
+        [Required]
+        public DateTime Time { get; set; }
+
         public ContactForm()
         {
 

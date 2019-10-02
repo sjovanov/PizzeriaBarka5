@@ -20,22 +20,11 @@ namespace PicerijaBarka5.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
-
             return View();
-        }
-
-        public ActionResult Details(Guid id)
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View(repository.GetContact(id));
         }
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contacts page.";
-
             return View(repository.GetContactFormEntires());
         }
 
@@ -47,11 +36,28 @@ namespace PicerijaBarka5.Controllers
                 repository.AddContactEntry(form);
                 Response.StatusCode = (int)HttpStatusCode.OK;
                 ViewBag.Section = "true";
-                return Json (new { responseText = "OK"}); 
+                return Json (new { responseText = "Thank you for reaching out. We will get back to you as soon as possible."}); 
             }
             Response.StatusCode = (int)HttpStatusCode.BadRequest;
-            return Json(new { responseText = "BAD" });
+            return Json(new { responseText = "Please fill all neccessary fields" });
         }
+
+        [HttpPost]
+        public ActionResult Delete (Guid id)
+        {
+            if (id != null)
+            {
+                repository.DeleteContactEntry(id);
+                Response.StatusCode = (int)HttpStatusCode.OK;
+                return Json (new { message = "Contact entry deleted" });
+            }
+            else
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json(new { message = "There was an error with proccessing your request" });
+            }
+        }
+
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);

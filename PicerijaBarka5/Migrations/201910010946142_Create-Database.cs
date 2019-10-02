@@ -16,6 +16,7 @@ namespace PicerijaBarka5.Migrations
                         LastName = c.String(nullable: false),
                         Email = c.String(nullable: false),
                         Message = c.String(nullable: false),
+                        Time = c.DateTime(nullable: false),
                     })
                 .PrimaryKey(t => t.ContactId);
             

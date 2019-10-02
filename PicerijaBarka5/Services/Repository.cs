@@ -58,6 +58,15 @@ namespace PicerijaBarka5.Services
                             .ToList();
         }
 
+        public void DeleteContactEntry(Guid id)
+        {
+            var entry = db.ContactFormEntries.FirstOrDefault(x => x.ContactId == id);
+
+            db.ContactFormEntries.Remove(entry);
+
+            db.SaveChanges();
+        }
+
         public ICollection<PizzaDto> GetPizzasFromUsersWithRole(string role)
         {
             var pizzas = new List<PizzaDto>();
@@ -382,6 +391,7 @@ namespace PicerijaBarka5.Services
         public void AddContactEntry(ContactForm contactForm)
         {
             contactForm.ContactId = Guid.NewGuid();
+            contactForm.Time = DateTime.Now;
             db.ContactFormEntries.Add(contactForm);
             db.SaveChanges();
         }

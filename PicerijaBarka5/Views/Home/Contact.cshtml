@@ -4,45 +4,84 @@
     ViewBag.Title = "Contact";
 }
 
-<h2>Contact</h2>
+<section style="margin-top: 80px">
+    <h1>People are reaching out to you!</h1>
+    <hr />
+    <div class="card-columns contact">
+        @{
+            foreach (var contactEntry in Model.OrderBy(x => x.Time))
+            {
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.LastName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Email)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Message)
-        </th>
-    </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LastName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Email)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Message)
-        </td>
-        <td>
-            @Html.ActionLink("Details", "Details", new { id=item.ContactId })
-        </td>
-    </tr>
+                var timeDiff = DateTime.Now - contactEntry.Time;
+                var time = timeDiff.Minutes;
+
+                <div class="contact-div card">
+                    <a class="btn btn-danger deleteContactButton float-right" entry-id="@contactEntry.ContactId">
+                        <i class="fa fa-times"></i>
+                    </a>
+                    <div data-toggle="modal" data-target="#detailsModal-@contactEntry.ContactId" class="text-decoration-none">
+                        <h3 class="d-flex justify-content-between">
+                            <span class="">@contactEntry.Name @contactEntry.LastName</span>
+                            <span class="">@time min. ago</span>
+                        </h3>
+                        <h5>@contactEntry.Email</h5>
+                        @{
+            var lastChar = contactEntry.Message.Length >= 200 ? 200 : contactEntry.Message.Length;
+                        }
+                        <p>@contactEntry.Message.Substring(0, lastChar) ...</p>
+                    </div>
+                </div>
+
+                <div class="modal fade " id="detailsModal-@contactEntry.ContactId" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">@contactEntry.Name @contactEntry.LastName (@time min. ago)</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body text-justify">
+                                @{
+                                    var text = string.Join(" ", contactEntry.Message.Split('.'));
+
+                                }
+                                @text
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn bg-orange font-weight-bold" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</section>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $(".deleteContactButton").click(function () {
+                var button = $(this);
+                $.ajax({
+                    type: "POST",
+                    url: "http://localhost:62459/Home/Delete",
+                    data: { id: button.attr('entry-id') },
+                    success: function (response) {
+                        confirm(JSON.parse(response.responseText).message)
+                    },
+                    error: function (response) {
+                        alert(JSON.parse(response.responseText).message)
+                    },
+                    complete: function () {
+                        button.parent().remove();
+                    },
+                    dataType: "application/json"
+                })
+            });
+        })
+
+    </script>
 }
-
-</table>

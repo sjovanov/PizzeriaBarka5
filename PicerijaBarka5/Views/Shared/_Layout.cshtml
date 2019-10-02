@@ -40,6 +40,9 @@
                     <li class="nav-item @Html.SetActiveClass(controller, "Account", action, "AddUserToRole")">
                         <a class="nav-link" href="@Url.Action("AddUserToRole","Account")">Manage user roles</a>
                     </li>
+                    <li class="nav-item @Html.SetActiveClass(controller, "Home", action, "Contact")">
+                        <a class="nav-link" href="@Url.Action("Contact","Home")">Contact form</a>
+                    </li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
