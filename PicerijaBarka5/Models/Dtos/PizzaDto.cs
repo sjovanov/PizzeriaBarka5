@@ -54,7 +54,10 @@ namespace PicerijaBarka5.Models.Dtos
         {
             return 2.5 * Price * (1 + incomeCoeficient);
         }
-
+        public int getPriceInt(double price)
+        {
+            return Convert.ToInt32(price);
+        }
         public double getPrice()
         {
             if (Size.Equals(PizzaSize.Large))

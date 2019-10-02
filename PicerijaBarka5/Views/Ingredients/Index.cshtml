@@ -3,8 +3,8 @@
 @{
     ViewBag.Title = "Index";
 }
-<div id="addIngredient">
-    <a href="@Url.Action("Create", "Ingredients")" class="text-decoration-none" title="Add ingredient">
+<div>
+    <a href="@Url.Action("Create", "Ingredients")" class="text-decoration-none addIngredient" title="Add ingredient">
         <i class="fa fa-plus"></i>
     </a>
 </div>
@@ -71,11 +71,11 @@
                         @{
                             var stockClass = Html.SetIngredientStatusClass(item);
                             var text = item.isInStock() ? "In stock" : "Out of stock";
-                            
+
                         }
                         <span class="@stockClass align-middle">
                             <i class="fa fa-circle align-middle @stockClass" style="font-size: 7px"></i>
-                            @text
+                            <b>@text</b>
                         </span>
                     </td>
                     <td>
@@ -118,16 +118,20 @@
             });
             $(".deleteIngredient").click(function () {
                 var button = $(this);
-                $.ajax({
-                    method: "POST",
-                    url: "http://localhost:62459/Ingredients/Delete",
+                bootbox.confirm("Are you sure", function (result) {
+                    if (result) {
+                        $.ajax({
+                            method: "POST",
+                            url: "http://localhost:62459/Ingredients/Delete",
 
-                    data: { id: button.attr("ingredient-id") },
-                    success: function () {
-                        button.parents("tr").remove().draw();
-                    },
-                    type: "application/json"
-                });
+                            data: { id: button.attr("ingredient-id") },
+                            success: function () {
+                                 button.closest("tr").get(0).remove();
+                            },
+                            type: "application/json"
+                        });
+                    }
+                })
             });
 
         });

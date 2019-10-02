@@ -194,9 +194,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\HtmlHelpers.cs" />
-    <Compile Include="Migrations\201910010946142_Create-Database.cs" />
-    <Compile Include="Migrations\201910010946142_Create-Database.Designer.cs">
-      <DependentUpon>201910010946142_Create-Database.cs</DependentUpon>
+    <Compile Include="Migrations\201910020102532_Create-Database.cs" />
+    <Compile Include="Migrations\201910020102532_Create-Database.Designer.cs">
+      <DependentUpon>201910020102532_Create-Database.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -246,6 +246,12 @@
     <Content Include="Content\Images\Vegan.png" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\bootbox.all.js" />
+    <Content Include="Scripts\bootbox.all.min.js" />
+    <Content Include="Scripts\bootbox.js" />
+    <Content Include="Scripts\bootbox.locales.js" />
+    <Content Include="Scripts\bootbox.locales.min.js" />
+    <Content Include="Scripts\bootbox.min.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -364,8 +370,8 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201910010946142_Create-Database.resx">
-      <DependentUpon>201910010946142_Create-Database.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201910020102532_Create-Database.resx">
+      <DependentUpon>201910020102532_Create-Database.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

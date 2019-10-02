@@ -137,19 +137,22 @@
             var table = $("#cartTable");
             $(".removeFromCart").click(function () {
                 var button = $(this);
-                $("#dialog").dialog("open");
-                $.ajax({
-                    method: "POST",
-                    url: "/Cart/RemoveFromCart",
-                    data: {id: button.attr("cart-id")},
-                    success: function () {
-                    },
-                    complete: function () {
-                        window.location.reload();
-                    },
-                    type: "application/json"
-                });
-            });
+                bootbox.confirm("Are you sure", function (result) {
+                    if (result) {
+                        $.ajax({
+                            method: "POST",
+                            url: "/Cart/RemoveFromCart",
+                            data: { id: button.attr("cart-id") },
+                            success: function () {
+                            },
+                            complete: function () {
+                                window.location.reload();
+                            },
+                            type: "application/json"
+                        });
+                    }
+                })
+                    });
 
             })
 

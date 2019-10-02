@@ -167,7 +167,7 @@ namespace PicerijaBarka5.Controllers
             try
             {
                 repository.DeletePizza(id);
-                if (Url.Contains("MyPizzas"))
+                if (ViewBag.URL.Contains("MyPizzas"))
                     return RedirectToAction("MyPizzas");
                 return RedirectToAction("Index");
             }

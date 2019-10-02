@@ -144,18 +144,35 @@ td > a > i {
     vertical-align: central;
 }
 
-i.details {
-    font-size: 1.2rem
-}
+    i.details {
+        font-size: 1.2rem
+    }
 
-i.edit {
-    font-size: 1rem
-}
+    i.edit {
+        font-size: 1rem
+    }
 
-i.delete {
+    i.delete{
+        font-size: 1.2rem;
+    }
+
+i.deleteMyPizza {
+    font-size: 1.4rem;
+    padding-bottom: 4px;
+    padding-top: 4px;
+    padding-right: 4px;
+    padding-left: 4px;
+}
+i.editMyPizza {
     font-size: 1.2rem;
+    padding-bottom: 3px;
+    padding-top: 3px;
+    padding-right: 3px;
+    padding-left: 3px;
 }
-
+i.ShopBasket {
+    font-size: 1.4rem;
+}
     i.delete:hover {
         color: red;
     }
@@ -163,8 +180,11 @@ i.delete {
 i.edit:hover {
     color: darkorange
 }
-
-i.details:hover {
+i.orderDetails {
+    font-size: 1.3rem;
+    color: black;
+}
+i.details:hover, i.orderDetails:hover {
     color: cornflowerblue
 }
 
@@ -172,17 +192,23 @@ i.details:hover {
     background-color: darkorange;
 }
 
-#addIngredient {
+.addIngredient {
     position: fixed;
     right: 5%;
     bottom: 5%;
     background-color: #343a40;
     padding: 1.4em 1.7em;
+    margin-bottom: 40px;
     border-radius: 50%;
+    vertical-align: central;
+    text-align: center;
 }
 
-    #addIngredient > a > i {
+    .addIngredient > i {
         color: darkorange;
+        font-size: 30px;
+        width: 100%;
+        height: 100%;
     }
 
 .table > tr > td {
@@ -251,3 +277,10 @@ i.details:hover {
         display: inline-block;
     }
 
+.btnfas {
+    width: 50px;
+    height: 50px;
+}
+.btnfas > i {
+    font-size: 1.4rem;
+}
