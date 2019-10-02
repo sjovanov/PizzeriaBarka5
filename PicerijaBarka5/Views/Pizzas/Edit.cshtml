@@ -30,7 +30,7 @@
                 <img src="@Model.ImgUrl" class="editImg" />
             </div>
             <div class="col-md-7">
-                @Html.ValidationSummary(true, "", new { @class = "text-danger ml-0" })
+                @Html.ValidationSummary(false, "", new { @class = "text-danger ml-0" })
                 @{
                     var boxType = "radio";
                     var flag = true;

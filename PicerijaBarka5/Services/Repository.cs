@@ -195,13 +195,22 @@ namespace PicerijaBarka5.Services
 
         public ICollection<PizzaDto> GetMostSold()
         {
-            return db.Pizzas.Take(4).ToList()
-                            .Select(x => x.toPizzaDto())
-                            .ToList();
+            var pizzas = new List<PizzaDto>();
+
+            using (var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext())))
+            {
+                pizzas = db.Pizzas.ToList()
+                        .Where(pizza => userManager.IsInRole(pizza.User.Id, UserRoles.Owner))
+                        .ToList().OrderByDescending(x => x.Price)
+                        .Select(x => x.toPizzaDto())
+                        .Take(4)
+                        .ToList();
+            }
+            return pizzas;
         }
 
         #endregion
-
+       
         #region IngredientRepository
 
         public ICollection<IngredientDto> GetIngredients()
