@@ -36,7 +36,10 @@ namespace PicerijaBarka5.Services
             {
                 PizzaDto pizza = db.Users.FirstOrDefault(x => x.Id == userFk)
                             .Pizzas.ToList().Where(x => x.PizzaId == id).Select(p => p.toPizzaDto()).FirstOrDefault();
-                   
+                if(pizza == null)
+                {
+                    pizza = GetPizzasFromUsersWithRole(UserRoles.Owner).Where(x => x.PizzaId == id).FirstOrDefault();
+                }
                 if (pizza != null)
                 {
                     return pizza;
