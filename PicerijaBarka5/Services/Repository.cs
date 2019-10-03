@@ -173,7 +173,7 @@ namespace PicerijaBarka5.Services
                 Name = pizza.Name,
                 IncomeCoeficient = pizza.IncomeCoef,
                 Ingredients = ing,
-                Price = ing.Select(x => x.toIngredientDto()).Sum(x => x.getPriceForIngredientInSmallPizza()),
+                Price = ing.Select(x => x.toIngredientDto()).Sum(x => x.getPriceForIngredientInSmallPizza()) * pizza.IncomeCoef,
                 Orders = new List<PizzaOrder>(),
                 ImgUrl = pizza.ImgUrl,
                 Size = pizza.Size,
@@ -210,6 +210,7 @@ namespace PicerijaBarka5.Services
 
             var newIngredients = db.Ingredients.Where(ing => viewModel.selectedIngredients.Contains(ing.IngredientId.ToString())).ToList();
             dbPizza.Ingredients = newIngredients;
+            dbPizza.Price = newIngredients.Select(x => x.toIngredientDto()).Sum(x => x.getPriceForIngredientInSmallPizza()) * dbPizza.IncomeCoeficient;
 
             db.SaveChanges();
         }

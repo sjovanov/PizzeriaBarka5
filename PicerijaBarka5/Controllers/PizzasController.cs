@@ -36,7 +36,7 @@ namespace PicerijaBarka5.Controllers
         public ActionResult Details(Guid id, string Url)
         {
             ViewData["URL"] = Url;
-            if (repository.GetPizzasFromUsersWithRole(UserRoles.Owner).Any(x => x.PizzaId == id) || repository.GetPizzasFromUser(User.Identity.GetUserId()).Any(x => x.PizzaId == id))
+            if (repository.GetPizzasFromUsersWithRole(UserRoles.Owner).Any(x => x.PizzaId == id) || repository.GetPizzasFromUser(User.Identity.GetUserId()).Any(x => x.PizzaId == id) || User.IsInRole(UserRoles.Owner))
             {
                 if (id == null)
                 {
