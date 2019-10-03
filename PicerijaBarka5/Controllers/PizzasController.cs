@@ -257,7 +257,7 @@ namespace PicerijaBarka5.Controllers
 
             return viewModel;
         }
-
+        [AllowAnonymous]
         public ActionResult OrderBy(string sortOrder, string Url)
         {
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "price_desc" : "";

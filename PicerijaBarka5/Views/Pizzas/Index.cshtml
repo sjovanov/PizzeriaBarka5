@@ -4,6 +4,9 @@
     <h1>@ViewBag.Title</h1>
     <hr />
     @{
+        var firstCardAdded = false;
+        var end = 3;
+        var firstRow = true;
         if (Model.Count() != 0)
         {
             <div class="row pt-3">
@@ -24,102 +27,126 @@
             <hr />
 
         }
-        <div class="card-columns">
-            @{
-                if (User.IsInRole(UserRoles.Owner) || (User.IsInRole(UserRoles.User) && Request.Url.ToString().Contains("MyPizzas")))
-                {
-                    <div class="card text-white bg-dark mb-3 hoverable firstCard mt-4" title="Add new" style="background: linear-gradient( rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4) )">
-                        <a href="@Url.Action("Create")" class="custom-card-link">
-                            <div class="card-body" style="min-height: 325px">
-                                <h5 class="card-title">Create new</h5>
-                                <hr class="red ml-0 mx-0" />
-                                <div class="text-center d-flex align-items-center justify-content-center" style="min-height: 100px">
-                                    <i class="fa fa-plus fa-3x"></i>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                }
+        {
 
-                for (int j = 0; j < Model.Count(); j++)
-                {
-                    var item = Model.ElementAt(j);
+            var pizzaCount = Model.Count();
+            pizzaCount = pizzaCount == 0 ? 1 : Model.Count();
+            for (int j = 0; j < pizzaCount;)
+            {
 
-                    <div class="card text-white bg-dark mb-3 hoverable item mt-4" title="View details" style="background: linear-gradient( rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4) ), url(@item.ImgUrl); background-repeat:no-repeat; background-position: center; background-size:contain;">
-                        @{ var prevUrl = Request.Url.ToString(); }
-                        @if (prevUrl.Contains("MyPizzas") && User.IsInRole(UserRoles.User))
+                <div class="card-deck d-flex justify-content-around">
+                    @if (!firstCardAdded && firstRow)
+                    {
+                        if (User.IsInRole(UserRoles.Owner) || (User.IsInRole(UserRoles.User) && Request.Url.ToString().Contains("MyPizzas")))
                         {
-                            <button type="submit" class="dodatni btn btn-light btnfas position-absolute" name="delete" title="Delete" style="border-radius:50%; display:none; top: -2%; margin-left: 92%;" onclick="@("window.location.href='" + @Url.Action("Delete", "Pizzas", new { id = @item.PizzaId, Url = prevUrl }) + "'")"> <i class="fa fa-close deleteMyPizza"></i></button>
-                        }
-
-                        <a href="@Url.Action("Details", new { id = item.PizzaId, Url = prevUrl })" class="custom-card-link pt-0">
-                            <div class="Search card-body" style="min-height: 250px">
-                                <h5 class="card-title">@item.Name <span price-for="@item.PizzaId" class="d-inline-block float-right">@item.getPriceInt(item.Price) den.</span></h5>
-                                <hr class="red ml-0 mt-1 mb-1 " />
-                                @if (item.ImgUrl.Contains("CustomPizza"))
-                                {
-                                    <p class="card-text mt-2 font-italic pl-2 pt-2" style="height: 100px; background: linear-gradient( rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7) )">
-                                        @string.Join(", ", item.Ingredients.Select(x => x.Name).ToList())
-                                    </p>
-                                }
-                                else
-                                {
-                                    <p class="card-text mt-2 font-italic" style="height: 90px;">
-                                        @string.Join(", ", item.Ingredients.Select(x => x.Name).ToList())
-                                    </p>
-                                }
-                            </div>
-                        </a>
-                        <div class="card-footer">
-                            @if (User.IsInRole(UserRoles.User))
-                            {
-                                <div class="float-right">
-                                    @if (prevUrl.Contains("MyPizzas"))
-                                    {
-                                        <button type="submit" class="btn btn-light buttonsDown mr-1" name="edit" title="Edit" onclick="@("window.location.href='" + @Url.Action("Edit", "Pizzas", new { id = @item.PizzaId, Url = prevUrl }) + "'")"><i class="fas fa-pen editMyPizza"></i></button>
-                                    }
-                                    <button class="btn btn-outline-light addToCart buttonsDown pt-2 pb-2" title="Add to Cart" pizza-name="@item.Name" pizza-id="@item.PizzaId"><i class="fa fa-shopping-basket ShopBasket"></i></button>
-                                </div>
-                                <div class="sizeDrop">
-                                    <select class="form-control size" dropdown-for="@item.PizzaId">
-                                        @foreach (var ps in PizzaSize.getPizzaSizes())
-                                        {
-                                            var selected = ps == item.Size ? "selected" : "";
-                                            <option class="dropdown-item" @selected>@ps</option>
-                                        }
-                                    </select>
-
-                                    <span class="float-right mt-2 data priceSpan" hidden>@item.getPriceInt(item.Price) den.</span>
-                                    <span class="float-right mt-2 data priceMedium" hidden>@item.getPriceInt(item.getPizzaForMedium()) den.</span>
-                                    <span class="float-right mt-2 data priceLarge" hidden>@item.getPriceInt(item.getPizzaForLarge()) den.</span>
-                                </div>
-                            }
-                            else if (User.IsInRole(UserRoles.Owner))
-                            {
-                                <div class="mt-2 pt-3 btn-group-toggle divButtons">
-                                    <button type="submit" class="btn btn-outline-light d-inline btnfas" name="edit" title="Edit" style="border-radius:50%; margin-top:-8px;" onclick="@("window.location.href='" + @Url.Action("Edit", "Pizzas", new { id = @item.PizzaId, Url = prevUrl }) + "'")"><i class="fas fa-pen"></i></button>
-                                    <div class="position-absolute sizeDrop" style="top:86%; left: 35%;">
-                                        <select class="form-control size" style="height: 40px;" dropdown-for="@item.PizzaId">
-                                            @foreach (var ps in PizzaSize.getPizzaSizes())
-                                            {
-                                                var selected = ps == item.Size ? "selected" : "";
-                                                <option class="dropdown-item" @selected>@ps</option>
-                                            }
-                                        </select>
-
-                                        <span class="float-right mt-2 data priceSpan" hidden>@item.getPriceInt(item.Price) den.</span>
-                                        <span class="float-right mt-2 data priceMedium" hidden>@item.getPriceInt(item.getPizzaForMedium()) den.</span>
-                                        <span class="float-right mt-2 data priceLarge" hidden>@item.getPriceInt(item.getPizzaForLarge()) den.</span>
+                            <div class="card text-white bg-dark mb-3 hoverable firstCard mt-4 col-4" title="Add new" style="background: linear-gradient( rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4) )">
+                                <a href="@Url.Action("Create")" class="custom-card-link">
+                                    <div class="card-body" style="min-height: 325px">
+                                        <h5 class="card-title">Create new</h5>
+                                        <hr class="red ml-0 mx-0" />
+                                        <div class="text-center d-flex align-items-center justify-content-center" style="min-height: 100px">
+                                            <i class="fa fa-plus fa-3x"></i>
+                                        </div>
                                     </div>
-                                    <button type="submit" class="btn btn-outline-light float-right d-inline btnfas" name="delete" title="Delete" style="border-radius:50%; margin-top:-8px;" onclick="@("window.location.href='" + @Url.Action("Delete", "Pizzas", new { id = @item.PizzaId, Url = prevUrl }) + "'")"> <i class="fa fa-close"></i></button>
-                                </div>
-                            }
-                        </div>
-                    </div>
-                }
+                                </a>
+                            </div>
+                            firstCardAdded = true;
+                        }
+                    }
+                    @if (firstRow && firstCardAdded)
+                    {
+                        end = 2;
+                        firstRow = false;
+                    }
+                    else
+                    {
+                        end = 3;
+                    }
+                    @for (int i = 0; i < end; i++)
+                    {
+                        if (j < Model.Count())
+                        {
+                            var item = Model.ElementAt(j);
+                            <div class="card text-white bg-dark mb-3 hoverable item mt-4 col-4" title="View details" style="background: linear-gradient( rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4) ), url(@item.ImgUrl); background-repeat:no-repeat; background-position: center; background-size:contain;">
+                                @{ var prevUrl = Request.Url.ToString(); }
+                                @if (prevUrl.Contains("MyPizzas") && User.IsInRole(UserRoles.User))
+                                {
+                                    <button type="submit" class="dodatni btn btn-light btnfas position-absolute" name="delete" title="Delete" style="border-radius:50%; display:none; top: -2%; margin-left: 92%;" onclick="@("window.location.href='" + @Url.Action("Delete", "Pizzas", new { id = @item.PizzaId, Url = prevUrl }) + "'")"> <i class="fa fa-close deleteMyPizza"></i></button>
+                                }
 
+                                <a href="@Url.Action("Details", new { id = item.PizzaId, Url = prevUrl })" class="custom-card-link pt-0">
+                                    <div class="Search card-body" style="min-height: 250px">
+                                        <h5 class="card-title">@item.Name <span price-for="@item.PizzaId" class="d-inline-block float-right">@item.getPriceInt(item.Price) den.</span></h5>
+                                        <hr class="red ml-0 mt-1 mb-1 " />
+                                        @if (item.ImgUrl.Contains("CustomPizza"))
+                                        {
+                                            <p class="card-text mt-2 font-italic pl-2 pt-2" style="height: 100px; background: linear-gradient( rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7) )">
+                                                @string.Join(", ", item.Ingredients.Select(x => x.Name).ToList())
+                                            </p>
+                                        }
+                                        else
+                                        {
+                                            <p class="card-text mt-2 font-italic" style="height: 90px;">
+                                                @string.Join(", ", item.Ingredients.Select(x => x.Name).ToList())
+                                            </p>
+                                        }
+                                    </div>
+                                </a>
+                                <div class="card-footer">
+                                    @if (User.IsInRole(UserRoles.User))
+                                    {
+                                        <div class="float-right">
+                                            @if (prevUrl.Contains("MyPizzas"))
+                                            {
+                                                <button type="submit" class="btn btn-light buttonsDown mr-1" name="edit" title="Edit" onclick="@("window.location.href='" + @Url.Action("Edit", "Pizzas", new { id = @item.PizzaId, Url = prevUrl }) + "'")"><i class="fas fa-pen editMyPizza"></i></button>
+                                            }
+                                            <button class="btn btn-outline-light addToCart buttonsDown pt-2 pb-2" title="Add to Cart" pizza-name="@item.Name" pizza-id="@item.PizzaId"><i class="fa fa-shopping-basket ShopBasket"></i></button>
+                                        </div>
+                                        <div class="sizeDrop">
+                                            <select class="form-control size" dropdown-for="@item.PizzaId">
+                                                @foreach (var ps in PizzaSize.getPizzaSizes())
+                                                {
+                                                    var selected = ps == item.Size ? "selected" : "";
+                                                    <option class="dropdown-item" @selected>@ps</option>
+                                                }
+                                            </select>
+
+                                            <span class="float-right mt-2 data priceSpan" hidden>@item.getPriceInt(item.Price) den.</span>
+                                            <span class="float-right mt-2 data priceMedium" hidden>@item.getPriceInt(item.getPizzaForMedium()) den.</span>
+                                            <span class="float-right mt-2 data priceLarge" hidden>@item.getPriceInt(item.getPizzaForLarge()) den.</span>
+                                        </div>
+                                    }
+                                    else if (User.IsInRole(UserRoles.Owner))
+                                    {
+                                        <div class="mt-2 pt-3 btn-group-toggle divButtons">
+                                            <button type="submit" class="btn btn-outline-light d-inline btnfas" name="edit" title="Edit" style="border-radius:50%; margin-top:-8px;" onclick="@("window.location.href='" + @Url.Action("Edit", "Pizzas", new { id = @item.PizzaId, Url = prevUrl }) + "'")"><i class="fas fa-pen"></i></button>
+                                            <div class="position-absolute sizeDrop" style="top:86%; left: 35%;">
+                                                <select class="form-control size" style="height: 40px;" dropdown-for="@item.PizzaId">
+                                                    @foreach (var ps in PizzaSize.getPizzaSizes())
+                                                    {
+                                                        var selected = ps == item.Size ? "selected" : "";
+                                                        <option class="dropdown-item" @selected>@ps</option>
+                                                    }
+                                                </select>
+
+                                                <span class="float-right mt-2 data priceSpan" hidden>@item.getPriceInt(item.Price) den.</span>
+                                                <span class="float-right mt-2 data priceMedium" hidden>@item.getPriceInt(item.getPizzaForMedium()) den.</span>
+                                                <span class="float-right mt-2 data priceLarge" hidden>@item.getPriceInt(item.getPizzaForLarge()) den.</span>
+                                            </div>
+                                            <button type="submit" class="btn btn-outline-light float-right d-inline btnfas" name="delete" title="Delete" style="border-radius:50%; margin-top:-8px;" onclick="@("window.location.href='" + @Url.Action("Delete", "Pizzas", new { id = @item.PizzaId, Url = prevUrl }) + "'")"> <i class="fa fa-close"></i></button>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        }
+                        j++;
+                    }
+
+                </div>
+                end = 3;
             }
-        </div>
+
+        }
     }
 
 </section>

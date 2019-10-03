@@ -402,8 +402,6 @@ namespace PicerijaBarka5.Services
         {
             PizzaOrder dbPizzaOrder = db.PizzaOrders.Where(x => x.OrderId == id).FirstOrDefault();
 
-            db.Entry(dbPizzaOrder).Collection(x => x.Items).Load();
-
             if (dbPizzaOrder != null)
             {
                 db.PizzaOrders.Remove(dbPizzaOrder);
