@@ -51,7 +51,19 @@
             </div>
         </div>
         <div class="card-footer">
-            @Html.ActionLink("Back to List", "Index", routeValues: null, htmlAttributes: new { @class = "btn btn-primary" })
+            @{ var data = ViewData["URL"];}
+            @if (User.IsInRole(UserRoles.User) && data != null && (data.ToString().Contains("MyPizzas")))
+            {
+                @Html.ActionLink("Back to List", "MyPizzas", routeValues: null, htmlAttributes: new { @class = "btn btn-primary" })
+            }
+            else if (User.IsInRole(UserRoles.Owner) && data != null && (data.ToString().Contains("Orders")))
+            {
+                <button type="button" class="btn btn-primary" onclick="@("window.location.href='"+data.ToString()+"'")">Back to List</button>
+            }
+            else
+            {
+                @Html.ActionLink("Back to List", "Index", routeValues: null, htmlAttributes: new { @class = "btn btn-primary" })
+            }
         </div>
     </div>
 </section>

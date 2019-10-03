@@ -33,9 +33,10 @@ namespace PicerijaBarka5.Controllers
 
         // GET: Pizzas/Details/5
         [AllowAnonymous]
-        public ActionResult Details(Guid id)
+        public ActionResult Details(Guid id, string Url)
         {
-            if (repository.GetPizzasFromUsersWithRole(UserRoles.Owner).Any(x => x.PizzaId == id) || repository.GetPizzasFromUser(User.Identity.GetUserId()).Any(x => x.PizzaId == id))
+            ViewData["URL"] = Url;
+            if (repository.GetPizzasFromUsersWithRole(UserRoles.Owner).Any(x => x.PizzaId == id) || repository.GetPizzasFromUser(User.Identity.GetUserId()).Any(x => x.PizzaId == id) || User.IsInRole(UserRoles.Owner))
             {
                 if (id == null)
                 {
@@ -49,6 +50,10 @@ namespace PicerijaBarka5.Controllers
                 {
                     return HttpNotFound();
                 }
+            }
+            if (User.IsInRole(UserRoles.Owner))
+            {
+                return View(repository.GetPizza(id));
             }
             return RedirectToAction("Index");
         }

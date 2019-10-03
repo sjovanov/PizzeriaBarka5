@@ -31,6 +31,7 @@ namespace PicerijaBarka5.Models
         {
             selectedIngredients = new List<string>();
             TypeIngredientListPairs = new Dictionary<string, ICollection<IngredientDto>>();
+            IncomeCoef = 1.1;
         }
 
         public class IngredientValidator : ValidationAttribute

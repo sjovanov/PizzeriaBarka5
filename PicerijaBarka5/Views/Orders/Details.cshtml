@@ -1,7 +1,7 @@
 ﻿@model PicerijaBarka5.Models.Dtos.PizzaOrderDto
 @using PicerijaBarka5.Models
 @using PicerijaBarka5.Helpers
-
+@using PicerijaBarka5.Controllers
 @{
     ViewBag.Title = "Details";
 }
@@ -58,12 +58,14 @@
                                 <li>
                                     <span class="font-weight-bold">Ordered items: </span>
                                     @{
-                                        <ul>
+                                        <ul class="mt-1">
                                             @foreach (var item in Model.Items)
                                             {
-                                                <li>@item.Pizza.Name: @item.Quantity @item.PizzaSize</li>
+                                           
+                                            <li class="mt-1"><a class="btn btn-outline-light btn-sm goToCustomPizza" href="@Url.Action("Details", "Pizzas", new { id = item.Pizza.PizzaId, Url = Request.Url.ToString() })">@item.Pizza.Name: @item.Quantity @item.PizzaSize</a></li>
+                                            
                                             }
-                                        </ul>
+</ul>
                                     }
                                 </li>
                             </ul>

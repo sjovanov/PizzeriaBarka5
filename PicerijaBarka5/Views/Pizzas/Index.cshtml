@@ -28,91 +28,94 @@
             @{
                 if (User.IsInRole(UserRoles.Owner) || (User.IsInRole(UserRoles.User) && Request.Url.ToString().Contains("MyPizzas")))
                 {
-                <div class="card text-white bg-dark mb-3 hoverable firstCard mt-4" title="Add new" style="background: linear-gradient( rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4) )">
-                    <a href="@Url.Action("Create")" class="custom-card-link">
-                        <div class="card-body" style="min-height: 325px">
-                            <h5 class="card-title">Create new</h5>
-                            <hr class="red ml-0 mx-0" />
-                            <div class="text-center d-flex align-items-center justify-content-center" style="min-height: 100px">
-                                <i class="fa fa-plus fa-3x"></i>
+                    <div class="card text-white bg-dark mb-3 hoverable firstCard mt-4" title="Add new" style="background: linear-gradient( rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4) )">
+                        <a href="@Url.Action("Create")" class="custom-card-link">
+                            <div class="card-body" style="min-height: 325px">
+                                <h5 class="card-title">Create new</h5>
+                                <hr class="red ml-0 mx-0" />
+                                <div class="text-center d-flex align-items-center justify-content-center" style="min-height: 100px">
+                                    <i class="fa fa-plus fa-3x"></i>
+                                </div>
                             </div>
-                        </div>
-                    </a>
-                </div>
+                        </a>
+                    </div>
                 }
 
                 for (int j = 0; j < Model.Count(); j++)
                 {
                     var item = Model.ElementAt(j);
 
-        <div class="card text-white bg-dark mb-3 hoverable item mt-4" title="View details" style="background: linear-gradient( rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4) ), url(@item.ImgUrl); background-repeat:no-repeat; background-position: center; background-size:contain;">
-            @{ var prevUrl = Request.Url.ToString(); }
-            @if (prevUrl.Contains("MyPizzas") && User.IsInRole("User"))
-            {
-                <div class="card-header-tabs" style="display:none;margin-top:-7%;">
-                    <button type="submit" class="btn btn-sm btn-dark d-inline btnfas" name="edit" title="Edit" style="border-radius:50%; " onclick="@("window.location.href='" + @Url.Action("Edit", "Pizzas", new { id = @item.PizzaId, Url = prevUrl }) + "'")"><i class="fas fa-pen editMyPizza"></i></button>
-                    <button type="submit" class="btn btn-sm btn-dark d-inline btnfas float-right" name="delete" title="Delete" style="border-radius:50%; " onclick="@("window.location.href='" + @Url.Action("Delete", "Pizzas", new { id = @item.PizzaId, Url = prevUrl }) + "'")"> <i class="fa fa-close deleteMyPizza"></i></button>
-                </div>
-
-            }
-            <a href="@Url.Action("Details", new { id = item.PizzaId, Url = prevUrl })" class="custom-card-link pt-0">
-                <div class="Search card-body" style="min-height: 250px">
-                    <h5 class="card-title">@item.Name <span price-for="@item.PizzaId" class="d-inline-block float-right">@item.getPriceInt(item.Price) den.</span></h5>
-                    <hr class="red ml-0 mt-1 mb-1 " />
-                    @if (item.ImgUrl.Contains("CustomPizza"))
-                    {
-                        <p class="card-text mt-2 font-italic pl-2 pt-2" style="height: 100px; background: linear-gradient( rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7) )">
-                            @string.Join(", ", item.Ingredients.Select(x => x.Name).ToList())
-                        </p>
-                    }
-                    else
-                    {
-                        <p class="card-text mt-2 font-italic" style="height: 90px;">
-                            @string.Join(", ", item.Ingredients.Select(x => x.Name).ToList())
-                        </p>
-                    }
-                </div>
-            </a>
-            <div class="card-footer">
-                @if (User.IsInRole("User"))
-                {
-                    <button class="btn btn-outline-light addToCart pt-2 pb-2 float-right" title="Add to Cart" pizza-name="@item.Name" pizza-id="@item.PizzaId"><i class="fa fa-shopping-basket ShopBasket"></i></button>
-                    <div class="sizeDrop">
-                        <select class="form-control size" dropdown-for="@item.PizzaId">
-                            @foreach (var ps in PizzaSize.getPizzaSizes())
-                            {
-                                var selected = ps == item.Size ? "selected" : "";
-                                <option class="dropdown-item" @selected>@ps</option>
-                            }
-                        </select>
-
-                        <span class="float-right mt-2 data priceSpan" hidden>@item.getPriceInt(item.Price) den.</span>
-                        <span class="float-right mt-2 data priceMedium" hidden>@item.getPriceInt(item.getPizzaForMedium()) den.</span>
-                        <span class="float-right mt-2 data priceLarge" hidden>@item.getPriceInt(item.getPizzaForLarge()) den.</span>
-                    </div>
-                }
-                else if (User.IsInRole(UserRoles.Owner))
-                {
-            <div class="mt-2 pt-3 btn-group-toggle divButtons">
-                <button type="submit" class="btn btn-outline-light d-inline btnfas" name="edit" title="Edit" style="border-radius:50%; margin-top:-8px;" onclick="@("window.location.href='" + @Url.Action("Edit", "Pizzas", new { id = @item.PizzaId, Url = prevUrl }) + "'")"><i class="fas fa-pen"></i></button>
-                <div class="position-absolute" style="top:86%; left: 35%;">
-                    <select class="form-control size" style="height: 40px;" dropdown-for="@item.PizzaId">
-                        @foreach (var ps in PizzaSize.getPizzaSizes())
+                    <div class="card text-white bg-dark mb-3 hoverable item mt-4" title="View details" style="background: linear-gradient( rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4) ), url(@item.ImgUrl); background-repeat:no-repeat; background-position: center; background-size:contain;">
+                        @{ var prevUrl = Request.Url.ToString(); }
+                        @if (prevUrl.Contains("MyPizzas") && User.IsInRole(UserRoles.User))
                         {
-                            var selected = ps == item.Size ? "selected" : "";
-                            <option class="dropdown-item" @selected>@ps</option>
+                            <button type="submit" class="dodatni btn btn-light btnfas position-absolute" name="delete" title="Delete" style="border-radius:50%; display:none; top: -2%; margin-left: 92%;" onclick="@("window.location.href='" + @Url.Action("Delete", "Pizzas", new { id = @item.PizzaId, Url = prevUrl }) + "'")"> <i class="fa fa-close deleteMyPizza"></i></button>
                         }
-                    </select>
 
-                    <span class="float-right mt-2 data priceSpan" hidden>@item.getPriceInt(item.Price) den.</span>
-                    <span class="float-right mt-2 data priceMedium" hidden>@item.getPriceInt(item.getPizzaForMedium()) den.</span>
-                    <span class="float-right mt-2 data priceLarge" hidden>@item.getPriceInt(item.getPizzaForLarge()) den.</span>
-                </div>
-                <button type="submit" class="btn btn-outline-light float-right d-inline btnfas" name="delete" title="Delete" style="border-radius:50%; margin-top:-8px;" onclick="@("window.location.href='" + @Url.Action("Delete", "Pizzas", new { id = @item.PizzaId, Url = prevUrl }) + "'")"> <i class="fa fa-close"></i></button>
-            </div>
-                }
-            </div>
-        </div>
+                        <a href="@Url.Action("Details", new { id = item.PizzaId, Url = prevUrl })" class="custom-card-link pt-0">
+                            <div class="Search card-body" style="min-height: 250px">
+                                <h5 class="card-title">@item.Name <span price-for="@item.PizzaId" class="d-inline-block float-right">@item.getPriceInt(item.Price) den.</span></h5>
+                                <hr class="red ml-0 mt-1 mb-1 " />
+                                @if (item.ImgUrl.Contains("CustomPizza"))
+                                {
+                                    <p class="card-text mt-2 font-italic pl-2 pt-2" style="height: 100px; background: linear-gradient( rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7) )">
+                                        @string.Join(", ", item.Ingredients.Select(x => x.Name).ToList())
+                                    </p>
+                                }
+                                else
+                                {
+                                    <p class="card-text mt-2 font-italic" style="height: 90px;">
+                                        @string.Join(", ", item.Ingredients.Select(x => x.Name).ToList())
+                                    </p>
+                                }
+                            </div>
+                        </a>
+                        <div class="card-footer">
+                            @if (User.IsInRole(UserRoles.User))
+                            {
+                                <div class="float-right">
+                                    @if (prevUrl.Contains("MyPizzas"))
+                                    {
+                                        <button type="submit" class="btn btn-light buttonsDown mr-1" name="edit" title="Edit" onclick="@("window.location.href='" + @Url.Action("Edit", "Pizzas", new { id = @item.PizzaId, Url = prevUrl }) + "'")"><i class="fas fa-pen editMyPizza"></i></button>
+                                    }
+                                    <button class="btn btn-outline-light addToCart buttonsDown pt-2 pb-2" title="Add to Cart" pizza-name="@item.Name" pizza-id="@item.PizzaId"><i class="fa fa-shopping-basket ShopBasket"></i></button>
+                                </div>
+                                <div class="sizeDrop">
+                                    <select class="form-control size" dropdown-for="@item.PizzaId">
+                                        @foreach (var ps in PizzaSize.getPizzaSizes())
+                                        {
+                                            var selected = ps == item.Size ? "selected" : "";
+                                            <option class="dropdown-item" @selected>@ps</option>
+                                        }
+                                    </select>
+
+                                    <span class="float-right mt-2 data priceSpan" hidden>@item.getPriceInt(item.Price) den.</span>
+                                    <span class="float-right mt-2 data priceMedium" hidden>@item.getPriceInt(item.getPizzaForMedium()) den.</span>
+                                    <span class="float-right mt-2 data priceLarge" hidden>@item.getPriceInt(item.getPizzaForLarge()) den.</span>
+                                </div>
+                            }
+                            else if (User.IsInRole(UserRoles.Owner))
+                            {
+                                <div class="mt-2 pt-3 btn-group-toggle divButtons">
+                                    <button type="submit" class="btn btn-outline-light d-inline btnfas" name="edit" title="Edit" style="border-radius:50%; margin-top:-8px;" onclick="@("window.location.href='" + @Url.Action("Edit", "Pizzas", new { id = @item.PizzaId, Url = prevUrl }) + "'")"><i class="fas fa-pen"></i></button>
+                                    <div class="position-absolute sizeDrop" style="top:86%; left: 35%;">
+                                        <select class="form-control size" style="height: 40px;" dropdown-for="@item.PizzaId">
+                                            @foreach (var ps in PizzaSize.getPizzaSizes())
+                                            {
+                                                var selected = ps == item.Size ? "selected" : "";
+                                                <option class="dropdown-item" @selected>@ps</option>
+                                            }
+                                        </select>
+
+                                        <span class="float-right mt-2 data priceSpan" hidden>@item.getPriceInt(item.Price) den.</span>
+                                        <span class="float-right mt-2 data priceMedium" hidden>@item.getPriceInt(item.getPizzaForMedium()) den.</span>
+                                        <span class="float-right mt-2 data priceLarge" hidden>@item.getPriceInt(item.getPizzaForLarge()) den.</span>
+                                    </div>
+                                    <button type="submit" class="btn btn-outline-light float-right d-inline btnfas" name="delete" title="Delete" style="border-radius:50%; margin-top:-8px;" onclick="@("window.location.href='" + @Url.Action("Delete", "Pizzas", new { id = @item.PizzaId, Url = prevUrl }) + "'")"> <i class="fa fa-close"></i></button>
+                                </div>
+                            }
+                        </div>
+                    </div>
                 }
 
             }
@@ -145,7 +148,7 @@
             })
             $(".addToCart").on('click', function () {
                 let id = $(this).attr('pizza-id');
-                let sizePizza = $(this).siblings(".sizeDrop").children(".size").val();
+                let sizePizza = $(`[dropdown-for=${id}]`).val();
                 let name = $(this).attr("pizza-name");
                 console.log(id)
                 console.log(sizePizza)
@@ -161,13 +164,13 @@
             $(".custom-card-link").hover(function () {
                 console.log("lala");
                 var card = $(this);
-                card.siblings(".card-header-tabs").show();
-                console.log(card.siblings(".card-header-tabs").children(".btnfas").attr("title"));
+                card.siblings(".dodatni").css("display", "inline-block");
+                console.log(card.siblings(".dodatni").children(".btnfas").attr("title"));
             })
 
             $(".card").mouseleave(function () {
                 var card = $(this).children(".custom-card-link");
-                card.siblings(".card-header-tabs").hide();
+                card.siblings(".dodatni").hide();
             })
 
             $('#searchPizza').keyup(function () {
